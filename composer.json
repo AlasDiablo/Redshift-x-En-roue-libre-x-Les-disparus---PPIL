@@ -1,0 +1,14 @@
+{
+  "require": {
+    "slim/slim": "4.7.1",
+    "php": ">=7.0",
+    "slim/psr7": "^1.2",
+    "ext-json": "*"
+  },
+
+  "autoload": {
+    "psr-4": {
+      "ppil\\": "./src"
+    }
+  }
+}
