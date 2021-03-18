@@ -8,7 +8,6 @@ class ViewRendering
 {
 
     private static function getNavBar() {
-
         $nav = <<<html
 <ul>
     <li><a href="#">Trajet public</a></li>
@@ -16,12 +15,14 @@ class ViewRendering
     <li><a href="#">Me connecté</a></li>
 </ul>
 html;
-
-
-
         return $nav;
     }
 
+    /**
+     * @param $body string Contenue du site
+     * @param $title string titre de la page (chaine vide pour le titre classic)
+     * @return string Page du site formaté et pres a etre affiché
+     */
     public static function render($body, $title): string
     {
         $template = file_get_contents('./html/template.html');
