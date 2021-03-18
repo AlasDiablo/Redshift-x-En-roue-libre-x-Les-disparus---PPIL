@@ -2,13 +2,14 @@
 <html>
     <head>
         <meta charset="utf-8" />
+        <script src="../js/CreateAccount.js" defer></script>
         <title>Créer un compte</title>
     </head>
 
     <body>
         <h1>Inscription</h1>
 
-        <form method="post" action="">
+        <form onsubmit="verifForm()">
             <label>Nom</label><br />
             <input type="text" name="name" id="nom" required /><br />
 
@@ -35,5 +36,6 @@
 
             <input type="submit" value="Je m'inscris" />
         </form>
+        
     </body>
 </html>
