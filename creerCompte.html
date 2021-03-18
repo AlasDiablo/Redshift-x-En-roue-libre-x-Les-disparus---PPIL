@@ -10,28 +10,28 @@
 
         <form method="post" action="">
             <label>Nom</label><br />
-            <input type="text" name="name" /><br />
+            <input type="text" name="name" required /><br />
 
             <label>Prenom</label><br />
-            <input type="text" name="firstName" /><br />
+            <input type="text" name="firstName" required /><br />
 
             <label>Adresse mail</label><br />
-            <input type="email" name="mail" /><br />
+            <input type="email" name="mail" required /><br />
 
             <label>Mot de passe</label><br />
-            <input type="password" name="mdp" /><br />
+            <input type="password" name="mdp" required /><br />
 
             <label>Confirmation du mot de passe</label><br />
-            <input type="password" name="confirmMdp" /><br />
+            <input type="password" name="confirmMdp" required /><br />
 
             <label>Numéro de téléphone</label><br />
-            <input type="tel" name="phone" /><br />
+            <input type="tel" name="phone" required /><br />
 
             <label>Sexe : </label>
-            <input type="radio" name="male" /><label>H</label> <input type="radio" name="female" /><label>F</label><br />
+            <input type="radio" name="sex" value="H" required /><label>H</label> <input type="radio" name="sex" value="F"/><label>F</label><br />
 
             <label>Je possède une voiture : </label>
-            <input type="radio" name="yes" /><label>Oui</label> <input type="radio" name="no" /><label>Non</label><br />
+            <input type="radio" name="car" value="yes" required /><label>Oui</label> <input type="radio" name="car" value="no" /><label>Non</label><br />
 
             <input type="submit" value="Je m'inscris" />
         </form>
