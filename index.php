@@ -18,3 +18,5 @@ $app->get('/', function (Request $request, Response $response, $args) {
     $response->getBody()->write(ViewRendering::render("Hello, world!", "Home page"));
     return $response;
 })->setName('root');
+
+$app->run();

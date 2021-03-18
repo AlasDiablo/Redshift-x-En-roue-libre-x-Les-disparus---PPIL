@@ -8,7 +8,18 @@ class ViewRendering
 {
 
     private static function getNavBar() {
-        return '';
+
+        $nav = <<<html
+<ul>
+    <li><a href="#">Trajet public</a></li>
+    <li><a href="#">Trajet privé</a></li>
+    <li><a href="#">Me connecté</a></li>
+</ul>
+html;
+
+
+
+        return $nav;
     }
 
     public static function render($body, $title): string
