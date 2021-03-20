@@ -14,6 +14,6 @@ class Trajet extends Model
 
     public function conducteur()
     {
-        return $this->hasOne(User::class, "email", "email_conducteur");
+        return $this->hasOne(Utilisateur::class, "email", "email_conducteur");
     }
 }
