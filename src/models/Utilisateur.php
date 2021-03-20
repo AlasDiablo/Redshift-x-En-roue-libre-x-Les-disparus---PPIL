@@ -5,7 +5,7 @@ namespace ppil\models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class User extends Model
+class Utilisateur extends Model
 {
     protected $table = 'utilisateur';
     protected $primaryKey = 'email';
