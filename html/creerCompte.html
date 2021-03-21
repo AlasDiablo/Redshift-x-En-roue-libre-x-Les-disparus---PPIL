@@ -1,41 +1,33 @@
-<DOCTYPE! html>
-<html>
-    <head>
-        <meta charset="utf-8" />
-        <script src="../js/CreateAccount.js" defer></script>
-        <title>Créer un compte</title>
-    </head>
+<h1>Inscription</h1>
 
-    <body>
-        <h1>Inscription</h1>
+<form onsubmit="verifForm()">
+    <label for="nom">Nom</label><br />
+    <input type="text" name="name" id="nom" required /><br />
 
-        <form onsubmit="verifForm()">
-            <label>Nom</label><br />
-            <input type="text" name="name" id="nom" required /><br />
+    <label for="prenom">Prenom</label><br />
+    <input type="text" name="firstName" id="prenom" required /><br />
 
-            <label>Prenom</label><br />
-            <input type="text" name="firstName" id="prenom" required /><br />
+    <label for="email">Adresse mail</label><br />
+    <input type="email" name="mail" id="email" required /><br />
 
-            <label>Adresse mail</label><br />
-            <input type="email" name="mail" id="email" required /><br />
+    <label for="mdp">Mot de passe</label><br />
+    <input type="password" name="password" id="mdp" required /><br />
 
-            <label>Mot de passe</label><br />
-            <input type="password" name="password" id="mdp" required /><br />
+    <label for="confirmMdp">Confirmation du mot de passe</label><br />
+    <input type="password" name="confirmpassword" id="confirmMdp" required /><br />
 
-            <label>Confirmation du mot de passe</label><br />
-            <input type="password" name="confirmpassword" id="confirmMdp" required /><br />
+    <label for="tel">Numéro de téléphone</label><br />
+    <input type="tel" name="phone" id="tel" required /><br />
 
-            <label>Numéro de téléphone</label><br />
-            <input type="tel" name="phone" id="tel" required /><br />
+    <label>Sexe : </label>
+    <input type="radio" name="sex" value="H" id="H" required /><label for="H">H</label>
+    <input type="radio" name="sex" value="F" id="F"/><label for="F">F</label><br />
 
-            <label>Sexe : </label>
-            <input type="radio" name="sex" value="H" required /><label>H</label> <input type="radio" name="sex" value="F"/><label>F</label><br />
+    <label>Je possède une voiture : </label>
+    <input type="radio" name="car" value="yes" id="yes" required /><label for="yes">Oui</label>
+    <input type="radio" name="car" value="no"  id="no" /><label for="no">Non</label><br />
 
-            <label>Je possède une voiture : </label>
-            <input type="radio" name="car" value="yes" required /><label>Oui</label> <input type="radio" name="car" value="no" /><label>Non</label><br />
+    <input type="submit" value="Je m'inscris" />
+</form>
 
-            <input type="submit" value="Je m'inscris" />
-        </form>
-        
-    </body>
-</html>
+<script src="../js/CreateAccount.js" defer></script>
