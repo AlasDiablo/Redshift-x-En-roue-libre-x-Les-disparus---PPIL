@@ -1,11 +1,7 @@
 function verifMail() {
     let mail = document.getElementById("email").innerHTML;
 
-    if (!/^.+@.+[.].+$/.test(mail)) {
-        return false;
-    }
-
-    return true;
+    return /^.+@.+[.].+$/.test(mail);
 }
 
 function verifMdp() {
@@ -16,56 +12,40 @@ function verifMdp() {
         return false;
     }
 
-    if (mdp != confirm) {
-        return false;
-    }
-
-    return true;
+    return mdp === confirm;
 }
 
 function verifTel() {
     let tel = document.getElementById("tel").innerHTML;
 
-    if (!/^0[1-9]{9}$/.test(phone)) {
-        return false;
-    }
-
-    return true;
+    return /^0[1-9]{9}$/.test(tel);
 }
 
 function verifNom() {
     let nom = document.getElementById("nom").innerHTML;
 
-    if (!/^(?=.*[a-z])(?=.*[A-Z])(?=.{2,25})/.test(name)) {
-        return false;
-    }
-
-    return true;
+    return /^(?=.*[a-z])(?=.*[A-Z])(?=.{2,25})/.test(nom);
 }
 
 function verifPrenom() {
     let prenom = document.getElementById("prenom").innerHTML;
 
-    if (!/^(?=.*[a-z])(?=.*[A-Z])(?=.{2,25})/.test(name)) {
-        return false;
-    }
-
-    return true;
+    return /^(?=.*[a-z])(?=.*[A-Z])(?=.{2,25})/.test(prenom);
 }
 
 function verifForm() {
-    mail = verifMail();
-    mdp = verifMdp();
-    tel = verifTel();
-    nom = verifNom();
-    prenom = verifPrenom();
+    let mail = verifMail();
+    let mdp = verifMdp();
+    let tel = verifTel();
+    let nom = verifNom();
+    let prenom = verifPrenom();
 
     if (mail && mdp && tel && nom && prenom) {
         document.getElementById("form").submit();
     }
     else {
-        var newP = document.createElement("p");
-        var newContent = document.createTextNode("Veuillez saisir des valeurs correctes");
+        let newP = document.createElement("p");
+        let newContent = document.createTextNode("Veuillez saisir des valeurs correctes");
         newP.appendChild(newContent);
     }
 }

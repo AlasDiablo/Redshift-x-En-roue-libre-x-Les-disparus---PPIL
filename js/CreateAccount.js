@@ -1,45 +1,33 @@
 function verifMail() {
     let mail = document.getElementById("email").innerHTML;
 
-    if( !/^.+@.+[.].+$/.test(mail) ) {
-        return false;
-    }
-
-    return true;
+    return /^.+@.+[.].+$/.test(mail);
 }
 
 function verifMdp() {
     let mdp = document.getElementById("mdp").innerHTML;
     let confirm = document.getElementById("confirmMdp").innerHTML;
 
-    if(mdp != confirm) {
-        return false;
-    }
-
-    return true;
+    return mdp === confirm;
 }
 
 function verifTel() {
     let tel = document.getElementById("tel").innerHTML;
 
-    if(tel.length != 10) {
-        return false;
-    }
-
-    return true;
+    return tel.length === 10;
 }
 
 function verifForm() {
-    mail = verifMail();
-    mdp = verifMdp();
-    tel = verifTel();
+    let mail = verifMail();
+    let mdp = verifMdp();
+    let tel = verifTel();
 
     if(mail && mdp && tel) {
         document.getElementById("form").submit();
     }
     else {
-        var newP = document.createElement("p");
-        var newContent = document.createTextNode("Veuillez saisir des valeurs correctes");
+        let newP = document.createElement("p");
+        let newContent = document.createTextNode("Veuillez saisir des valeurs correctes");
         newP.appendChild(newContent);
     }
 }
