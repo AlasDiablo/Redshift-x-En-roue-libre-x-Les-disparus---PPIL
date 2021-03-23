@@ -13,8 +13,6 @@ class UserView
     {
         $template = file_get_contents('./html/creerCompte.html');
 
-        $app = AppContainer::getInstance();
-
         return ViewRendering::render($template, 'Créer un compte');
     }
 
@@ -41,5 +39,12 @@ class UserView
         $template = str_replace('${password_forgotten}', $urlForgotten, $template);
 
         return ViewRendering::render($template, 'Connexion');
+    }
+
+    public static function modifierProfil(): string
+    {
+        $template = file_get_contents('./html/modifProfil.html');
+
+        return ViewRendering::render($template, 'Mofifier mon profil');
     }
 }
