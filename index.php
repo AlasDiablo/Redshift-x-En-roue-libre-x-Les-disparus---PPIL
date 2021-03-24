@@ -97,11 +97,12 @@ $app->post('/accounts/password-forgotten/{key}', function (Request $request, Res
 // --------------------- Mofifier mon profil ---------------------
 // Get (obtenir la page web)
 $app->get('/accounts/edit-profile', function (Request $request, Response $response, $args) {
-    $response->getBody()->write(UserView::modifierProfil());
+    $response->getBody()->write(UserController::modifierProfilVue());
     return $response;
 })->setName('edit-profile');
 // Post géré les donnée entré par l'utilisateur
 $app->post('/accounts/edit-profile', function (Request $request, Response $response, $args) {
+    $response->getBody()->write(UserController::modifierUtilisateur());
     return $response;
 })->setName('edit-profile_post');
 

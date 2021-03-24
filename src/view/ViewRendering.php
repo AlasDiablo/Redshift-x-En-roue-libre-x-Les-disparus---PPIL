@@ -12,10 +12,12 @@ class ViewRendering
         $nav = "<ul>";
         $urlSignIn = $app->getRouteCollector()->getRouteParser()->urlFor('sign-in');
         $urlLogout = $app->getRouteCollector()->getRouteParser()->urlFor('logout');
+        $urlProfile = $app->getRouteCollector()->getRouteParser()->urlFor('edit-profile');
         $connected = <<<html
         <li><a href="#">Trajet public</a></li>
         <li><a href="#">Trajet privé</a></li>
         <li><a href="$urlLogout">Se déconecté</a></li>
+        <li><a href="$urlProfile">Mon profile</a></li>
 html;
         $notConnected = <<<html
         <li><a href="$urlSignIn">Me connecté</a></li>

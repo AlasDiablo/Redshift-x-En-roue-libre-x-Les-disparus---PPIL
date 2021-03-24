@@ -56,9 +56,23 @@ class UserView
         return ViewRendering::render($template, 'Connexion');
     }
 
-    public static function modifierProfil(): string
+    public static function modifierProfil($data): string
     {
+        $app = AppContainer::getInstance();
         $template = file_get_contents('./html/modifProfil.html');
+
+        // Set url
+        $urlPost = $app->getRouteCollector()->getRouteParser()->urlFor('edit-profile_post');
+        $template = str_replace('${post_url}', $urlPost, $template);
+
+        // Set data
+        $template = str_replace('${name}', $data->nom, $template);
+        $template = str_replace('${firstName}', $data->prenom, $template);
+        $template = str_replace('${mail}', $data->email, $template);
+        $template = str_replace('${tel}', $data->tel, $template);
+        $template = str_replace('${' . $data->sexe . '}', 'checked', $template);
+        $template = str_replace($data->a_voiture == 'O' ? '${yes}' : '${no}', 'checked', $template);
+
 
         return ViewRendering::render($template, 'Mofifier mon profil');
     }

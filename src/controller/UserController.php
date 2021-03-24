@@ -8,39 +8,41 @@ use ppil\models\Utilisateur;
 use ppil\util\AppContainer;
 use ppil\util\EmailFactory;
 use ppil\view\UserView;
+use ppil\view\ViewRendering;
 
 class UserController
 {
 
     public static function modifierUtilisateur()
     {
-        $nom = htmlentities($_POST['name']);
-        $prenom = htmlentities($_POST['firstName']);
-        $email = htmlentities($_POST['mail']);
-        $mdp = htmlentities($_POST['password']);
-        $tel = htmlentities($_POST['phone']);
-        $sexe = htmlentities($_POST['sex']);
-        $a_voiture = htmlentities($_POST['car']);
-        if (!filter_var($email, FILTER_VALIDATE_EMAIL) || !filter_var($nom) || !filter_var($prenom) || !filter_var($mdp) || !filter_var($tel) || !filter_var($sexe) || !filter_var($a_voiture)) {
-            return UserView::erreurPost();
+        $nom = filter_var($_POST['name'], FILTER_DEFAULT);
+        $prenom = filter_var($_POST['firstName'], FILTER_DEFAULT);
+        $tel = filter_var($_POST['phone'], FILTER_DEFAULT);
+        $sexe = filter_var($_POST['sex'], FILTER_DEFAULT);
+        $a_voiture = filter_var($_POST['car']);
+        if (!$nom || !$prenom || !$tel || !$a_voiture || !$sexe) {
+            return UserView::erreurPost("Donnée invalid");
         }
 
-        $mdpHash = password_hash($mdp, PASSWORD_DEFAULT); //mdp 72 caracteres max (BCRYPT)
+        $user = Utilisateur::where('email', '=', $_SESSION['mail'])->first();
+        $user->nom = $nom;
+        $user->prenom = $prenom;
+        $user->tel = $tel;
+        $user->a_voiture = $a_voiture == 'yes' ? 'O' : 'N';
+        $user->sexe = $sexe;
+        $user->save();
 
-        $user = Utilisateur::modify([
-            'email' => $email,
-            'mdp' => $mdpHash,
-            'nom' => $nom,
-            'prenom' => $prenom,
-            'tel' => $tel,
-            'sexe' => $sexe,
-            'a_voiture' => $a_voiture,
-        ]);
 
-        $_SESSION['mail'] = $email;
         $url = AppContainer::getInstance()->getRouteCollector()->getRouteParser()->urlFor('root');
         header("Location: $url");
         exit();
+    }
+
+    public static function modifierProfilVue(): string
+    {
+        $data = Utilisateur::select('email', 'nom', 'prenom', 'tel', 'sexe', 'a_voiture')->where('email', '=', $_SESSION['mail'])->first();
+
+        return UserView::modifierProfil($data);
     }
 
 
