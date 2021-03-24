@@ -175,13 +175,13 @@ class UserController
         // creation du mail
         $url = "https://" . $_SERVER['HTTP_HOST'] . AppContainer::getInstance()->getRouteCollector()->getRouteParser()->urlFor('password-forgotten-key', array('key' => $token));
 
-        $body = "cliquez sur l'url ci dessous pour réinitialisez votre mdp : " . $url;
+        $body = "Cliquez sur l'url ci dessous pour réinitialisez votre mdp : " . $url;
 
 
         $nom = Utilisateur::select("nom")->where("email", "=", $mail)->first()->nom;
 
         // envoie du mail
-        EmailFactory::envoieEmail($body, "reinitialisez le mdp", $mail, $nom);
+        EmailFactory::envoieEmail($body, "Réinitialisez le mdp", $mail, $nom);
 
         $url = AppContainer::getInstance()->getRouteCollector()->getRouteParser()->urlFor('root');
         header("Location: $url");
