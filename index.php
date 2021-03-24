@@ -48,6 +48,7 @@ $app->get('/accounts/sign-up', function (Request $request, Response $response, $
 })->setName('sign-up');
 // Post géré les donnée entré par l'utilisateur
 $app->post('/accounts/sign-up', function (Request $request, Response $response, $args) {
+    $response->getBody()->write(UserController::creerUtilisateur());
     return $response;
 })->setName('sign-up_post');
 

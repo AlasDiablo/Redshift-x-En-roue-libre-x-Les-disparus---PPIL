@@ -1,6 +1,6 @@
 <h1>Inscription</h1>
 
-<form onsubmit="verifForm()">
+<form method="post" action="${post_url}">
     <label for="nom">Nom</label><br/>
     <input type="text" name="name" id="nom" required/><br/>
 
@@ -27,7 +27,8 @@
     <input type="radio" name="car" value="yes" id="yes" required/><label for="yes">Oui</label>
     <input type="radio" name="car" value="no" id="no"/><label for="no">Non</label><br/>
 
-    <input type="submit" value="Je m'inscris"/>
+    <button onclick="verifForm()">Je m'inscris</button>
+    <input type="submit" style="visibility: hidden" value="submit"/>
 </form>
 
 <script src="../js/CreateAccount.js" defer></script>

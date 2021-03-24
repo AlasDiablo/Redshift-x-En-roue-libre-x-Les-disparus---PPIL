@@ -11,7 +11,11 @@ class UserView
 
     public static function creerUnCompte(): string
     {
+        $app = AppContainer::getInstance();
         $template = file_get_contents('./html/creerCompte.html');
+
+        $urlPost = $app->getRouteCollector()->getRouteParser()->urlFor('sign-up_post');
+        $template = str_replace('${post_url}', $urlPost, $template);
 
         return ViewRendering::render($template, 'Créer un compte');
     }
@@ -59,8 +63,8 @@ class UserView
         return ViewRendering::render($template, 'Mofifier mon profil');
     }
 
-    public static function erreurPost()
+    public static function erreurPost(string $erreur = 'Undefined error')
     {
-        return ViewRendering::render('Erreur', 'Erreur');
+        return ViewRendering::render('Erreur - ' . $erreur, 'Erreur');
     }
 }

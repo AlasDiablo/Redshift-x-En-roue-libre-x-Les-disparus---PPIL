@@ -12,7 +12,7 @@ use ppil\view\UserView;
 class UserController
 {
 
-    public function modifierUtilisateur()
+    public static function modifierUtilisateur()
     {
         $nom = htmlentities($_POST['name']);
         $prenom = htmlentities($_POST['firstName']);
@@ -44,7 +44,7 @@ class UserController
     }
 
 
-    public function creerUtilisateur()
+    public static function creerUtilisateur()
     {
         $nom = filter_var($_POST['name'], FILTER_DEFAULT);
         $prenom = filter_var($_POST['firstName'], FILTER_DEFAULT);
@@ -56,31 +56,31 @@ class UserController
         $a_voiture = filter_var($_POST['car'], FILTER_DEFAULT);
 
         if (!isset($nom) || !preg_match("#^[a-zA-Z]+$#", $nom) || strlen($nom < 2) || strlen($nom > 25)) {
-            return UserView::erreurPost();
+            return UserView::erreurPost("Nom invalid");
         }
 
         if (!isset($prenom) || !preg_match("#^[a-zA-Z]+$#", $prenom) || strlen($prenom < 2) || strlen($prenom > 25)) {
-            return UserView::erreurPost();
+            return UserView::erreurPost("Prenom invalid");
         }
 
         if (!isset($email) || !filter_var($email, FILTER_VALIDATE_EMAIL)) {
-            return UserView::erreurPost();
+            return UserView::erreurPost("Email invalid");
         }
 
         if (!isset($mdp) || !isset($mdpconf) || ($mdp != $mdpconf) || strlen($mdp) < 7 || strlen($mdpconf) < 7) {
-            return UserView::erreurPost();
+            return UserView::erreurPost("Mot de passe invalid");
         }
 
         if (!isset($tel) || strlen($tel) != 10 || !preg_match("#[0][6][- \.?]?([0-9][0-9][- \.?]?){4}$#", $tel)) {
-            return UserView::erreurPost();
+            return UserView::erreurPost("Tel invalid");
         }
 
         if (!isset($sexe)) {
-            return UserView::erreurPost();
+            return UserView::erreurPost("Sexe invalid");
         }
 
         if (!isset($a_voiture)) {
-            return UserView::erreurPost();
+            return UserView::erreurPost("Voiture invalid");
         }
 
         $mdpHash = password_hash($mdp, PASSWORD_DEFAULT); //mdp 72 caracteres max (BCRYPT)
