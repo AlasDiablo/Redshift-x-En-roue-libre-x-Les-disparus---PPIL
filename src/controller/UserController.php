@@ -55,11 +55,14 @@ class UserController
         $sexe = filter_var($_POST['sex'], FILTER_DEFAULT);
         $a_voiture = filter_var($_POST['car'], FILTER_DEFAULT);
 
-        if (!isset($nom) || !preg_match("#^[a-zA-Z]+$#", $nom) || strlen($nom < 2) || strlen($nom > 25)) {
+        print_r($_POST);
+
+        $matches = null;
+        if (!isset($nom) || preg_match('/^[a-zA-Z]+$/', $nom, $matches, PREG_OFFSET_CAPTURE, 0) == false || strlen($nom) < 2 || strlen($nom) > 25) {
             return UserView::erreurPost("Nom invalid");
         }
 
-        if (!isset($prenom) || !preg_match("#^[a-zA-Z]+$#", $prenom) || strlen($prenom < 2) || strlen($prenom > 25)) {
+        if (!isset($prenom) || !preg_match('/^[a-zA-Z]+$/', $prenom, $matches, PREG_OFFSET_CAPTURE, 0) || strlen($prenom) < 2 || strlen($prenom) > 25) {
             return UserView::erreurPost("Prenom invalid");
         }
 
@@ -85,17 +88,17 @@ class UserController
 
         $mdpHash = password_hash($mdp, PASSWORD_DEFAULT); //mdp 72 caracteres max (BCRYPT)
 
-        $user = Utilisateur::create([
-            'email' => $email,
-            'mdp' => $mdpHash,
-            'nom' => $nom,
-            'prenom' => $prenom,
-            'tel' => $tel,
-            'sexe' => $sexe,
-            'a_voiture' => $a_voiture,
-            'note' => 5,
-            'activer_notif' => 'N',
-        ]);
+        $user = new Utilisateur();
+        $user->email = $email;
+        $user->mdp = $mdpHash;
+        $user->nom = $nom;
+        $user->prenom = $prenom;
+        $user->tel = $tel;
+        $user->sexe = $sexe;
+        $user->a_voiture = $a_voiture == 'yes' ? 'O' : 'N';
+        $user->note = 5;
+        $user->activer_notif = 'O';
+        $user->save();
 
         $_SESSION['mail'] = $email;
 
