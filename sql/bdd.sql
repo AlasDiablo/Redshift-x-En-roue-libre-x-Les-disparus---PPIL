@@ -88,3 +88,10 @@ CREATE TABLE IF NOT EXISTS `Passager` (
     CONSTRAINT fk_id_trajet_passager FOREIGN KEY (`id_trajet`) REFERENCES `Trajet`(`id_trajet`) ON DELETE CASCADE,
     CONSTRAINT check_reponse_passager CHECK (`reponse` IN ('O','N'))
 );
+
+CREATE TABLE IF NOT EXISTS 'forgoten_password' (
+    'email' VARCHAR(255) NOT NULL,
+    'reset_key' VARCHAR(255) NOT NULL,
+    PRIMARY KEY ('email', 'reset_key'),
+    CONSTRAINT fk_mail_rest FOREIGN KEY ('email') REFERENCES 'Utilisateur'('email'),
+);
