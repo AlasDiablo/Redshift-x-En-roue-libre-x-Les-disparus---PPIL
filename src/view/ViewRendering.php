@@ -8,13 +8,16 @@ class ViewRendering
 {
 
     private static function getNavBar() {
-        $nav = <<<html
-<ul>
-    <li><a href="#">Trajet public</a></li>
-    <li><a href="#">Trajet privé</a></li>
-    <li><a href="#">Me connecté</a></li>
-</ul>
+        $nav = "<ul>";
+        $connected = <<<html
+        <li><a href="#">Trajet public</a></li>
+        <li><a href="#">Trajet privé</a></li>
 html;
+        $notConnected = <<<html
+        <li><a href="\${sin_in}">Me connecté</a></li>
+html;
+        $nav .= (isset($_SESSION['mail'])) ? $connected : $notConnected;
+        $nav .= "</ul>";
         return $nav;
     }
 
@@ -40,6 +43,10 @@ html;
 
         // Web Site link
         $template = str_replace('${nav_bar}', self::getNavBar(), $template);
+
+        // Se conencter Nav Bar
+        $urlSinIn = $app->getRouteCollector()->getRouteParser()->urlFor('sin-in');
+        $template = str_replace('${sin_in}', $urlSinIn, $template);
 
         // Site content
 

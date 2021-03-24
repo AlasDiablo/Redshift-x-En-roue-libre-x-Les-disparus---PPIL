@@ -4,6 +4,7 @@ use ppil\controller\UserController;
 use ppil\util\AppContainer;
 use ppil\view\UserView;
 use ppil\view\ViewRendering;
+use ppil\view\IndexView;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use \Illuminate\Database\Capsule\Manager as DB;
@@ -33,7 +34,7 @@ $errorMiddleware = $app->addErrorMiddleware(true, true, true);
 
 // --------------------- Creation de l'index (page pricipale) ---------------------
 $app->get('/', function (Request $request, Response $response, $args) {
-    $response->getBody()->write(ViewRendering::render("Hello, world!", "Home page"));
+    $response->getBody()->write(IndexView::render());
     return $response;
 })->setName('root');
 
@@ -90,7 +91,6 @@ $app->post('/accounts/password-forgotten/{key}', function (Request $request, Res
     $response->getBody()->write(UserController::recupererMdp($args['key']));
     return $response;
 })->setName('password-forgotten-key_post');
-
 
 // --------------------- Mofifier mon profil ---------------------
 // Get (obtenir la page web)
