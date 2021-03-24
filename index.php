@@ -2,6 +2,7 @@
 use ppil\util\AppContainer;
 use ppil\view\UserView;
 use ppil\view\ViewRendering;
+use ppil\view\IndexView;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use \Illuminate\Database\Capsule\Manager as DB;
@@ -22,6 +23,10 @@ $db->addConnection([
 $db->setAsGlobal();
 $db->bootEloquent();
 
+if (!isset($_COOKIE['isConnected'])) {
+    setcookie("isConnected", "false", time()+3600, '/');
+}
+
 // Creation de l'application slim
 $app = AppContainer::getInstance();
 $app->addRoutingMiddleware();
@@ -31,7 +36,7 @@ $errorMiddleware = $app->addErrorMiddleware(true, true, true);
 
 // --------------------- Creation de l'index (page pricipale) ---------------------
 $app->get('/', function (Request $request, Response $response, $args) {
-    $response->getBody()->write(ViewRendering::render("Hello, world!", "Home page"));
+    $response->getBody()->write(IndexView::render());
     return $response;
 })->setName('root');
 
@@ -56,6 +61,7 @@ $app->get('/accounts/sin-in', function (Request $request, Response $response, $a
 })->setName('sin-in');
 // Post géré les donnée entré par l'utilisateur
 $app->post('/accounts/sin-in', function (Request $request, Response $response, $args) {
+    setcookie("isConnected", "true", time()+3600, '/');
     return $response;
 })->setName('sin-in_post');
 
