@@ -16,7 +16,7 @@ html;
         $notConnected = <<<html
         <li><a href="\${sin_in}">Me connecté</a></li>
 html;
-        $nav .= (isset($_COOKIE['isConnected'])) ? ($_COOKIE['isConnected'] === "true") ? $connected : $notConnected : $notConnected;
+        $nav .= (isset($_SESSION['mail'])) ? $connected : $notConnected;
         $nav .= "</ul>";
         return $nav;
     }

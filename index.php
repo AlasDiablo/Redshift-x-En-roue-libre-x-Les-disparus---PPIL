@@ -23,10 +23,6 @@ $db->addConnection([
 $db->setAsGlobal();
 $db->bootEloquent();
 
-if (!isset($_COOKIE['isConnected'])) {
-    setcookie("isConnected", "false", time()+3600, '/');
-}
-
 // Creation de l'application slim
 $app = AppContainer::getInstance();
 $app->addRoutingMiddleware();
