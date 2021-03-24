@@ -86,7 +86,7 @@ $app->get('/accounts/password-forgotten/{key}', function (Request $request, Resp
     return $response;
 })->setName('password-forgotten-key');
 // Post formulaire de modification de mot de passe
-$app->get('/accounts/password-forgotten/{key}', function (Request $request, Response $response, $args) {
+$app->post('/accounts/password-forgotten/{key}', function (Request $request, Response $response, $args) {
     $response->getBody()->write(UserController::recupererMdp($args['key']));
     return $response;
 })->setName('password-forgotten-key_post');

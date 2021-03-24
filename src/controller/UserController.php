@@ -75,7 +75,7 @@ class UserController
         $mdpOublie->save();
 
         // creation du mail
-        $url = "https://" . $_SERVER['HTTP_HOST'] . AppContainer::getInstance()->getRouteCollector()->getRouteParser()->urlFor('ingredient', array('key' => $token));
+        $url = "https://" . $_SERVER['HTTP_HOST'] . AppContainer::getInstance()->getRouteCollector()->getRouteParser()->urlFor('password-forgotten-key', array('key' => $token));
 
         $body = "cliquez sur l'url ci dessous pour réinitialisez votre mdp : " . $url;
 
@@ -97,36 +97,36 @@ class UserController
         $mdp2 = filter_var($_POST["confirmpassword"], FILTER_DEFAULT);
 
         if (isset($mdp1) && isset($mdp2)) {
-            if ($mdp1 == $mdp2 && strlen($mdp1) > 6 && preg_match('/[A-Z]/', $mdp1) && preg_match('/[0-9]/', $mdp1)) {
+            if ($mdp1 == $mdp2 && strlen($mdp1) > 6) {
 
                 // recuperation du mail grace a la cle
-                $mail = MotDePasseOublie::where('reset_key', '=', $key)->first();
+                $email = MotDePasseOublie::where('reset_key', '=', $key)->first()->email;
                 if (!isset($email)) {
                     return UserView::erreurPost();
                 }
 
                 //change le mdp dans la base de donnée (pas sur ?) 
                 $hash = password_hash($mdp1, PASSWORD_DEFAULT);
-                Utilisateur::where("email", "=", $mail)->update(["mdp" => $hash]);
+                Utilisateur::where("email", "=", $email)->update(["mdp" => $hash]);
 
                 // suppression de la cle
-                MotDePasseOublie::where("email", $mail)->delete();
+                MotDePasseOublie::where("email", $email)->delete();
 
                 // on redirige vers l'accueil
                 $url = AppContainer::getInstance()->getRouteCollector()->getRouteParser()->urlFor('root');
                 header("Location: $url");
                 exit();
-            }else {
+            } else {
                 return UserView::erreurPost();
             }
-        }else {
+        } else {
             return UserView::erreurPost();
         }
     }
 
     private static function checkExistence($token)
     {
-        return isset(MotDePasseOublie::select('rest_key')->where('rest_key', '=', $token)->first()->rest_key);
+        return isset(MotDePasseOublie::select('reset_key')->where('reset_key', '=', $token)->first()->reset_key);
     }
 
     private static function getToken()
