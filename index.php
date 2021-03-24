@@ -1,4 +1,6 @@
 <?php
+
+use ppil\controller\UserController;
 use ppil\util\AppContainer;
 use ppil\view\UserView;
 use ppil\view\ViewRendering;
@@ -56,9 +58,15 @@ $app->get('/accounts/sin-in', function (Request $request, Response $response, $a
 })->setName('sin-in');
 // Post géré les donnée entré par l'utilisateur
 $app->post('/accounts/sin-in', function (Request $request, Response $response, $args) {
+    $response->getBody()->write(UserController::seConnecter());
     return $response;
 })->setName('sin-in_post');
 
+// --------------------- Se deconnecté ---------------------
+$app->post('/accounts/logout', function (Request $request, Response $response, $args) {
+    UserController::seDeconnecter();
+    return $response;
+})->setName('logout');
 
 // --------------------- Mot de passe oublié ---------------------
 // Get (obtenir la page web)
@@ -68,8 +76,21 @@ $app->get('/accounts/password-forgotten', function (Request $request, Response $
 })->setName('password-forgotten');
 // Post géré les donnée entré par l'utilisateur
 $app->post('/accounts/password-forgotten', function (Request $request, Response $response, $args) {
+    $response->getBody()->write(UserController::mdpOublie());
     return $response;
 })->setName('password-forgotten_post');
+
+// Get formulaire de modification de mot de passe
+$app->get('/accounts/password-forgotten/{key}', function (Request $request, Response $response, $args) {
+    $response->getBody()->write(UserView::motDePasseOublieForm($args['key']));
+    return $response;
+})->setName('password-forgotten-key');
+// Post formulaire de modification de mot de passe
+$app->get('/accounts/password-forgotten/{key}', function (Request $request, Response $response, $args) {
+    $response->getBody()->write(UserController::recupererMdp($args['key']));
+    return $response;
+})->setName('password-forgotten-key_post');
+
 
 // --------------------- Mofifier mon profil ---------------------
 // Get (obtenir la page web)

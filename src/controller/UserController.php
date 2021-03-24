@@ -7,6 +7,7 @@ use ppil\models\MotDePasseOublie;
 use ppil\models\Utilisateur;
 use ppil\util\AppContainer;
 use ppil\util\EmailFactory;
+use ppil\view\UserView;
 
 class UserController
 {
@@ -17,7 +18,7 @@ class UserController
         $mdp = filter_var($_POST['mdp'], FILTER_DEFAULT);
 
         // si aucun email ne correspond alors on renvoie la page d'erreur
-        $value = Utilisateur::where('email', '=', $mail)->get()->first();
+        $value = Utilisateur::where('email', '=', $mail)->first();
         if (!isset($value)) {
             return UserView::erreurPost();
         }
@@ -55,13 +56,13 @@ class UserController
         $mail = filter_var($_POST["mail"], FILTER_DEFAULT);
 
         // si aucun email ne correspond alors on renvoie la page d'erreur
-        $value = Utilisateur::where("email", $mail)->get()->first();
+        $value = Utilisateur::where("email", $mail)->first();
         if (!isset($value)) {
             return UserView::erreurPost();
         }
 
         // si une cle existe deja alors on la supprime
-        $value = MotDePasseOublie::where("email", $mail)->get()->first();
+        $value = MotDePasseOublie::where("email", $mail)->first();
         if (isset($value)) {
             MotDePasseOublie::where("email", $mail)->delete();
         }
@@ -74,26 +75,33 @@ class UserController
         $mdpOublie->save();
 
         // creation du mail
-        $body = "cliquez sur l'url ci dessous pour réinitialisez votre mdp : https://".$_SERVER['HTTP_HOST']."/accounts/password-forgotten.php?key=".$token;
+        $url = "https://" . $_SERVER['HTTP_HOST'] . AppContainer::getInstance()->getRouteCollector()->getRouteParser()->urlFor('ingredient', array('key' => $token));
+
+        $body = "cliquez sur l'url ci dessous pour réinitialisez votre mdp : " . $url;
+
+
         $nom = Utilisateur::select("nom")->where("email", "=", $mail)->first();
 
         // envoie du mail
         EmailFactory::envoieEmail($body, "reinitialisez le mdp", $mail, $nom);
+
+        $url = AppContainer::getInstance()->getRouteCollector()->getRouteParser()->urlFor('root');
+        header("Location: $url");
+        exit();
     }
 
-    public static function recupererMdp()
+    public static function recupererMdp($key)
     {
         // récuperation des valeurs POST
-        $mdp1 = filter_var($_POST["mdp1"], FILTER_DEFAULT);
-        $mdp2 = filter_var($_POST["mdp2"], FILTER_DEFAULT);
-        $key = filter_var($_POST["key"], FILTER_DEFAULT);
+        $mdp1 = filter_var($_POST["password"], FILTER_DEFAULT);
+        $mdp2 = filter_var($_POST["confirmpassword"], FILTER_DEFAULT);
 
         if (isset($mdp1) && isset($mdp2)) {
             if ($mdp1 == $mdp2 && strlen($mdp1) > 6 && preg_match('/[A-Z]/', $mdp1) && preg_match('/[0-9]/', $mdp1)) {
 
                 // recuperation du mail grace a la cle
-                $mail = MotDePasseOublie::where('reset_key', '=', $key)->get()->first();
-                if(!isset($email)) {
+                $mail = MotDePasseOublie::where('reset_key', '=', $key)->first();
+                if (!isset($email)) {
                     return UserView::erreurPost();
                 }
 
