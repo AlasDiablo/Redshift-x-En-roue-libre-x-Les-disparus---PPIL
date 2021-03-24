@@ -7,14 +7,23 @@ use ppil\util\AppContainer;
 class ViewRendering
 {
 
-    private static function getNavBar() {
+    private static function getNavBar($app)
+    {
         $nav = "<ul>";
+        $urlSignIn = $app->getRouteCollector()->getRouteParser()->urlFor('sign-in');
+        $urlLogout = $app->getRouteCollector()->getRouteParser()->urlFor('logout');
+        $urlProfile = $app->getRouteCollector()->getRouteParser()->urlFor('edit-profile');
+        $urlRoot = $app->getRouteCollector()->getRouteParser()->urlFor('root');
         $connected = <<<html
+        <li><a href="$urlRoot">ShareMyRide</a></li>
         <li><a href="#">Trajet public</a></li>
         <li><a href="#">Trajet privé</a></li>
+        <li><a href="$urlLogout">Se déconecté</a></li>
+        <li><a href="$urlProfile">Mon profile</a></li>
 html;
         $notConnected = <<<html
-        <li><a href="\${sin_in}">Me connecté</a></li>
+        <li><a href="$urlRoot">ShareMyRide</a></li>
+        <li><a href="$urlSignIn">Me connecté</a></li>
 html;
         $nav .= (isset($_SESSION['mail'])) ? $connected : $notConnected;
         $nav .= "</ul>";
@@ -26,7 +35,7 @@ html;
      * @param $title string titre de la page (chaine vide pour le titre classic)
      * @return string Page du site formaté et pres a etre affiché
      */
-    public static function render($body, $title): string
+    public static function render(string $body, string $title): string
     {
         $template = file_get_contents('./html/template.html');
 
@@ -42,11 +51,7 @@ html;
         }
 
         // Web Site link
-        $template = str_replace('${nav_bar}', self::getNavBar(), $template);
-
-        // Se conencter Nav Bar
-        $urlSinIn = $app->getRouteCollector()->getRouteParser()->urlFor('sin-in');
-        $template = str_replace('${sin_in}', $urlSinIn, $template);
+        $template = str_replace('${nav_bar}', self::getNavBar($app), $template);
 
         // Site content
 

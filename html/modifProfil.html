@@ -1,34 +1,29 @@
 ﻿<h1>Modifier mon profil</h1>
 
-<form onsubmit="verifForm()">
+<form method="post" action="${post_url}">
     <label for="nom">Nom</label><br/>
-    <input type="text" name="name" id="nom"/><br/>
+    <input type="text" name="name" id="nom" value="${name}"/><br/>
 
     <label for="prenom">Prenom</label><br/>
-    <input type="text" name="firstName" id="prenom"/><br/>
+    <input type="text" name="firstName" id="prenom" value="${firstName}"/><br/>
 
     <label for="email">Adresse mail</label><br/>
-    <input type="email" name="mail" id="email"/><br/>
-
-    <label for="mdp">Mot de passe</label><br/>
-    <input type="password" name="password" id="mdp"/><br/>
-
-    <label for="confirmMdp">Confirmation du mot de passe</label><br/>
-    <input type="password" name="confirmpassword" id="confirmMdp"/><br/>
+    <input type="email" name="mail" id="email" value="${mail}"/><br/>
 
     <label for="tel">Numéro de téléphone</label><br/>
-    <input type="tel" name="phone" id="tel"/><br/>
+    <input type="tel" name="phone" id="tel" value="${tel}"/><br/>
 
     <label>Sexe : </label>
-    <input type="radio" name="sex" value="H" id="H"/><label for="H">H</label>
-    <input type="radio" name="sex" value="F" id="F"/><label for="F">F</label><br/>
+    <input type="radio" name="sex" value="H" id="H" ${H}/><label for="H">H</label>
+    <input type="radio" name="sex" value="F" id="F" ${F}/><label for="F">F</label><br/>
 
     <label>Je possède une voiture : </label>
-    <input type="radio" name="car" value="yes" id="yes"/><label for="yes">Oui</label>
-    <input type="radio" name="car" value="no" id="no"/><label for="no">Non</label><br/>
+    <input type="radio" name="car" value="yes" id="yes" ${yes}/><label for="yes">Oui</label>
+    <input type="radio" name="car" value="no" id="no" ${no}/><label for="no">Non</label><br/>
 
     <input type="button" value="Annuler"/>
-    <input type="submit" value="Valider"/>
+    <button onclick="verifForm()">Valider</button>
+    <input type="submit" style="visibility:hidden;" value="Valider"/>
 </form>
 
 <script src="../js/modifProfil.js" defer></script>

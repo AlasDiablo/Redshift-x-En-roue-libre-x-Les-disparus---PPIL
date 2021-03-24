@@ -13,6 +13,8 @@
     }
   },
   "require-dev": {
-    "phpunit/phpunit": "9.5.*"
-  }
+    "phpunit/phpunit": "9.5.3"
+  },
+  "name": "ppil/share-my-ride",
+  "description": ""
 }
