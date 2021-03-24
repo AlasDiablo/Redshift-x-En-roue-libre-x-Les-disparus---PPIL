@@ -13,13 +13,16 @@ class ViewRendering
         $urlSignIn = $app->getRouteCollector()->getRouteParser()->urlFor('sign-in');
         $urlLogout = $app->getRouteCollector()->getRouteParser()->urlFor('logout');
         $urlProfile = $app->getRouteCollector()->getRouteParser()->urlFor('edit-profile');
+        $urlRoot = $app->getRouteCollector()->getRouteParser()->urlFor('root');
         $connected = <<<html
+        <li><a href="$urlRoot">ShareMyRide</a></li>
         <li><a href="#">Trajet public</a></li>
         <li><a href="#">Trajet privé</a></li>
         <li><a href="$urlLogout">Se déconecté</a></li>
         <li><a href="$urlProfile">Mon profile</a></li>
 html;
         $notConnected = <<<html
+        <li><a href="$urlRoot">ShareMyRide</a></li>
         <li><a href="$urlSignIn">Me connecté</a></li>
 html;
         $nav .= (isset($_SESSION['mail'])) ? $connected : $notConnected;
