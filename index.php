@@ -3,8 +3,22 @@ use ppil\util\AppContainer;
 use ppil\view\ViewRendering;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
+use \Illuminate\Database\Capsule\Manager as DB;
 
 require __DIR__ . '/vendor/autoload.php';
+
+$ini_file = parse_ini_file('src/conf/conf.ini');
+$db = new DB();
+$db->addConnection([
+    'driver'    => $ini_file['driver'],
+    'host'      => $ini_file['host'],
+    'database'  => $ini_file['database'],
+    'username'  => $ini_file['username'],
+    'password'  => $ini_file['password']
+]);
+
+$db->setAsGlobal();
+$db->bootEloquent();
 
 // Creation de l'application slim
 $app = AppContainer::getInstance();
