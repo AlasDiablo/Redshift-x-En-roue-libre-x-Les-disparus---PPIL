@@ -1,23 +1,13 @@
-<DOCTYPE! html>
-<html>
-    <head>
-        <meta charset="utf-8" />
-        <title>Connexion</title>
-    </head>
+<h1>Connexion</h1>
 
-    <body>
-        <h1>Connexion</h1>
+<form method="post" action="${post_url}">
+    <label for="email">Adresse mail</label><br />
+    <input type="email" name="mail" id="email" required/><br />
 
-        <form method="post" action="">
-            <label>Adresse mail</label><br />
-            <input type="email" name="mail" required/><br />
+    <label for="mdp">Mot de passe</label><br />
+    <input type="password" name="mdp" id="mdp" required/><br />
 
-            <label>Mot de passe</label><br />
-            <input type="password" name="mdp" required/><br />
+    <input type="submit" value="Valider" />
+</form>
 
-            <input type="submit" value="Valider" />
-        </form>
-		
-		<a href="motDePasseOublie.html">Mot de passe oublié?</a>
-    </body>
-</html> 
+<a href="${password_forgotten}">Mot de passe oublié?</a>

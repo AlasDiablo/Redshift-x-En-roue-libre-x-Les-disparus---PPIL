@@ -1,4 +1,6 @@
 # env
 .idea
 vendor
+.vs
+# private files
 src/conf/*
