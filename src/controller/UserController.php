@@ -178,7 +178,7 @@ class UserController
         $body = "cliquez sur l'url ci dessous pour réinitialisez votre mdp : " . $url;
 
 
-        $nom = Utilisateur::select("nom")->where("email", "=", $mail)->first();
+        $nom = Utilisateur::select("nom")->where("email", "=", $mail)->first()->nom;
 
         // envoie du mail
         EmailFactory::envoieEmail($body, "reinitialisez le mdp", $mail, $nom);
