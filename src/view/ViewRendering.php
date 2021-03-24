@@ -18,12 +18,12 @@ class ViewRendering
         <li><a href="$urlRoot">ShareMyRide</a></li>
         <li><a href="#">Trajet public</a></li>
         <li><a href="#">Trajet privé</a></li>
-        <li><a href="$urlLogout">Se déconecté</a></li>
-        <li><a href="$urlProfile">Mon profile</a></li>
+        <li><a href="$urlLogout">Se déconnecter</a></li>
+        <li><a href="$urlProfile">Mon profil</a></li>
 html;
         $notConnected = <<<html
         <li><a href="$urlRoot">ShareMyRide</a></li>
-        <li><a href="$urlSignIn">Me connecté</a></li>
+        <li><a href="$urlSignIn">Me connecter</a></li>
 html;
         $nav .= (isset($_SESSION['mail'])) ? $connected : $notConnected;
         $nav .= "</ul>";
