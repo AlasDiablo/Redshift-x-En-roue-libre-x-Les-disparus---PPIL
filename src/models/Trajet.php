@@ -19,6 +19,6 @@ class Trajet extends Model
 
     public function passager()
     {
-        return $this->belongsToMany(Trajet::class, 'passager','id_trajet', 'email_passager', 'id_trajet', 'email');
+        return $this->belongsToMany(Trajet::class, 'passager', 'id_trajet', 'email_passager', 'id_trajet', 'email');
     }
 }

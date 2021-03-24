@@ -7,7 +7,8 @@ use PHPMailer\PHPMailer\SMTP;
 
 class EmailFactory
 {
-    public static function envoieEmail($body, $title, $email, $name){
+    public static function envoieEmail($body, $title, $email, $name)
+    {
 
         $mail = new PHPMailer();
 

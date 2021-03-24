@@ -20,7 +20,7 @@ class Utilisateur extends Model
 
     public function mesParticipation()
     {
-        return $this->belongsToMany(Trajet::class, 'passager','email_passager', 'id_trajet', 'email', 'id_trajet');
+        return $this->belongsToMany(Trajet::class, 'passager', 'email_passager', 'id_trajet', 'email', 'id_trajet');
     }
 
     public function memberDe()
@@ -28,11 +28,13 @@ class Utilisateur extends Model
         return $this->belongsToMany(Groupe::class, 'membre', 'id_groupe', 'email_membre', 'email', 'id_groupe');
     }
 
-    public function notificationRecu() {
+    public function notificationRecu()
+    {
         return $this->hasMany(Notification::class, 'utilisateur', 'email');
     }
 
-    public function notificationEnvoyer() {
+    public function notificationEnvoyer()
+    {
         return $this->hasMany(Notification::class, 'emeteur', 'email');
     }
 }
