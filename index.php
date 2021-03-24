@@ -3,7 +3,6 @@
 use ppil\controller\UserController;
 use ppil\util\AppContainer;
 use ppil\view\UserView;
-use ppil\view\ViewRendering;
 use ppil\view\IndexView;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
@@ -43,30 +42,30 @@ $app->get('/', function (Request $request, Response $response, $args) {
 
 // --------------------- Creation d'un compte ---------------------
 // Get (obtenir la page web)
-$app->get('/accounts/sin-up', function (Request $request, Response $response, $args) {
+$app->get('/accounts/sign-up', function (Request $request, Response $response, $args) {
     $response->getBody()->write(UserView::creerUnCompte());
     return $response;
-})->setName('sin-up');
+})->setName('sign-up');
 // Post géré les donnée entré par l'utilisateur
-$app->post('/accounts/sin-up', function (Request $request, Response $response, $args) {
+$app->post('/accounts/sign-up', function (Request $request, Response $response, $args) {
     return $response;
-})->setName('sin-up_post');
+})->setName('sign-up_post');
 
 
 // --------------------- Connexion a un compte ---------------------
 // Get (obtenir la page web)
-$app->get('/accounts/sin-in', function (Request $request, Response $response, $args) {
+$app->get('/accounts/sign-in', function (Request $request, Response $response, $args) {
     $response->getBody()->write(UserView::seConnecter());
     return $response;
-})->setName('sin-in');
+})->setName('sign-in');
 // Post géré les donnée entré par l'utilisateur
-$app->post('/accounts/sin-in', function (Request $request, Response $response, $args) {
+$app->post('/accounts/sign-in', function (Request $request, Response $response, $args) {
     $response->getBody()->write(UserController::seConnecter());
     return $response;
-})->setName('sin-in_post');
+})->setName('sign-in_post');
 
 // --------------------- Se deconnecté ---------------------
-$app->post('/accounts/logout', function (Request $request, Response $response, $args) {
+$app->get('/accounts/logout', function (Request $request, Response $response, $args) {
     UserController::seDeconnecter();
     return $response;
 })->setName('logout');

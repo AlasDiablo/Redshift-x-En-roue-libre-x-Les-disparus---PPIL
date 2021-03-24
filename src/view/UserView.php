@@ -43,7 +43,7 @@ class UserView
         $app = AppContainer::getInstance();
         $template = file_get_contents('./html/seConnecter.html');
 
-        $urlPost = $app->getRouteCollector()->getRouteParser()->urlFor('sin-in_post');
+        $urlPost = $app->getRouteCollector()->getRouteParser()->urlFor('sign-in_post');
         $template = str_replace('${post_url}', $urlPost, $template);
 
         $urlForgotten = $app->getRouteCollector()->getRouteParser()->urlFor('password-forgotten');
