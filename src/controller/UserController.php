@@ -9,7 +9,7 @@ use ppil\util\AppContainer;
 use ppil\util\EmailFactory;
 use ppil\view\UserView;
 
-class UserController extends Controller
+class UserController
 {
     public function creerUtilisateur()
     {
@@ -64,7 +64,7 @@ class UserController extends Controller
             'activer_notif' => 'N',
         ]);
 
-        $_SESSION['mail'] = $mail;
+        $_SESSION['mail'] = $email;
 
         $url = AppContainer::getInstance()->getRouteCollector()->getRouteParser()->urlFor('root');
         header("Location: $url");

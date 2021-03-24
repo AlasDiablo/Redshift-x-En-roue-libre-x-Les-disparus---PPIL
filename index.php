@@ -14,13 +14,15 @@ require __DIR__ . '/vendor/autoload.php';
 $ini_file = parse_ini_file('src/conf/conf.ini');
 $db = new DB();
 $db->addConnection([
-    'driver'    => $ini_file['driver'],
-    'host'      => $ini_file['host'],
-    'port'      => $ini_file['port'],
-    'database'  => $ini_file['database'],
-    'username'  => $ini_file['username'],
-    'password'  => $ini_file['password']
+    'driver' => $ini_file['driver'],
+    'host' => $ini_file['host'],
+    'port' => $ini_file['port'],
+    'database' => $ini_file['database'],
+    'username' => $ini_file['username'],
+    'password' => $ini_file['password']
 ]);
+
+session_start();
 
 $db->setAsGlobal();
 $db->bootEloquent();
