@@ -17,7 +17,6 @@ class UserController
         $nom = filter_var($_POST['name'], FILTER_DEFAULT);
         $prenom = filter_var($_POST['firstName'], FILTER_DEFAULT);
         $tel = filter_var($_POST['phone'], FILTER_DEFAULT);
-        $mail = filter_var($_POST['mail'], FILTER_DEFAULT);
         $ancienmdp = filter_var($_POST['oldpassword'], FILTER_DEFAULT);
         $nouveaumdp = filter_var($_POST['newpassword'], FILTER_DEFAULT);
         $confnouvmdp = filter_var($_POST['confirmnewpassword'], FILTER_DEFAULT);
@@ -55,7 +54,7 @@ class UserController
         #Messages d'erreurs pour le mot de passe
 
             // si le mdp ne correspond pas alors on renvoie la page d'erreur
-        $bddMdp = Utilisateur::select('mdp')->where('email', '=', $mail)->first()->mdp;
+        $bddMdp = Utilisateur::select('mdp')->where('email', '=', $_SESSION['mail'])->first()->mdp;
         if (!password_verify($ancienmdp, $bddMdp)) {
             return UserView::erreurPost("Le mot de passe ne correspond pas à votre ancien mot de passe.");
         }
