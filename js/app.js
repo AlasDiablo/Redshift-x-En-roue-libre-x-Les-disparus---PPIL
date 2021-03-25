@@ -1,3 +1,7 @@
+/**
+ * Check if the name is containing between 2 and 25 letter
+ * @returns {boolean} true if check have pass, false in other case
+ */
 const checkName = () => {
     let nameForm = document.getElementById('name-form');
     let nameFormData = document.getElementById('nom');
@@ -11,6 +15,10 @@ const checkName = () => {
     }
 };
 
+/**
+ * Check if the firstname is containing between 2 and 25 letter
+ * @returns {boolean} true if check have pass, false in other case
+ */
 const checkFirstname = () => {
     let firstnameForm = document.getElementById('firstname-form');
     let firstnameFormData = document.getElementById('prenom');
@@ -24,6 +32,10 @@ const checkFirstname = () => {
     }
 };
 
+/**
+ * Check if the email is an valid email [user](.[user])@[domain].[top-level domain]
+ * @returns {boolean} true if check have pass, false in other case
+ */
 const checkEmail = () => {
     let emailForm = document.getElementById('email-form');
     let emailFormData = document.getElementById('email');
@@ -37,6 +49,10 @@ const checkEmail = () => {
     }
 };
 
+/**
+ * Check if the password are equals, and if is containing one upper case letter, lower case letter and a numeric value
+ * @returns {boolean} true if check have pass, false in other case
+ */
 const checkPassword = () => {
     let passwordForm = document.getElementById('password-form');
     let passwordConfirmForm = document.getElementById('password-confirm-form');
@@ -60,6 +76,10 @@ const checkPassword = () => {
     }
 };
 
+/**
+ * Check if the phone number are a valid french mobile phone number
+ * @returns {boolean} true if check have pass, false in other case
+ */
 const checkPhone = () => {
     let phoneForm = document.getElementById('phone-form');
     let phoneFormData = document.getElementById('tel');
@@ -73,6 +93,10 @@ const checkPhone = () => {
     }
 }
 
+/**
+ * Check and valid the user transaction
+ * @param event form button event
+ */
 const createAccount = (event) => {
     if (checkName() && checkFirstname() && checkEmail() && checkPassword() && checkPhone()) event.parentNode.submit();
 };
