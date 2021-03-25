@@ -10,7 +10,7 @@ install-build-tools:
 
 build:
 	babel ./js/app.js -o ./js/compiled.js
-	wget --post-data="input=`cat ./js/compiled.js`" --output-document=./js/app.min.js https://javascript-minifier.com/raw
+	php ./build.php
 	rm ./js/compiled.js
 
 
