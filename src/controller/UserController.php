@@ -8,7 +8,6 @@ use ppil\models\Utilisateur;
 use ppil\util\AppContainer;
 use ppil\util\EmailFactory;
 use ppil\view\UserView;
-use ppil\view\ViewRendering;
 
 class UserController
 {
@@ -56,8 +55,6 @@ class UserController
         $tel = filter_var($_POST['phone'], FILTER_DEFAULT);
         $sexe = filter_var($_POST['sex'], FILTER_DEFAULT);
         $a_voiture = filter_var($_POST['car'], FILTER_DEFAULT);
-
-        print_r($_POST);
 
         $matches = null;
         if (!isset($nom) || preg_match('/^[a-zA-Z]+$/', $nom, $matches, PREG_OFFSET_CAPTURE, 0) == false || strlen($nom) < 2 || strlen($nom) > 25) {
