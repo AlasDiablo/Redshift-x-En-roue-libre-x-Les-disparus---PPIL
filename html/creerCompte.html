@@ -1,34 +1,31 @@
 <h1>Inscription</h1>
 
 <form method="post" action="${post_url}">
-    <label for="nom">Nom</label><br/>
+    <label for="nom" id="name-form">Nom</label><br/>
     <input type="text" name="name" id="nom" required/><br/>
 
-    <label for="prenom">Prénom</label><br/>
+    <label for="prenom" id="firstname-form">Prénom</label><br/>
     <input type="text" name="firstName" id="prenom" required/><br/>
 
-    <label for="email">Adresse mail</label><br/>
+    <label for="email" id="email-form">Adresse mail</label><br/>
     <input type="email" name="mail" id="email" required/><br/>
 
-    <label for="mdp">Mot de passe</label><br/>
+    <label for="mdp" id="password-form">Mot de passe</label><br/>
     <input type="password" name="password" id="mdp" required/><br/>
 
-    <label for="confirmMdp">Confirmation du mot de passe</label><br/>
+    <label for="confirmMdp" id="password-confirm-form">Confirmation du mot de passe</label><br/>
     <input type="password" name="confirmpassword" id="confirmMdp" required/><br/>
 
-    <label for="tel">Numéro de téléphone</label><br/>
+    <label for="tel" id="phone-form">Numéro de téléphone</label><br/>
     <input type="tel" name="phone" id="tel" required/><br/>
 
-    <label>Sexe : </label>
+    <label id="sex-form">Sexe : </label>
     <input type="radio" name="sex" value="H" id="H" required/><label for="H">H</label>
     <input type="radio" name="sex" value="F" id="F"/><label for="F">F</label><br/>
 
-    <label>Je possède une voiture : </label>
+    <label id="car-form">Je possède une voiture : </label>
     <input type="radio" name="car" value="yes" id="yes" required/><label for="yes">Oui</label>
     <input type="radio" name="car" value="no" id="no"/><label for="no">Non</label><br/>
 
-    <button onclick="verifForm()">Je m'inscris</button>
-    <input type="submit" style="visibility: hidden" value="submit"/>
+    <button type="button" onclick="createAccount(this)">Je m'inscris</button>
 </form>
-
-<script src="../js/CreateAccount.js" defer></script>

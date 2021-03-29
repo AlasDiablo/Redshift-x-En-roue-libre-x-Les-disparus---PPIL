@@ -8,7 +8,6 @@ use ppil\models\Utilisateur;
 use ppil\util\AppContainer;
 use ppil\util\EmailFactory;
 use ppil\view\UserView;
-use ppil\view\ViewRendering;
 
 class UserController
 {
@@ -18,16 +17,97 @@ class UserController
         $nom = filter_var($_POST['name'], FILTER_DEFAULT);
         $prenom = filter_var($_POST['firstName'], FILTER_DEFAULT);
         $tel = filter_var($_POST['phone'], FILTER_DEFAULT);
+        $ancienmdp = filter_var($_POST['oldpassword'], FILTER_DEFAULT);
+        $nouveaumdp = filter_var($_POST['newpassword'], FILTER_DEFAULT);
+        $confnouvmdp = filter_var($_POST['confirmnewpassword'], FILTER_DEFAULT);
         $sexe = filter_var($_POST['sex'], FILTER_DEFAULT);
         $a_voiture = filter_var($_POST['car']);
-        if (!$nom || !$prenom || !$tel || !$a_voiture || !$sexe) {
-            return UserView::erreurPost("Donnée invalid");
+
+        $matches = null;
+
+        #Messages d'erreurs pour le nom
+        if (!isset($nom)){
+            return UserView::erreurPost("Vous n'avez pas mis votre nom.");
         }
+
+        if(preg_match('/^[a-zA-Z]+$/', $nom, $matches, PREG_OFFSET_CAPTURE, 0) == false){
+            return UserView::erreurPost("Votre nom ne peut pas comporter de chiffre.");
+        }
+
+        if(strlen($nom) < 2 || strlen($nom) > 25){
+            return UserView::erreurPost("Votre nom ne peut pas comporter aussi peut ou autant de lettre (entre 2 et 25).");
+        }
+
+        #Messages d'erreurs pour le prénom
+        if (!isset($prenom)) {
+            return UserView::erreurPost("Vous n'avez pas mis votre prénom.");
+        }
+
+        if(!preg_match('/^[a-zA-Z]+$/', $prenom, $matches, PREG_OFFSET_CAPTURE, 0)){
+            return UserView::erreurPost("Votre prénom ne peut pas comporter de chiffre.");
+        }
+
+        if(strlen($prenom) < 2 || strlen($prenom) > 25){
+            return UserView::erreurPost("Votre prénom ne peut pas comporter aussi peut ou autant de lettre (entre 2 et 25).");
+        }
+
+        #Messages d'erreurs pour le mot de passe
+
+            // si le mdp ne correspond pas alors on renvoie la page d'erreur
+        $bddMdp = Utilisateur::select('mdp')->where('email', '=', $_SESSION['mail'])->first()->mdp;
+        if (!password_verify($ancienmdp, $bddMdp)) {
+            return UserView::erreurPost("Le mot de passe ne correspond pas à votre ancien mot de passe.");
+        }
+
+        if(!preg_match('/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.{7,})/', $nouveaumdp, $matches, PREG_OFFSET_CAPTURE, 0)){
+            return UserView::erreurPost("Votre mot de passe doit comporter au moins 7 caractères dont au moins une majuscule, et un chiffre.");
+        }
+
+        if(($nouveaumdp != $confnouvmdp)){
+            return UserView::erreurPost("Le mot de passe de confirmation est différent du mot de passe.");
+        }
+
+        if(($nouveaumdp == $ancienmdp)){
+            return UserView::erreurPost("Le nouveau mot de passe doit être différent de l'ancien mot de passe.");
+        }
+
+        #Messages d'erreurs pour le téléphone
+        if (!isset($tel)) {
+            return UserView::erreurPost("Vous n'avez pas mis de numéro de téléphone.");
+        }
+
+        if(strlen($tel) != 10){
+            return UserView::erreurPost("Un numéro de téléphone contient 10 chiffres.");
+        }
+
+        if(!preg_match("#[0]([6]|[7])[- .?]?([0-9][0-9][- .?]?){4}$#", $tel)){
+            return UserView::erreurPost("Le numéro de téléphone doit commencer par 06 ou 07.");
+        }
+
+        #Message d'erreur pour le sexe
+        if (!isset($sexe)) {
+            return UserView::erreurPost("Vous n'avez pas indiqué votre sexe.");
+        }
+
+        #Message d'erreur pour le véhicule
+        if (!isset($a_voiture)) {
+            return UserView::erreurPost("Vous n'avez pas indiqué si vous aviez une voiture ou non.");
+        }
+
+        $oldMdpHash = password_hash($ancienmdp, PASSWORD_DEFAULT); //mdp 72 caracteres max (BCRYPT)
+        $newMdpHash = password_hash($nouveaumdp, PASSWORD_DEFAULT); //mdp 72 caracteres max (BCRYPT)
 
         $user = Utilisateur::where('email', '=', $_SESSION['mail'])->first();
         $user->nom = $nom;
         $user->prenom = $prenom;
         $user->tel = $tel;
+
+        if(strlen($nouveaumdp) == 0){
+            $user->mdp = $oldMdpHash;
+        }else{
+            $user->mdp = $newMdpHash;
+        }
+
         $user->a_voiture = $a_voiture == 'yes' ? 'O' : 'N';
         $user->sexe = $sexe;
         $user->save();
@@ -57,35 +137,81 @@ class UserController
         $sexe = filter_var($_POST['sex'], FILTER_DEFAULT);
         $a_voiture = filter_var($_POST['car'], FILTER_DEFAULT);
 
-        print_r($_POST);
-
         $matches = null;
-        if (!isset($nom) || preg_match('/^[a-zA-Z]+$/', $nom, $matches, PREG_OFFSET_CAPTURE, 0) == false || strlen($nom) < 2 || strlen($nom) > 25) {
-            return UserView::erreurPost("Nom invalid");
+
+        #Messages d'erreurs pour le nom
+        if (!isset($nom)){
+            return UserView::erreurPost("Vous n'avez pas mis votre nom.");
         }
 
-        if (!isset($prenom) || !preg_match('/^[a-zA-Z]+$/', $prenom, $matches, PREG_OFFSET_CAPTURE, 0) || strlen($prenom) < 2 || strlen($prenom) > 25) {
-            return UserView::erreurPost("Prenom invalid");
+        if(preg_match('/^[a-zA-Z]+$/', $nom, $matches, PREG_OFFSET_CAPTURE, 0) == false){
+            return UserView::erreurPost("Votre nom ne peut pas comporter de chiffre.");
         }
 
-        if (!isset($email) || !filter_var($email, FILTER_VALIDATE_EMAIL)) {
-            return UserView::erreurPost("Email invalid");
+        if(strlen($nom) < 2 || strlen($nom) > 25){
+            return UserView::erreurPost("Votre nom ne peut pas comporter aussi peut ou autant de lettre (entre 2 et 25).");
         }
 
-        if (!isset($mdp) || !isset($mdpconf) || ($mdp != $mdpconf) || strlen($mdp) < 7 || strlen($mdpconf) < 7) {
-            return UserView::erreurPost("Mot de passe invalid");
+        #Messages d'erreurs pour le prénom
+        if (!isset($prenom)) {
+            return UserView::erreurPost("Vous n'avez pas mis votre prénom.");
         }
 
-        if (!isset($tel) || strlen($tel) != 10 || !preg_match("#[0][6][- \.?]?([0-9][0-9][- \.?]?){4}$#", $tel)) {
-            return UserView::erreurPost("Tel invalid");
+        if(!preg_match('/^[a-zA-Z]+$/', $prenom, $matches, PREG_OFFSET_CAPTURE, 0)){
+            return UserView::erreurPost("Votre prénom ne peut pas comporter de chiffre.");
         }
 
+        if(strlen($prenom) < 2 || strlen($prenom) > 25){
+            return UserView::erreurPost("Votre prénom ne peut pas comporter aussi peut ou autant de lettre (entre 2 et 25).");
+        }
+
+        #Messages d'erreurs pour l'adresse éléctronique
+        if (!isset($email)){
+            return UserView::erreurPost("Vous n'avez pas mis d'email.");
+        }
+
+        if(!filter_var($email, FILTER_VALIDATE_EMAIL)){
+            return UserView::erreurPost("L'email que vous avez noté n'est pas valable (ex: abc@coucou.fr).");
+        }
+
+        #Messages d'erreurs pour le mot de passe
+        if (!isset($mdp)){
+            return UserView::erreurPost("Vous n'avez pas mis de mot de passe");
+        }
+
+        if(!isset($mdpconf)){
+            return UserView::erreurPost("Vous n'avez pas mis de mot de passe de confirmation");
+        }
+
+        if(!preg_match("#^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.{7,})#", $mdp, $matches, PREG_OFFSET_CAPTURE, 0)){
+            return UserView::erreurPost("Votre mot de passe doit comporter au moins 7 caractères dont au moins une majuscule, et un chiffre.");
+        }
+
+        if(($mdp != $mdpconf)){
+            return UserView::erreurPost("Le mot de passe de confirmation est différent du mot de passe.");
+        }
+
+        #Messages d'erreurs pour le téléphone
+        if (!isset($tel)) {
+            return UserView::erreurPost("Vous n'avez pas mis de numéro de téléphone.");
+        }
+
+        if(strlen($tel) != 10){
+            return UserView::erreurPost("Un numéro de téléphone contient 10 chiffres.");
+        }
+
+        if(!preg_match("#[0]([6]|[7])[- .?]?([0-9][0-9][- .?]?){4}$#", $tel)){
+            return UserView::erreurPost("Le numéro de téléphone doit commencer par \"06\" ou \"07\".");
+        }
+
+        #Message d'erreur pour le sexe
         if (!isset($sexe)) {
-            return UserView::erreurPost("Sexe invalid");
+            return UserView::erreurPost("Vous n'avez pas indiqué votre sexe.");
         }
 
+        #Message d'erreur pour le véhicule
         if (!isset($a_voiture)) {
-            return UserView::erreurPost("Voiture invalid");
+            return UserView::erreurPost("Vous n'avez pas indiqué si vous aviez une voiture ou non.");
         }
 
         $mdpHash = password_hash($mdp, PASSWORD_DEFAULT); //mdp 72 caracteres max (BCRYPT)

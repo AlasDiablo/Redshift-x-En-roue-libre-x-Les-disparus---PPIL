@@ -1,16 +1,25 @@
 ﻿<h1>Modifier mon profil</h1>
 
 <form method="post" action="${post_url}">
-    <label for="nom">Nom</label><br/>
+    <label for="nom" id="name-form">Nom</label><br/>
     <input type="text" name="name" id="nom" value="${name}"/><br/>
 
-    <label for="prenom">Prénom</label><br/>
+    <label for="prenom" id="firstname-form">Prénom</label><br/>
     <input type="text" name="firstName" id="prenom" value="${firstName}"/><br/>
 
     <label for="email">Adresse mail</label><br/>
-    <input type="email" name="mail" id="email" value="${mail}"/><br/>
+    <input type="email" name="mail" id="email" value="${mail}" disabled/><br/>
 
-    <label for="tel">Numéro de téléphone</label><br/>
+    <label for="oldmdp">Ancien mot de passe</label><br/>
+    <input type="password" name="oldpassword" id="oldmdp"/><br/>
+
+    <label for="mdp" id="password-form">Nouveau mot de passe</label><br/>
+    <input type="password" name="newpassword" id="mdp"/><br/>
+
+    <label for="confirmMdp" id="password-confirm-form">Confirmation du nouveau mot de passe</label><br/>
+    <input type="password" name="confirmnewpassword" id="confirmMdp"/><br/>
+
+    <label for="tel" id="phone-form">Numéro de téléphone</label><br/>
     <input type="tel" name="phone" id="tel" value="${tel}"/><br/>
 
     <label>Sexe : </label>
@@ -22,8 +31,5 @@
     <input type="radio" name="car" value="no" id="no" ${no}/><label for="no">Non</label><br/>
 
     <input type="button" value="Annuler"/>
-    <button onclick="verifForm()">Valider</button>
-    <input type="submit" style="visibility:hidden;" value="Valider"/>
+    <button onclick="editAccount(this)">Valider</button>
 </form>
-
-<script src="../js/modifProfil.js" defer></script>
