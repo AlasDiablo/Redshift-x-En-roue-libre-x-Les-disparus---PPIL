@@ -100,3 +100,11 @@ const checkPhone = () => {
 const createAccount = (event) => {
     if (checkName() && checkFirstname() && checkEmail() && checkPassword() && checkPhone()) event.parentNode.submit();
 };
+
+const editAccount = (event) => {
+    if (checkName() && checkFirstname() && checkPassword() && checkPhone()) event.parentNode.submit();
+};
+
+const changePassword = (event) => {
+    if (checkPassword()) event.parentNode.submit();
+};
