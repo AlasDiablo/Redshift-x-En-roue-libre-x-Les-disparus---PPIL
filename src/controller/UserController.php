@@ -59,17 +59,21 @@ class UserController
             return UserView::erreurPost("Le mot de passe ne correspond pas à votre ancien mot de passe.");
         }
 
-        if(!preg_match('/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.{7,})/', $nouveaumdp, $matches, PREG_OFFSET_CAPTURE, 0)){
-            return UserView::erreurPost("Votre mot de passe doit comporter au moins 7 caractères dont au moins une majuscule, et un chiffre.");
+        if (isset($nouveaumdp)) {
+            if(!preg_match('/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.{7,})/', $nouveaumdp, $matches, PREG_OFFSET_CAPTURE, 0)){
+                return UserView::erreurPost("Votre mot de passe doit comporter au moins 7 caractères dont au moins une majuscule, et un chiffre.");
+            }
+
+            if(($nouveaumdp != $confnouvmdp)){
+                return UserView::erreurPost("Le mot de passe de confirmation est différent du mot de passe.");
+            }
+
+            if(($nouveaumdp == $ancienmdp)){
+                return UserView::erreurPost("Le nouveau mot de passe doit être différent de l'ancien mot de passe.");
+            }
         }
 
-        if(($nouveaumdp != $confnouvmdp)){
-            return UserView::erreurPost("Le mot de passe de confirmation est différent du mot de passe.");
-        }
 
-        if(($nouveaumdp == $ancienmdp)){
-            return UserView::erreurPost("Le nouveau mot de passe doit être différent de l'ancien mot de passe.");
-        }
 
         #Messages d'erreurs pour le téléphone
         if (!isset($tel)) {
@@ -94,17 +98,13 @@ class UserController
             return UserView::erreurPost("Vous n'avez pas indiqué si vous aviez une voiture ou non.");
         }
 
-        $oldMdpHash = password_hash($ancienmdp, PASSWORD_DEFAULT); //mdp 72 caracteres max (BCRYPT)
-        $newMdpHash = password_hash($nouveaumdp, PASSWORD_DEFAULT); //mdp 72 caracteres max (BCRYPT)
-
         $user = Utilisateur::where('email', '=', $_SESSION['mail'])->first();
         $user->nom = $nom;
         $user->prenom = $prenom;
         $user->tel = $tel;
 
-        if(strlen($nouveaumdp) == 0){
-            $user->mdp = $oldMdpHash;
-        }else{
+        if (isset($nouveaumdp)) {
+            $newMdpHash = password_hash($nouveaumdp, PASSWORD_DEFAULT); //mdp 72 caracteres max (BCRYPT)
             $user->mdp = $newMdpHash;
         }
 
@@ -212,6 +212,10 @@ class UserController
         #Message d'erreur pour le véhicule
         if (!isset($a_voiture)) {
             return UserView::erreurPost("Vous n'avez pas indiqué si vous aviez une voiture ou non.");
+        }
+
+        if (isset(Utilisateur::where('email', '=', $email)->first()->email)) {
+            return UserView::erreurPost("Un compte avec cette email exsite déjà.");
         }
 
         $mdpHash = password_hash($mdp, PASSWORD_DEFAULT); //mdp 72 caracteres max (BCRYPT)
