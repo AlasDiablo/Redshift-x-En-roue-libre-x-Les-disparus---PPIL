@@ -59,7 +59,7 @@ class UserController
             return UserView::erreurPost("Le mot de passe ne correspond pas à votre ancien mot de passe.");
         }
 
-        if (isset($nouveaumdp)) {
+        if (isset($nouveaumdp)) if ($nouveaumdp != "") {
             if(!preg_match('/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.{7,})/', $nouveaumdp, $matches, PREG_OFFSET_CAPTURE, 0)){
                 return UserView::erreurPost("Votre mot de passe doit comporter au moins 7 caractères dont au moins une majuscule, et un chiffre.");
             }
@@ -103,7 +103,7 @@ class UserController
         $user->prenom = $prenom;
         $user->tel = $tel;
 
-        if (isset($nouveaumdp)) {
+        if (isset($nouveaumdp)) if ($nouveaumdp != "") {
             $newMdpHash = password_hash($nouveaumdp, PASSWORD_DEFAULT); //mdp 72 caracteres max (BCRYPT)
             $user->mdp = $newMdpHash;
         }
