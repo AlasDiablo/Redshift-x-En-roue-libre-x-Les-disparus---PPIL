@@ -111,9 +111,9 @@ const editAccount = (event) => {
     let boolFirstname = checkFirstname();
     let boolPassword;
     if (document.getElementById('mdp').value === '' && document.getElementById('confirmMdp').value === '')
-        boolPassword = checkPassword();
-    else
         boolPassword = true;
+    else
+        boolPassword = checkPassword();
     let boolPhone = checkPhone();
     if (boolName && boolFirstname && boolPassword && boolPhone) event.parentNode.submit();
 };
