@@ -98,11 +98,24 @@ const checkPhone = () => {
  * @param event form button event
  */
 const createAccount = (event) => {
-    if (checkName() && checkFirstname() && checkEmail() && checkPassword() && checkPhone()) event.parentNode.submit();
+    let boolName = checkName();
+    let boolFirstname = checkFirstname();
+    let boolEmail = checkEmail();
+    let boolPassword = checkPassword();
+    let boolPhone = checkPhone();
+    if (boolName && boolFirstname && boolEmail && boolPassword && boolPhone) event.parentNode.submit();
 };
 
 const editAccount = (event) => {
-    if (checkName() && checkFirstname() && checkPassword() && checkPhone()) event.parentNode.submit();
+    let boolName = checkName();
+    let boolFirstname = checkFirstname();
+    let boolPassword;
+    if (document.getElementById('mdp').value === '' && document.getElementById('confirmMdp').value === '')
+        boolPassword = checkPassword();
+    else
+        boolPassword = true;
+    let boolPhone = checkPhone();
+    if (boolName && boolFirstname && boolPassword && boolPhone) event.parentNode.submit();
 };
 
 const changePassword = (event) => {
