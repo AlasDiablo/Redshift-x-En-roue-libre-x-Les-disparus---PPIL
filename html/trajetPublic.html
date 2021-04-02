@@ -1,0 +1,31 @@
+<button>Créer une offre de trajet</button>
+<input type="submit" value="creerUneOffre" style="visibility: hidden" />
+
+<section>
+    <p>Rechercher des offres de trajets : </p>
+    <form method="POST" action="">
+        <label for="depart">Départ</label>
+        <input type="text" name="depart" id="depart" />
+
+        <label for="arrivee">Arrivées :</label>
+        <input type="text" name="arrive" id="arrive" />
+
+        <label for="date">Date :</label>
+        <input type="date" name="date" id="date" />
+
+        <label for="tri">Trier par : </label>
+        <select name="tri" id="tri">
+            <option value="">--selectionnez une option--</option>
+            <option value="prix">Prix</option>
+            <option value="dateDepart">Date de départ</option>
+            <option value="dateArrivee">Date d'arrivée</option>
+        </select>
+
+        <button>Rechercher</button>
+        <input type="submit" value="searchTrajets" style="visibility: hidden" />
+    </form>
+</section>
+
+<section>
+    <!--Liste des trajets publiques-->
+</section>
