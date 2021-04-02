@@ -1,0 +1,36 @@
+<h1>Proposer un trajet</h1>
+
+<form method="post" action="${post_url}">
+    <label for="depart">Départ:</label>
+    <input type="text" name="departure" id="depart" required />
+
+    <label for="arrivee">Arrivée:</label>
+    <input type="text" name="arrival" id="arrivee" required />
+
+    <label for="date">Date:</label>
+    <input type="date" name="date" id="date" required /><br />
+
+    <label for="passagers">Nombre de passagers max:</label>
+    <input type="number" name="passengers" id="passagers" required /><br />
+
+    <label for="heure">Heure de départ:</label>
+    <input type="time" name="hour" id="heure" required /><br />
+
+    <label for="prix">Prix de la place:</label>
+    <input type="number" name="price" id="prix" required />€<br />
+
+    <label for="etapes">Etapes intermédiaires (optionnel):</label><br />
+    <input type="text" name="stages" id="etapes" />
+    <input type="button" value="Ajouter une étape" /><br />
+
+    <label for="lieu">Lieu de rendez-vous:</label>
+    <input type="text" name="place" id="lieu" required />
+
+    <label for="commentaires">Commentaires/Contraintes:</label>
+    <input type="text" name="comments" id="commentaires" required /><br />
+
+    <button onclick="verifForm()">Valider</button>
+    <input type="submit" style="visibility: hidden" value="submit" />
+</form>
+
+<script src="../js/creerTrajet.js" defer></script>
