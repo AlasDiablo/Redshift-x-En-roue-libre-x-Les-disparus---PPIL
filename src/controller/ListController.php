@@ -4,6 +4,7 @@ namespace ppil\controller;
 
 use DateTime;
 use ppil\models\Trajet;
+use ppil\models\VillesFrance;
 
 class ListController
 {
@@ -16,11 +17,11 @@ class ListController
         $ordre = filter_var($_POST['ordre'], FILTER_DEFAULT);
 
         // faire les verifs
-        $value = VilleFrance::where('ville_nom', '=', $villeDepart)->first();
+        $value = VillesFrance::where('ville_nom', '=', $villeDepart)->first();
         if (!isset($value)) {
             return ListView::erreurPost();
         }
-        $value = VilleFrance::where('ville_nom', '=', $villeArrive)->first();
+        $value = VillesFrance::where('ville_nom', '=', $villeArrive)->first();
         if (!isset($value)) {
             return ListView::erreurPost();
         }
