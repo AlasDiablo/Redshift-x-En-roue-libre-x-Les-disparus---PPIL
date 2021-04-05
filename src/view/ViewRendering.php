@@ -2,6 +2,7 @@
 
 namespace ppil\view;
 
+use ppil\models\Utilisateur;
 use ppil\util\AppContainer;
 
 class ViewRendering
@@ -19,8 +20,25 @@ class ViewRendering
         <li><a href="#">Trajet public</a></li>
         <li><a href="#">Trajet privé</a></li>
         <li><a href="$urlLogout">Se déconnecter</a></li>
-        <li><a href="$urlProfile">Mon profil</a></li>
+        
 html;
+        $user = Utilisateur::where('email', '=', $_SESSION['mail'])->first();
+        if (isset($user->url_img)) {
+            $url_img = $user->url_img;
+            $connected .= <<<html
+<li><a href="$urlProfile">
+    <img src="$url_img" alt="My Avatar" width="64px" height="64px">
+</a></li>
+html;
+        } else {
+            $connected .= <<<html
+<li><a href="$urlProfile">
+    <img src="/uploads/default" alt="My Avatar" width="64px" height="64px">
+</a></li>
+html;
+        }
+
+
         $notConnected = <<<html
         <li><a href="$urlRoot">ShareMyRide</a></li>
         <li><a href="$urlSignIn">Me connecter</a></li>

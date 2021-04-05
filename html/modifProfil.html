@@ -1,5 +1,7 @@
 ﻿<h1>Modifier mon profil</h1>
 
+<img src="${my_avatar}" alt="My Avatar">
+
 <form method="post" action="${post_url}" enctype="multipart/form-data">
     <label for="nom" id="name-form">Nom</label><br/>
     <input type="text" name="name" id="nom" value="${name}"/><br/>
@@ -30,8 +32,8 @@
     <input type="radio" name="car" value="yes" id="yes" ${yes}/><label for="yes">Oui</label>
     <input type="radio" name="car" value="no" id="no" ${no}/><label for="no">Non</label><br/>
 
-    <label for="avatar">Mettre à jour mon Avatar</label>
-    <input type="file" name="avatar" id="avatar">
+    <label for="avatar">Ajour un Avatar : </label>
+    <input type="file" name="avatar" id="avatar"><br/>
 
     <input type="button" value="Annuler"/>
     <button type="button" onclick="editAccount(this)">Valider</button>

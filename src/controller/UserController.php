@@ -133,7 +133,7 @@ class UserController
         }
 
         if ($image != 'no_image') {
-            $user->url_image = 'uploads' . $image;
+            $user->url_img = '/uploads/' . $image;
         }
 
         $user->a_voiture = $a_voiture == 'yes' ? 'O' : 'N';
@@ -148,8 +148,7 @@ class UserController
 
     public static function modifierProfilVue(): string
     {
-        $data = Utilisateur::select('email', 'nom', 'prenom', 'tel', 'sexe', 'a_voiture')->where('email', '=', $_SESSION['mail'])->first();
-
+        $data = Utilisateur::where('email', '=', $_SESSION['mail'])->first();
         return UserView::modifierProfil($data);
     }
 
@@ -164,6 +163,11 @@ class UserController
         $tel = filter_var($_POST['phone'], FILTER_DEFAULT);
         $sexe = filter_var($_POST['sex'], FILTER_DEFAULT);
         $a_voiture = filter_var($_POST['car'], FILTER_DEFAULT);
+        $image = self::checkUserAvatar();
+
+        if ($image == null) {
+            return UserView::erreurPost("Votre avatar doit etre une image et avoir un taille de 400px par 400px et faire un maximium de 20 Mo.");
+        }
 
         $matches = null;
 
@@ -258,6 +262,7 @@ class UserController
         $user->a_voiture = $a_voiture == 'yes' ? 'O' : 'N';
         $user->note = 5;
         $user->activer_notif = 'O';
+        if ($image != 'no_image') $user->url_img = '/uploads/' . $image;
         $user->save();
 
         $_SESSION['mail'] = $email;

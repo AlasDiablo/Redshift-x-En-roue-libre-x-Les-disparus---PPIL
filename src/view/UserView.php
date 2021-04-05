@@ -61,6 +61,10 @@ class UserView
         $app = AppContainer::getInstance();
         $template = file_get_contents('./html/modifProfil.html');
 
+        // Image
+        if (isset($data->url_img)) $template = str_replace('${my_avatar}', $data->url_img, $template);
+        else$template = str_replace('${my_avatar}', '/uploads/default', $template);
+
         // Set url
         $urlPost = $app->getRouteCollector()->getRouteParser()->urlFor('edit-profile_post');
         $template = str_replace('${post_url}', $urlPost, $template);

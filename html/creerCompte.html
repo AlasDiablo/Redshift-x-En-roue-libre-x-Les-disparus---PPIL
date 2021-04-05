@@ -1,6 +1,6 @@
 <h1>Inscription</h1>
 
-<form method="post" action="${post_url}">
+<form method="post" action="${post_url}" enctype="multipart/form-data">
     <label for="nom" id="name-form">Nom</label><br/>
     <input type="text" name="name" id="nom" required/><br/>
 
@@ -26,6 +26,9 @@
     <label id="car-form">Je possède une voiture : </label>
     <input type="radio" name="car" value="yes" id="yes" required/><label for="yes">Oui</label>
     <input type="radio" name="car" value="no" id="no"/><label for="no">Non</label><br/>
+
+    <label for="avatar">Ajour un Avatar : </label>
+    <input type="file" name="avatar" id="avatar"><br/>
 
     <button type="button" onclick="createAccount(this)">Je m'inscris</button>
 </form>
