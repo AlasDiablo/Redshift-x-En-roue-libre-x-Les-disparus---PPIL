@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Trajet extends Model
 {
-    protected $table = 'trajet';
+    protected $table = 'Trajet';
     protected $primaryKey = 'id_trajet';
     public $incrementing = true;
     public $timestamps = false;
