@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Passager extends Model
 {
-    protected $table = 'passager';
+    protected $table = 'Passager';
     public $incrementing = false;
     public $timestamps = false;
 }
