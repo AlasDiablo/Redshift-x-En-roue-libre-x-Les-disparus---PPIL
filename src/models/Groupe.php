@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Groupe extends Model
 {
-    protected $table = 'groupe';
+    protected $table = 'Groupe';
     protected $primaryKey = 'id_groupe';
     public $incrementing = true;
     public $timestamps = false;
