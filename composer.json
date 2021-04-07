@@ -1,14 +1,21 @@
 {
   "require": {
+    "illuminate/database": "v8.33.1",
     "slim/slim": "4.7.1",
-    "php": ">=7.0",
-    "slim/psr7": "^1.2",
-    "ext-json": "*"
+    "php": ">=7.1",
+    "slim/psr7": "1.3.0",
+    "ext-json": "*",
+    "phpmailer/phpmailer": "v6.3.0",
+    "ext-curl": "*"
   },
-
   "autoload": {
     "psr-4": {
       "ppil\\": "./src"
     }
-  }
+  },
+  "require-dev": {
+    "phpunit/phpunit": "9.5.3"
+  },
+  "name": "ppil/share-my-ride",
+  "description": ""
 }

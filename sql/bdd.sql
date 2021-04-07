@@ -12,7 +12,7 @@ CREATE TABLE IF NOT EXISTS `Utilisateur` (
     `mdp` varchar(255) NOT NULL,
     `nom` varchar(25) NOT NULL,
     `prenom` varchar(25) NOT NULL,
-    `tel` integer NOT NULL,
+    `tel` varchar(10) NOT NULL,
     `sexe` varchar(1) NOT NULL,
     `a_voiture` varchar(1) NOT NULL,
     `url_img` varchar(255) DEFAULT NULL,
@@ -88,3 +88,78 @@ CREATE TABLE IF NOT EXISTS `Passager` (
     CONSTRAINT fk_id_trajet_passager FOREIGN KEY (`id_trajet`) REFERENCES `Trajet`(`id_trajet`) ON DELETE CASCADE,
     CONSTRAINT check_reponse_passager CHECK (`reponse` IN ('O','N'))
 );
+
+CREATE TABLE IF NOT EXISTS forgotten_password
+(
+    email     VARCHAR(255) NOT NULL,
+    reset_key VARCHAR(255) NOT NULL,
+    PRIMARY KEY (email, reset_key),
+    CONSTRAINT fk_mail_rest FOREIGN KEY (email) REFERENCES Utilisateur (email)
+);
+
+DELIMITER |
+CREATE OR REPLACE TRIGGER check_date
+    BEFORE INSERT ON `Trajet` FOR EACH ROW
+    BEGIN
+        IF (NEW.`date`<CURRENT_DATE) THEN
+            SIGNAL SQLSTATE '20300' SET MESSAGE_TEXT = 'Date rentree ulterieur a date actuelle.';
+        END IF;
+    END;
+    |
+
+DELIMITER |
+CREATE OR REPLACE PROCEDURE `insert_groupe` (IN i INT, IN u VARCHAR(25), IN e VARCHAR(255), IN n VARCHAR(255))  BEGIN
+
+INSERT INTO `Groupe` (`id_groupe`, `nom`, `email_createur`, `url_img`) VALUES (i,u,e,n);
+
+END;
+|
+
+DELIMITER |
+CREATE OR REPLACE PROCEDURE `insert_vi` (IN id INT, IN u VARCHAR(255))  BEGIN
+
+INSERT INTO `Ville_intermediaire`(`id_trajet`, `ville`) VALUES (id, u);
+
+END;
+|
+
+DELIMITER |
+CREATE OR REPLACE PROCEDURE `insert_notif` (IN id INT, IN u VARCHAR(255), IN e VARCHAR(255), IN m VARCHAR(255), IN v VARCHAR(1))  BEGIN
+
+INSERT INTO `Notification`(`id_notif`, `utilisateur`, `emeteur`, `message`, `vu`) VALUES (id, u, e, m, v);
+
+END;
+|
+
+DELIMITER |
+CREATE OR REPLACE PROCEDURE `insert_passager` (IN `u` VARCHAR(255), IN `id` INT, IN `v` VARCHAR(1))  BEGIN
+
+INSERT INTO `Passager`(`email_passager`, `id_trajet`,`reponse`) VALUES (u, id, v);
+
+END;
+|
+
+DELIMITER |
+CREATE OR REPLACE PROCEDURE `insert_trajet` (IN `id` INT, IN `d` DATE, IN `e` VARCHAR(255), IN `m` VARCHAR(255), IN `hd` TIME, IN `ed` VARCHAR(255), IN `v` INT, IN `g` INT, IN `p` INT)  BEGIN
+
+INSERT INTO `Trajet`(`id_trajet`, `date`, `ville_depart`, `ville_arrivee`, `heure_depart`, `email_conducteur`, `nbr_passager`, `id_groupe`, `prix`) VALUES (id, d, e, m, hd, ed, v, g, p);
+
+END;
+|
+
+DELIMITER |
+CREATE OR REPLACE PROCEDURE `insert_user` (IN `e` VARCHAR(255), IN `m` VARCHAR(255), IN `n` VARCHAR(25), IN `p` VARCHAR(25), IN `t` VARCHAR(10), IN `s` VARCHAR(1), IN `v` VARCHAR(1), IN `i` VARCHAR(255), IN `no` DECIMAL(2,1), IN `notif` VARCHAR(1))  BEGIN
+
+INSERT INTO `Utilisateur` (`email`, `mdp`, `nom`, `prenom`, `tel`, `sexe`, `a_voiture`, `url_img`, `note`, `activer_notif`) VALUES (e, m, n, p, t, s, v, i, no, notif);
+
+END;
+|
+
+DELIMITER |
+CREATE OR REPLACE PROCEDURE insert_membre(IN u VARCHAR(255), IN i INT, IN v VARCHAR(1))
+BEGIN
+
+INSERT INTO `Membre`(`email_membre`, `id_groupe`, `reponse`) VALUES (u,i,v);
+
+END;
+|

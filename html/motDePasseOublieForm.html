@@ -1,0 +1,11 @@
+<h1>Changement de mot de passe</h1>
+
+<form method="post" action="${post_url}">
+    <label for="mdp" id="password-form">Mot de passe</label><br/>
+    <input type="password" name="password" id="mdp" required/><br/>
+
+    <label for="confirmMdp" id="password-confirm-form">Confirmation du mot de passe</label><br/>
+    <input type="password" name="confirmpassword" id="confirmMdp" required/><br/>
+
+    <button onclick="changePassword(this)">Envoyer</button>
+</form>
