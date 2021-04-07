@@ -63,7 +63,7 @@ class UserView
 
         // Image
         if (isset($data->url_img)) $template = str_replace('${my_avatar}', $data->url_img, $template);
-        else$template = str_replace('${my_avatar}', '/uploads/default', $template);
+        else $template = str_replace('${my_avatar}', '/uploads/default', $template);
 
         // Set url
         $urlPost = $app->getRouteCollector()->getRouteParser()->urlFor('edit-profile_post');

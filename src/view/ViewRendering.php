@@ -22,8 +22,8 @@ class ViewRendering
         <li><a href="$urlLogout">Se déconnecter</a></li>
         
 html;
-        $user = Utilisateur::where('email', '=', $_SESSION['mail'])->first();
-        if (isset($user->url_img)) {
+        if (isset($_SESSION['mail'])) {
+            $user = Utilisateur::where('email', '=', $_SESSION['mail'])->first();
             $url_img = $user->url_img;
             $connected .= <<<html
 <li><a href="$urlProfile">
