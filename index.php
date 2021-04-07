@@ -106,5 +106,17 @@ $app->post('/accounts/edit-profile', function (Request $request, Response $respo
     return $response;
 })->setName('edit-profile_post');
 
+// --------------------- Creation d'un trajet ---------------------
+// Get (obtenir la page web)
+$app->get('/trajet/create-trajet', function (Request $request, Response $response, $args) {
+    $response->getBody()->write(TrajetView::creerTrajet());
+    return $response;
+})->setName('create-trajet');
+// Post géré les donnée entré par l'utilisateur
+$app->post('/trajet/create-trajet', function (Request $request, Response $response, $args) {
+    $response->getBody()->write(TrajetController::creerTrajet());
+    return $response;
+})->setName('create-trajet_post');
+
 // Demarais l'appliquation web
 $app->run();
