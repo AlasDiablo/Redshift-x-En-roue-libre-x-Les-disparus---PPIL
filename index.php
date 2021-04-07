@@ -4,6 +4,8 @@ use ppil\controller\UserController;
 use ppil\util\AppContainer;
 use ppil\view\UserView;
 use ppil\view\IndexView;
+use ppil\view\TrajetView;
+use ppil\controller\TrajetController;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use \Illuminate\Database\Capsule\Manager as DB;

@@ -5,6 +5,7 @@ namespace ppil\view;
 
 
 use ppil\util\AppContainer;
+use ppil\controller\TrajetController;
 
 class TrajetView
 {
