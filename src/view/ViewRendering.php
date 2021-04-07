@@ -27,7 +27,7 @@ class ViewRendering
 html;
         if (isset($_SESSION['mail'])) {
             $user = Utilisateur::where('email', '=', $_SESSION['mail'])->first();
-            $url_img = $user->url_img;
+            $url_img = isset($user->url_img) ? $user->url_img : '/uploads/default';
             $connected .= <<<html
 <li><a href="$urlProfile">
     <img src="$url_img" alt="My Avatar" width="64px" height="64px">
