@@ -1,13 +1,12 @@
 <?php
 
 use ppil\controller\ListController;
+use ppil\controller\RideController;
 use ppil\controller\UserController;
 use ppil\util\AppContainer;
 use ppil\view\RideView;
 use ppil\view\UserView;
 use ppil\view\IndexView;
-use ppil\view\TrajetView;
-use ppil\controller\TrajetController;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use \Illuminate\Database\Capsule\Manager as DB;
@@ -117,14 +116,14 @@ $app->get('/ride/create', function (Request $request, Response $response, $args)
 })->setName('create-ride');
 
 $app->post('/ride/create', function (Request $request, Response $response, $args) {
-    $response->getBody()->write('OwO');
+    RideController::creerTrajet();
     return $response;
 })->setName('create-ride_post');
 
 // --------------------- Consulter mes trajets ---------------------
 // 
 $app->get('/accounts/myrides', function (Request $request, Response $response, $args) {
-    $response->getBody()->write(RideController::mesTrajets());
+    $response->getBody()->write(ListController::mesTrajets());
     return $response;
 })->setName('myrides');
 
@@ -134,6 +133,14 @@ $app->get('/ride/public', function (Request $request, Response $response, $args)
     $response->getBody()->write(ListController::listPublic());
     return $response;
 })->setName('public-ride');
+
+
+// --------------------- Consulter les trajets public ---------------------
+//
+$app->get('/ride/{id}', function (Request $request, Response $response, $args) {
+    $response->getBody()->write(RideController::displayRide($args['id']));
+    return $response;
+})->setName('ride');
 
 // Demarais l'appliquation web
 $app->run();

@@ -81,9 +81,4 @@ class UserView
 
         return ViewRendering::render($template, 'Mofifier mon profil');
     }
-
-    public static function erreurPost(string $erreur = 'Undefined error')
-    {
-        return ViewRendering::render('Erreur - ' . $erreur, 'Erreur');
-    }
 }

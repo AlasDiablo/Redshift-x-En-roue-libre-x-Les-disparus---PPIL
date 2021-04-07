@@ -25,6 +25,8 @@ class RideView
 
         $template = str_replace('${prix}', $data['prix'], $template);
 
+        $template = str_replace('${date}', $data['date'], $template);
+
         $template = str_replace('${lieuxRDV}', $data['lieuxRDV'], $template);
 
         $template = str_replace('${commentaires}', $data['commentaires'], $template);
@@ -63,6 +65,7 @@ class RideView
 
     public static function renderMinRide($rides) 
     {
+        $app = AppContainer::getInstance();
         $out = "<ul>";
         foreach ($rides as $ride) {
             $template = file_get_contents('./html/caseTrajet.html');
@@ -72,6 +75,8 @@ class RideView
 
             $template = str_replace('${nbr_passager}', $ride->nbr_passager, $template);
 
+            $template = str_replace('${details}', $app->getRouteCollector()->getRouteParser()->urlFor('ride', array('id' => $ride->id_trajet)), $template);
+
             $template = str_replace('${date}', $ride->date, $template);
             $out .= $template;
         }
@@ -79,15 +84,17 @@ class RideView
         return $out;
     }
 
-    public static function renderRideList($data)
+    public static function renderRideList($data, $page_title, $title)
     {
         $app = AppContainer::getInstance();
         $template = file_get_contents('./html/trajetListe.html');
 
         $template = str_replace('${list_trajet}', self::renderMinRide($data), $template);
 
+        $template = str_replace('${title}', $title, $template);
+
         $template = str_replace('${create_ride}', $app->getRouteCollector()->getRouteParser()->urlFor('create-ride'), $template);
 
-        return ViewRendering::render($template, 'Liste des trajet public');
+        return ViewRendering::render($template, $page_title);
     }
 }

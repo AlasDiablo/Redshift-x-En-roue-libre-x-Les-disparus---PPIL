@@ -14,12 +14,12 @@ class ViewRendering
         $urlSignIn = $app->getRouteCollector()->getRouteParser()->urlFor('sign-in');
         $urlLogout = $app->getRouteCollector()->getRouteParser()->urlFor('logout');
         $urlProfile = $app->getRouteCollector()->getRouteParser()->urlFor('edit-profile');
-		$urlRideCreate = $app->getRouteCollector()->getRouteParser()->urlFor('create-trajet');
+		$urlPublicRide = $app->getRouteCollector()->getRouteParser()->urlFor('public-ride');
         $urlRoot = $app->getRouteCollector()->getRouteParser()->urlFor('root');
         $urlRides = $app->getRouteCollector()->getRouteParser()->urlFor('myrides');
         $connected = <<<html
         <li><a href="$urlRoot">ShareMyRide</a></li>
-        <li><a href="$urlRideCreate">Trajet public</a></li>
+        <li><a href="$urlPublicRide">Trajet public</a></li>
         <li><a href="#">Trajet privé</a></li>
         <li><a href="$urlLogout">Se déconnecter</a></li>
         <li><a href="$urlRides">MyRides</a></li>
@@ -79,5 +79,10 @@ html;
         $template = str_replace('${body}', $body, $template);
 
         return $template;
+    }
+
+    public static function renderError(string $erreur = 'Undefined error'): string
+    {
+        return ViewRendering::render('Erreur - ' . $erreur, 'Erreur');
     }
 }
