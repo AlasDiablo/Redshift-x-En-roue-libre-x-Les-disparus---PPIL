@@ -2,6 +2,7 @@
 
 namespace ppil\controller;
 
+use ppil\models\Utilisateur;
 use ppil\models\Passager;
 use ppil\models\Trajet;
 use ppil\models\VilleIntermediaire;
@@ -9,6 +10,13 @@ use ppil\view\RideView;
 
 class RideController
 {
+
+    public static function mesTrajets()
+    {
+        $user = Utilisateur::where("email", '=', $_SESSION['mail'])->first();
+        $rides = Utilisateur::mesTrajets();
+        RideView::renderMinRide($rides);
+    }
 
     public static function getRide($id)
     {

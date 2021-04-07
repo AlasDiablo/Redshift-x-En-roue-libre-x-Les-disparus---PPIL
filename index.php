@@ -118,5 +118,12 @@ $app->post('/ride/create', function (Request $request, Response $response, $args
     return $response;
 })->setName('create-ride_post');
 
+// --------------------- Consulter mes trajets ---------------------
+// 
+$app->get('/accounts/myrides', function (Request $request, Response $response, $args) {
+    $response->getBody()->write(RideController::mesTrajets());
+    return $response;
+})->setName('myrides');
+
 // Demarais l'appliquation web
 $app->run();

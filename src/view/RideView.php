@@ -60,4 +60,25 @@ class RideView
             return ViewRendering::render(file_get_contents('./html/creerTrajetSansVoiture.html'), 'Créer un trajet');
         }
     }
+
+    public static function renderMinRide($rides) 
+    {
+        $out = "<ul>";
+        foreach ($rides as $ride) {
+            $template = file_get_contents('./html/caseTrajet.html');
+            $template = str_replace('${ville_depart}', $data['ville_depart'], $template);
+
+            $template = str_replace('${ville_arrivee}', $data['ville_arrivee'], $template);
+
+            $template = str_replace('${nbr_passager}', $data['nbr_passager_occup'], $template);
+            $out .= $template;
+        }
+        $out .= "</ul>";
+        return $out;
+    }
+
+    public static function renderRideList()
+    {
+
+    }
 }
