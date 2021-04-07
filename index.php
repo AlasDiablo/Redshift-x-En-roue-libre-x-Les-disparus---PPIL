@@ -1,5 +1,6 @@
 <?php
 
+use ppil\controller\ListController;
 use ppil\controller\UserController;
 use ppil\util\AppContainer;
 use ppil\view\RideView;
@@ -124,6 +125,13 @@ $app->get('/accounts/myrides', function (Request $request, Response $response, $
     $response->getBody()->write(RideController::mesTrajets());
     return $response;
 })->setName('myrides');
+
+// --------------------- Consulter les trajets public ---------------------
+//
+$app->get('/ride/public', function (Request $request, Response $response, $args) {
+    $response->getBody()->write(ListController::listPublic());
+    return $response;
+})->setName('public-ride');
 
 // Demarais l'appliquation web
 $app->run();

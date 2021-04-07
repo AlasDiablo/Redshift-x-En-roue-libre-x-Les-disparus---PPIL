@@ -66,19 +66,28 @@ class RideView
         $out = "<ul>";
         foreach ($rides as $ride) {
             $template = file_get_contents('./html/caseTrajet.html');
-            $template = str_replace('${ville_depart}', $data['ville_depart'], $template);
+            $template = str_replace('${ville_depart}', $ride->ville_depart, $template);
 
-            $template = str_replace('${ville_arrivee}', $data['ville_arrivee'], $template);
+            $template = str_replace('${ville_arrivee}', $ride->ville_arrivee, $template);
 
-            $template = str_replace('${nbr_passager}', $data['nbr_passager_occup'], $template);
+            $template = str_replace('${nbr_passager}', $ride->nbr_passager, $template);
+
+            $template = str_replace('${date}', $ride->date, $template);
             $out .= $template;
         }
         $out .= "</ul>";
         return $out;
     }
 
-    public static function renderRideList()
+    public static function renderRideList($data)
     {
+        $app = AppContainer::getInstance();
+        $template = file_get_contents('./html/trajetListe.html');
 
+        $template = str_replace('${list_trajet}', self::renderMinRide($data), $template);
+
+        $template = str_replace('${create_ride}', $app->getRouteCollector()->getRouteParser()->urlFor('create-ride'), $template);
+
+        return ViewRendering::render($template, 'Liste des trajet public');
     }
 }

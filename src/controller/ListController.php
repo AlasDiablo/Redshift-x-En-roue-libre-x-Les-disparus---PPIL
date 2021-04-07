@@ -5,6 +5,7 @@ namespace ppil\controller;
 use DateTime;
 use ppil\models\Trajet;
 use ppil\models\VillesFrance;
+use ppil\view\RideView;
 
 class ListController
 {
@@ -40,6 +41,11 @@ class ListController
                            whereNull('id_groupe')->orderBy($ordre)->get();
 
         // envoie de la liste
-        return ListView::ListeTrajet($trajets);
+        return RideView::renderRideList($trajets);
+    }
+
+    public static function listPublic()
+    {
+        return RideView::renderRideList(Trajet::where('id_groupe', '=', null)->get());
     }
 }
