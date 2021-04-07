@@ -14,10 +14,11 @@ class ViewRendering
         $urlSignIn = $app->getRouteCollector()->getRouteParser()->urlFor('sign-in');
         $urlLogout = $app->getRouteCollector()->getRouteParser()->urlFor('logout');
         $urlProfile = $app->getRouteCollector()->getRouteParser()->urlFor('edit-profile');
+		$urlRideCreate = $app->getRouteCollector()->getRouteParser()->urlFor('create-trajet');
         $urlRoot = $app->getRouteCollector()->getRouteParser()->urlFor('root');
         $connected = <<<html
         <li><a href="$urlRoot">ShareMyRide</a></li>
-        <li><a href="#">Trajet public</a></li>
+        <li><a href="$urlRideCreate">Trajet public</a></li>
         <li><a href="#">Trajet privé</a></li>
         <li><a href="$urlLogout">Se déconnecter</a></li>
         
