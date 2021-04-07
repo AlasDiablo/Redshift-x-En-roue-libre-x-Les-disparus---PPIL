@@ -9,7 +9,7 @@ const checkName = () => {
     if (/^(?=.*[a-z])(?=.*[A-Z])(?=.{2,25})/.test(nameFormData.value))
         return true;
     else {
-        nameForm.innerText = 'Votre nom doit faire contenir entre 2 et 25 lettre et ne pas contenir de chiffre';
+        nameForm.innerText = 'Votre nom doit contenir entre 2 et 25 lettres et ne pas contenir de chiffre';
         nameForm.style.backgroundColor = '#F00';
         return false;
     }
@@ -26,7 +26,7 @@ const checkFirstname = () => {
     if (/^(?=.*[a-z])(?=.*[A-Z])(?=.{2,25})/.test(firstnameFormData.value))
         return true;
     else {
-        firstnameForm.innerText = 'Votre prénom doit faire contenir entre 2 et 25 lettre et ne pas contenir de chiffre';
+        firstnameForm.innerText = 'Votre prénom doit contenir entre 2 et 25 lettres et ne pas contenir de chiffre';
         firstnameForm.style.backgroundColor = '#F00';
         return false;
     }
@@ -43,7 +43,7 @@ const checkEmail = () => {
     if (/^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(emailFormData.value))
         return true;
     else {
-        emailForm.innerText = 'Votre email doit etre un email valide';
+        emailForm.innerText = 'Votre email doit etre valide';
         emailForm.style.backgroundColor = '#F00';
         return false;
     }
@@ -65,11 +65,11 @@ const checkPassword = () => {
         return true;
     else {
         if (!passwordMatchResult) {
-            passwordConfirmForm.innerText = 'Votre mot de passe doit etre idantique au precédant';
+            passwordConfirmForm.innerText = 'Votre mot de passe doit être identique au précédent';
             passwordConfirmForm.style.backgroundColor = '#F00';
         }
         if (!regexResult) {
-            passwordForm.innerText = 'Votre mot de passe doit faire au moins 7 character et contenir au minimum [a-z], [A-Z] et [0-9]';
+            passwordForm.innerText = 'Votre mot de passe doit faire au moins 7 caractères et contenir au minimum [a-z], [A-Z] et [0-9]';
             passwordForm.style.backgroundColor = '#F00';
         }
         return false;
