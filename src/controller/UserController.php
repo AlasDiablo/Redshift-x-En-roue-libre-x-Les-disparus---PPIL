@@ -215,7 +215,7 @@ class UserController
         }
 
         if (isset(Utilisateur::where('email', '=', $email)->first()->email)) {
-            return UserView::erreurPost("Un compte avec cette email exsite déjà.");
+            return UserView::erreurPost("Un compte avec cet email existe déjà.");
         }
 
         $mdpHash = password_hash($mdp, PASSWORD_DEFAULT); //mdp 72 caracteres max (BCRYPT)
