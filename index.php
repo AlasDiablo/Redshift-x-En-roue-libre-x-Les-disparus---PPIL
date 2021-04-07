@@ -2,6 +2,7 @@
 
 use ppil\controller\UserController;
 use ppil\util\AppContainer;
+use ppil\view\RideView;
 use ppil\view\UserView;
 use ppil\view\IndexView;
 use Psr\Http\Message\ResponseInterface as Response;
@@ -105,6 +106,17 @@ $app->post('/accounts/edit-profile', function (Request $request, Response $respo
     $response->getBody()->write(UserController::modifierUtilisateur());
     return $response;
 })->setName('edit-profile_post');
+
+// --------------------- Création d'un trajet ---------------------
+$app->get('/ride/create', function (Request $request, Response $response, $args) {
+    $response->getBody()->write(RideView::renderCreate());
+    return $response;
+})->setName('create-ride');
+
+$app->post('/ride/create', function (Request $request, Response $response, $args) {
+    $response->getBody()->write('OwO');
+    return $response;
+})->setName('create-ride_post');
 
 // Demarais l'appliquation web
 $app->run();

@@ -87,7 +87,7 @@ const checkPhone = () => {
     if (/[0]([6]|[7])[- .?]?([0-9][0-9][- .?]?){4}$/.test(phoneFormData.value))
         return true;
     else {
-        phoneForm.innerText = 'Votre numéro de téléphone doit etre numéro de portable valable en france'
+        phoneForm.innerText = 'Votre numéro de téléphone doit etre numéro de portable valable en france';
         phoneForm.style.backgroundColor = '#F00';
         return false;
     }
@@ -121,3 +121,51 @@ const editAccount = (event) => {
 const changePassword = (event) => {
     if (checkPassword()) event.parentNode.submit();
 };
+
+const checkPassengers = () => {
+    let passengers = document.getElementById('passagers-form');
+    let passengersData = document.getElementById('passagers').value;
+
+    if (passengersData >= 1 && passengersData <= 9)
+        return true;
+    else {
+        passengers.innerText = 'Le nombre de passagers doit se trouvé entre 1 et 9';
+        passengers.style.backgroundColor = '#F00';
+        return false;
+    }
+}
+
+const checkPrice = () => {
+    let price = document.getElementById('prix-form');
+    let priceData = document.getElementById('prix').value;
+    if (priceData > 0)
+        return true;
+    else {
+        price.innerText = 'Le prix doit etre positive';
+        price.style.backgroundColor = '#F00';
+        return false;
+    }
+}
+
+let stages = 0;
+
+const addStages = () => {
+    let container = document.getElementById('stages');
+    let label = document.createElement('label');
+    let input = document.createElement('input');
+    let br = document.createElement('br');
+    if (stages === 0) container.append(document.createElement('br'));
+    stages++;
+    label.setAttribute('for', 'etapes[' + stages + ']')
+    label.innerText = 'étape ' + (stages + 1);
+    input.type = 'text';
+    input.name = 'stages[' + stages + ']';
+    input.id = 'etapes[' + stages + ']';
+    container.append(label, input, br);
+}
+
+const createRide = (event) => {
+    let boolCheckPassengers = checkPassengers();
+    let boolCheckPrice = checkPrice();
+    if (boolCheckPassengers && boolCheckPrice) event.parentNode.submit();
+}
