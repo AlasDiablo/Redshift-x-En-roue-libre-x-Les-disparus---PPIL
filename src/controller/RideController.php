@@ -33,7 +33,8 @@ class RideController
         return count(self::getPassager($id));
     }
 
-    public static function displayRide($id) {
+    public static function displayRide($id)
+    {
         $data = array();
         $ride = self::getRide($id);
 
@@ -52,7 +53,8 @@ class RideController
         return RideView::renderUser($data);
     }
 
-    public static function creerTrajet(){
+    public static function creerTrajet()
+    {
         $villeDepart = filter_var($_POST['departure'], FILTER_DEFAULT);
         $villeArrivee = filter_var($_POST['arrival'], FILTER_DEFAULT);
         $date = filter_var($_POST['date'], FILTER_DEFAULT);
@@ -75,59 +77,59 @@ class RideController
         $matches = null;
 
         // Messages d'erreurs pour la ville de départ
-        if (!isset($villeDepart)){
+        if (!isset($villeDepart)) {
             return ViewRendering::renderError("Vous n'avez pas mis de ville de départ.");
         }
-        if(preg_match('/^[a-zA-Z]+$/', $villeDepart, $matches, PREG_OFFSET_CAPTURE, 0) == false){
+        if (preg_match('/^[a-zA-Z]+$/', $villeDepart, $matches, PREG_OFFSET_CAPTURE, 0) == false) {
             return ViewRendering::renderError("Le nom de la ville de départ ne peut pas comporter de chiffre.");
         }
-        if(!isset(VilleFrance::where('ville_nom', '=', $villeDepart)->first()->ville_nom)){
+        if (!isset(VilleFrance::where('ville_nom', '=', $villeDepart)->first()->ville_nom)) {
             return ViewRendering::renderError("La ville de départ n'existe pas dans la base de données.");
         }
 
         // Messages d'erreurs pour la ville d'arrivée
-        if (!isset($villeArrivee)){
+        if (!isset($villeArrivee)) {
             return ViewRendering::renderError("Vous n'avez pas mis de ville d'arrivée.");
         }
-        if(preg_match('/^[a-zA-Z]+$/', $villeArrivee, $matches, PREG_OFFSET_CAPTURE, 0) == false){
+        if (preg_match('/^[a-zA-Z]+$/', $villeArrivee, $matches, PREG_OFFSET_CAPTURE, 0) == false) {
             return ViewRendering::renderError("Le nom de la ville d'arrivée ne peut pas comporter de chiffre.");
         }
-        if(!isset(VilleFrance::where('ville_nom', '=', $villeArrivee)->first()->ville_nom)){
+        if (!isset(VilleFrance::where('ville_nom', '=', $villeArrivee)->first()->ville_nom)) {
             return ViewRendering::renderError("La ville d'arrivée n'existe pas dans la base de données.");
         }
 
         // Messages d'erreurs pour la date de départ
-        if (!isset($date)){
+        if (!isset($date)) {
             return ViewRendering::renderError("Vous n'avez pas mis de date de départ.");
         }
-        if(!self::validateDateDepart($date, "Y-m-d")){
+        if (!self::validateDateDepart($date, "Y-m-d")) {
             return ViewRendering::renderError("Date de départ invalide.");
         }
 
         // Messages d'erreurs pour le nombre de passagers
-        if(!isset($nbPassagers)){
+        if (!isset($nbPassagers)) {
             return ViewRendering::renderError("Vous n'avez pas mis le nombre de passagers pour le trajet.");
         }
-        if(preg_match('/^[1-9]+[0-9]*$/', $nbPassagers, $matches, PREG_OFFSET_CAPTURE, 0) == false){
+        if (preg_match('/^[1-9]+[0-9]*$/', $nbPassagers, $matches, PREG_OFFSET_CAPTURE, 0) == false) {
             return ViewRendering::renderError("Le nombre de passagers doit être un nombre entier.");
         }
 
         // Messages d'erreurs pour l'heure de départ
-        if (!isset($heureDepart)){
+        if (!isset($heureDepart)) {
             return ViewRendering::renderError("Vous n'avez pas mis d'heure de départ.");
         }
-        if(!self::validateDateDepart($date . " " . $heureDepart, "Y-m-d hh:mm")){
+        if (!self::validateDateDepart($date . " " . $heureDepart, "Y-m-d hh:mm")) {
             return ViewRendering::renderError("Heure de départ invalide.");
         }
 
         // Messages d'erreurs pour le nombre de passagers
-        if(!isset($prix)){
+        if (!isset($prix)) {
             return ViewRendering::renderError("Vous n'avez pas mis le nombre de passagers pour le trajet.");
         }
-        if(!(filter_var($prix, FILTER_VALIDATE_FLOAT) || filter_var($prix, FILTER_VALIDATE_INT))){
+        if (!(filter_var($prix, FILTER_VALIDATE_FLOAT) || filter_var($prix, FILTER_VALIDATE_INT))) {
             return ViewRendering::renderError("Le prix doit être un nombre entier ou reel.");
         }
-        if($prix < 0){
+        if ($prix < 0) {
             return ViewRendering::renderError("Le prix doit être supérieur ou egal à zero.");
         }
 
@@ -176,6 +178,6 @@ class RideController
     private static function validateDateDepart($date, $format)
     {
         $date_now = new \DateTime();
-        return strtotime($date_now->format($format)) <= strtotime($date) ;
+        return strtotime($date_now->format($format)) <= strtotime($date);
     }
 }

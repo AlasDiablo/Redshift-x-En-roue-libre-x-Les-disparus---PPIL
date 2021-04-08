@@ -5,9 +5,7 @@ namespace ppil\controller;
 use DateTime;
 use ppil\models\Trajet;
 use ppil\models\Utilisateur;
-use ppil\models\VillesFrance;
 use ppil\view\RideView;
-use ppil\view\ViewRendering;
 
 class ListController
 {
@@ -34,7 +32,7 @@ class ListController
 
         if (isset($_GET['ordre'])) if ($_GET['ordre'] != '') {
             $ordre = filter_var($_GET['ordre'], FILTER_DEFAULT);
-            if ($ordre =='date'|| $ordre == 'ville_depart' || $ordre == 'ville_arrivee') {
+            if ($ordre == 'date' || $ordre == 'ville_depart' || $ordre == 'ville_arrivee') {
                 $rides = $rides->orderBy($ordre);
             }
         }
