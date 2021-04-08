@@ -1,34 +1,54 @@
 <form class="d-flex flex-column col-md-4 offset-md-4 bg-light" method="post" action="${post_url}" enctype="multipart/form-data">
     <h1>Inscription</h1>
     
-    <label for="nom" id="name-form">Nom</label><br/>
-    <input type="text" name="name" id="nom" required/><br/>
+    <div class="align-self-center">
+        <label for="nom" id="name-form">Nom</label><br/>
+        <input type="text" name="name" id="nom" required/><br/>
+    </div>
 
-    <label for="prenom" id="firstname-form">Prénom</label><br/>
-    <input type="text" name="firstName" id="prenom" required/><br/>
+    <div class="align-self-center">
+        <label for="prenom" id="firstname-form">Prénom</label><br/>
+        <input type="text" name="firstName" id="prenom" required/><br/>
+    </div>
 
-    <label for="email" id="email-form">Adresse mail</label><br/>
-    <input type="email" name="mail" id="email" required/><br/>
+    <div class="align-self-center">
+        <label for="email" id="email-form">Adresse mail</label><br/>
+        <input type="email" name="mail" id="email" required/><br/>
+    </div>
 
-    <label for="mdp" id="password-form">Mot de passe</label><br/>
-    <input type="password" name="password" id="mdp" required/><br/>
+    <div class="align-self-center">
+        <label for="mdp" id="password-form">Mot de passe</label><br/>
+        <input type="password" name="password" id="mdp" required/><br/>
+    </div>
 
-    <label for="confirmMdp" id="password-confirm-form">Confirmation du mot de passe</label><br/>
-    <input type="password" name="confirmpassword" id="confirmMdp" required/><br/>
+    <div class="align-self-center">
+        <label for="confirmMdp" id="password-confirm-form">Confirmation du mot de passe</label><br/>
+        <input type="password" name="confirmpassword" id="confirmMdp" required/><br/>
+    </div>
 
-    <label for="tel" id="phone-form">Numéro de téléphone</label><br/>
-    <input type="tel" name="phone" id="tel" required/><br/>
+    <div class="align-self-center">
+        <label for="tel" id="phone-form">Numéro de téléphone</label><br/>
+        <input type="tel" name="phone" id="tel" required/><br/>
+    </div>
 
-    <label id="sex-form">Sexe : </label>
-    <input type="radio" name="sex" value="H" id="H" required/><label for="H">H</label>
-    <input type="radio" name="sex" value="F" id="F"/><label for="F">F</label><br/>
+    <div class="align-self-center">
+        <label id="sex-form">Sexe : </label>
+        <input type="radio" name="sex" value="H" id="H" required/><label for="H">H</label>
+        <input type="radio" name="sex" value="F" id="F"/><label for="F">F</label><br/>
+    </div>
 
-    <label id="car-form">Je possède une voiture : </label>
-    <input type="radio" name="car" value="yes" id="yes" required/><label for="yes">Oui</label>
-    <input type="radio" name="car" value="no" id="no"/><label for="no">Non</label><br/>
+    <div class="align-self-center">
+        <label id="car-form">Je possède une voiture : </label>
+        <input type="radio" name="car" value="yes" id="yes" required/><label for="yes">Oui</label>
+        <input type="radio" name="car" value="no" id="no"/><label for="no">Non</label><br/>
+    </div>
 
-    <label for="avatar">Ajour un Avatar : </label>
-    <input type="file" name="avatar" id="avatar"><br/>
+    <div class="align-self-center">
+        <label for="avatar">Ajour un Avatar : </label>
+        <input type="file" name="avatar" id="avatar"><br/>
+    </div>
 
-    <button type="button" onclick="createAccount(this)">Je m'inscris</button>
+    <div class="align-self-center">
+        <button type="button" onclick="createAccount(this)">Je m'inscris</button>
+    </div>
 </form>

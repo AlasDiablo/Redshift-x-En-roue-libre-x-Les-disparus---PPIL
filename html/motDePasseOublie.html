@@ -1,13 +1,16 @@
-<h1>Changement de mot de passe</h1>
+<section class="d-flex flex-column col-md-4 offset-md-4 bg-light">
+    <h1>Changement de mot de passe</h1>
 
-<p>
-    Vous avez oublié votre mot de passe ? Pas de panique ! Indiquez nous l'adresse mail liée à votre compte.
-    Si elle est fait partie de notre base de données, vous reçevrez un mail contenant un lien pour modifier votre mot de
-    passe.
-</p>
-<form method="post" action="${post_url}">
-    <label for="email">Adresse mail</label><br/>
-    <input type="email" name="mail" id="email" required/><br/>
+    <p>
+        Vous avez oublié votre mot de passe ? Pas de panique ! Indiquez nous l'adresse mail liée à votre compte.
+        Si elle est fait partie de notre base de données, vous reçevrez un mail contenant un lien pour modifier votre mot de
+        passe.
+    </p>
 
-    <input type="submit" value="Envoyer"/>
-</form>
+    <form class="align-self-center" method="post" action="${post_url}">
+        <label for="email">Adresse mail</label><br/>
+        <input type="email" name="mail" id="email" required/><br/>
+
+        <input type="submit" value="Envoyer"/>
+    </form>
+</section>
