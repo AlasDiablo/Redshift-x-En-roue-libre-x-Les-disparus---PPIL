@@ -61,7 +61,12 @@ class RideController
         $prix = filter_var($_POST['price'], FILTER_DEFAULT);
 
         // A changer en fonction de comment les etapes intermédiaires ont été intégré dans le formulaire (array...)
-        $etapeInter = filter_var($_POST['stages'], FILTER_DEFAULT);
+        $etapeInter = array();
+        $i = 0;
+        foreach ($_POST['stages'] as $stage) {
+            $etapeInter[$i] = filter_var($stage, FILTER_DEFAULT);
+            $i++;
+        }
 
         // Lieu de rendez vous c'est quoi ? C4est meme pas dans la base de donées / j'en ai jamais entendu parler
 
@@ -127,14 +132,14 @@ class RideController
         }
 
         // Messages d'erreurs pour les etapes intermédiaires
-        if (isset($etapeInter) && $etapeInter!=""){
-            if(preg_match('/^[a-zA-Z]+$/', $etapeInter, $matches, PREG_OFFSET_CAPTURE, 0) == false){
-                return ViewRendering::renderError("Le nom d'une étape intermédiaire: " . $etapeInter . " ne peut pas comporter de chiffre.");
-            }
-            if(!isset(VilleIntermediaire::where('ville', '=', $etapeInter)->first()->ville_nom)){
-                return ViewRendering::renderError("L'étape intermédiaire: " . $etapeInter . " n'existe pas dans la base de données.");
-            }
-        }
+//        if (isset($etapeInter) && $etapeInter!=""){
+//            if(preg_match('/^[a-zA-Z]+$/', $etapeInter, $matches, PREG_OFFSET_CAPTURE, 0) == false){
+//                return ViewRendering::renderError("Le nom d'une étape intermédiaire: " . $etapeInter . " ne peut pas comporter de chiffre.");
+//            }
+//            if(!isset(VilleIntermediaire::where('ville', '=', $etapeInter)->first()->ville_nom)){
+//                return ViewRendering::renderError("L'étape intermédiaire: " . $etapeInter . " n'existe pas dans la base de données.");
+//            }
+//        }
 
         $ride = new Trajet();
         $ride->date = $date;
@@ -146,10 +151,18 @@ class RideController
         $ride->prix = $prix;
 
         $id = Trajet::max('id_trajet');
-        if (isset($id)) $ride->id_trajet = $id + 1;
-        else $ride->id_trajet = 0;
+        if (isset($id)) $id++;
+        else $id = 0;
 
+        $ride->id_trajet = $id;
         $ride->save();
+
+        foreach ($etapeInter as $etape) {
+            $villeIntermediaire = new VilleIntermediaire();
+            $villeIntermediaire->id_trajet = $id;
+            $villeIntermediaire->ville = $etape;
+            $villeIntermediaire->save();
+        }
 
         $url = AppContainer::getInstance()->getRouteCollector()->getRouteParser()->urlFor('root');
         header("Location: $url");

@@ -75,7 +75,6 @@ CREATE TABLE IF NOT EXISTS `Trajet` (
 CREATE TABLE IF NOT EXISTS `Ville_intermediaire` (
     `id_trajet` integer NOT NULL,
     `ville` varchar(255) NOT NULL,
-    PRIMARY KEY (`id_trajet`),
     CONSTRAINT fk_id_trajet_ville_intermediaire FOREIGN KEY (`id_trajet`) REFERENCES `Trajet`(`id_trajet`) ON DELETE CASCADE
 );
 
