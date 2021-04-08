@@ -23,7 +23,6 @@ class ViewRendering
         <li><a href="#">Trajet privé</a></li>
         <li><a href="$urlLogout">Se déconnecter</a></li>
         <li><a href="$urlRides">MyRides</a></li>
-        
 html;
         if (isset($_SESSION['mail'])) {
             $user = Utilisateur::where('email', '=', $_SESSION['mail'])->first();
