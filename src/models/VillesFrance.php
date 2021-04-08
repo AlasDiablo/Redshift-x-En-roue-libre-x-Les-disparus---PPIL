@@ -6,9 +6,9 @@ namespace ppil\models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Passager extends Model
+class VillesFrance extends Model
 {
-    protected $table = 'Passager';
+    protected $table = 'villes_france';
     public $incrementing = false;
     public $timestamps = false;
 }

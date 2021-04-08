@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Notification extends Model
 {
-    protected $table = 'notification';
+    protected $table = 'Notification';
     protected $primaryKey = 'id_notif';
     public $incrementing = true;
     public $timestamps = false;

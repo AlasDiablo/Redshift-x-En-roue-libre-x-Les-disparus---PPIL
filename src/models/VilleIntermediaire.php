@@ -8,8 +8,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class VilleIntermediaire extends Model
 {
-    protected $table = 'ville_intermediaire';
-    protected $primaryKey = 'id_trajet';
+    protected $table = 'Ville_intermediaire';
+    protected $primaryKey = null;
     public $incrementing = false;
     public $timestamps = false;
 }

@@ -4,3 +4,4 @@ vendor
 .vs
 # private files
 src/conf/*
+uploads/
