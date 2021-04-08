@@ -103,7 +103,7 @@ const checkPhone = () => {
         phoneForm.style.backgroundColor = '#F00';
         return false;
     }
-}
+};
 
 /**
  * Check and valid the user transaction
@@ -145,7 +145,7 @@ const checkPassengers = () => {
         passengers.style.backgroundColor = '#F00';
         return false;
     }
-}
+};
 
 const checkPrice = () => {
     let price = document.getElementById('prix-form');
@@ -157,7 +157,7 @@ const checkPrice = () => {
         price.style.backgroundColor = '#F00';
         return false;
     }
-}
+};
 
 let stages = 0;
 
@@ -174,10 +174,10 @@ const addStages = () => {
     input.name = 'stages[' + stages + ']';
     input.id = 'etapes[' + stages + ']';
     container.append(label, input, br);
-}
+};
 
 const createRide = (event) => {
     let boolCheckPassengers = checkPassengers();
     let boolCheckPrice = checkPrice();
     if (boolCheckPassengers && boolCheckPrice) event.parentNode.submit();
-}
+};
