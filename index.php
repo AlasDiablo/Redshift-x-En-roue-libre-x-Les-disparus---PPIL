@@ -1,11 +1,12 @@
 <?php
 
+use ppil\controller\ListController;
+use ppil\controller\RideController;
 use ppil\controller\UserController;
 use ppil\util\AppContainer;
+use ppil\view\RideView;
 use ppil\view\UserView;
 use ppil\view\IndexView;
-use ppil\view\TrajetView;
-use ppil\controller\TrajetController;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use \Illuminate\Database\Capsule\Manager as DB;
@@ -108,17 +109,38 @@ $app->post('/accounts/edit-profile', function (Request $request, Response $respo
     return $response;
 })->setName('edit-profile_post');
 
-// --------------------- Creation d'un trajet ---------------------
-// Get (obtenir la page web)
-$app->get('/trajet/create-trajet', function (Request $request, Response $response, $args) {
-    $response->getBody()->write(TrajetView::creerTrajet());
+// --------------------- Création d'un trajet ---------------------
+$app->get('/ride/create', function (Request $request, Response $response, $args) {
+    $response->getBody()->write(RideView::renderCreate());
     return $response;
-})->setName('create-trajet');
-// Post géré les donnée entré par l'utilisateur
-$app->post('/trajet/create-trajet', function (Request $request, Response $response, $args) {
-    $response->getBody()->write(TrajetController::creerTrajet());
+})->setName('create-ride');
+
+$app->post('/ride/create', function (Request $request, Response $response, $args) {
+    RideController::creerTrajet();
     return $response;
-})->setName('create-trajet_post');
+})->setName('create-ride_post');
+
+// --------------------- Consulter mes trajets ---------------------
+// 
+$app->get('/accounts/myrides', function (Request $request, Response $response, $args) {
+    $response->getBody()->write(ListController::mesTrajets());
+    return $response;
+})->setName('myrides');
+
+// --------------------- Consulter les trajets public ---------------------
+//
+$app->get('/ride/public', function (Request $request, Response $response, $args) {
+    $response->getBody()->write(ListController::listPublic());
+    return $response;
+})->setName('public-ride');
+
+
+// --------------------- Consulter les trajets public ---------------------
+//
+$app->get('/ride/{id}', function (Request $request, Response $response, $args) {
+    $response->getBody()->write(RideController::displayRide($args['id']));
+    return $response;
+})->setName('ride');
 
 // Demarais l'appliquation web
 $app->run();

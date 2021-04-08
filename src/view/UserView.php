@@ -63,7 +63,7 @@ class UserView
 
         // Image
         if (isset($data->url_img)) $template = str_replace('${my_avatar}', $data->url_img, $template);
-        else$template = str_replace('${my_avatar}', '/uploads/default', $template);
+        else $template = str_replace('${my_avatar}', '/uploads/default', $template);
 
         // Set url
         $urlPost = $app->getRouteCollector()->getRouteParser()->urlFor('edit-profile_post');
@@ -80,10 +80,5 @@ class UserView
         $template = str_replace($data->a_voiture != 'O' ? '${yes}' : '${no}', '', $template);
 
         return ViewRendering::render($template, 'Mofifier mon profil');
-    }
-
-    public static function erreurPost(string $erreur = 'Undefined error')
-    {
-        return ViewRendering::render('Erreur - ' . $erreur, 'Erreur');
     }
 }

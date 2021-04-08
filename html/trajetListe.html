@@ -1,13 +1,12 @@
-<button>Créer une offre de trajet</button>
-<input type="submit" value="creerUneOffre" style="visibility: hidden" />
+<a href="${create_ride}">Créer une offre de trajet</a>
 
 <section>
-    <p>Rechercher des offres de trajets : </p>
+    <p>Rechercher ${title} : </p>
     <form method="POST" action="">
         <label for="depart">Départ</label>
         <input type="text" name="depart" id="depart" />
 
-        <label for="arrivee">Arrivées :</label>
+        <label for="arrive">Arrivées :</label>
         <input type="text" name="arrive" id="arrive" />
 
         <label for="date">Date :</label>
@@ -21,11 +20,10 @@
             <option value="dateArrivee">Date d'arrivée</option>
         </select>
 
-        <button>Rechercher</button>
-        <input type="submit" value="searchTrajets" style="visibility: hidden" />
+        <button type="button">Rechercher</button>
     </form>
 </section>
 
 <section>
-    <!--Liste des trajets publiques-->
+    ${list_trajet}
 </section>

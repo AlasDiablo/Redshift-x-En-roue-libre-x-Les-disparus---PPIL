@@ -3,11 +3,13 @@
 namespace ppil\controller;
 
 use Exception;
+
 use ppil\models\MotDePasseOublie;
 use ppil\models\Utilisateur;
 use ppil\util\AppContainer;
 use ppil\util\EmailFactory;
 use ppil\view\UserView;
+use ppil\view\ViewRendering;
 
 class UserController
 {
@@ -46,35 +48,35 @@ class UserController
         $image = self::checkUserAvatar();
 
         if ($image == null) {
-            return UserView::erreurPost("Votre avatar doit etre une image et avoir un taille de 400px par 400px et faire un maximium de 20 Mo.");
+            return ViewRendering::renderError("Votre avatar doit etre une image et avoir un taille de 400px par 400px et faire un maximium de 20 Mo.");
         }
 
         $matches = null;
 
         #Messages d'erreurs pour le nom
         if (!isset($nom)){
-            return UserView::erreurPost("Vous n'avez pas mis votre nom.");
+            return ViewRendering::renderError("Vous n'avez pas mis votre nom.");
         }
 
         if(preg_match('/^[a-zA-Z]+$/', $nom, $matches, PREG_OFFSET_CAPTURE, 0) == false){
-            return UserView::erreurPost("Votre nom ne peut pas comporter de chiffre.");
+            return ViewRendering::renderError("Votre nom ne peut pas comporter de chiffre.");
         }
 
         if(strlen($nom) < 2 || strlen($nom) > 25){
-            return UserView::erreurPost("Votre nom ne peut pas comporter aussi peut ou autant de lettre (entre 2 et 25).");
+            return ViewRendering::renderError("Votre nom ne peut pas comporter aussi peut ou autant de lettre (entre 2 et 25).");
         }
 
         #Messages d'erreurs pour le prénom
         if (!isset($prenom)) {
-            return UserView::erreurPost("Vous n'avez pas mis votre prénom.");
+            return ViewRendering::renderError("Vous n'avez pas mis votre prénom.");
         }
 
         if(!preg_match('/^[a-zA-Z]+$/', $prenom, $matches, PREG_OFFSET_CAPTURE, 0)){
-            return UserView::erreurPost("Votre prénom ne peut pas comporter de chiffre.");
+            return ViewRendering::renderError("Votre prénom ne peut pas comporter de chiffre.");
         }
 
         if(strlen($prenom) < 2 || strlen($prenom) > 25){
-            return UserView::erreurPost("Votre prénom ne peut pas comporter aussi peut ou autant de lettre (entre 2 et 25).");
+            return ViewRendering::renderError("Votre prénom ne peut pas comporter aussi peut ou autant de lettre (entre 2 et 25).");
         }
 
         #Messages d'erreurs pour le mot de passe
@@ -82,44 +84,44 @@ class UserController
             // si le mdp ne correspond pas alors on renvoie la page d'erreur
         $bddMdp = Utilisateur::select('mdp')->where('email', '=', $_SESSION['mail'])->first()->mdp;
         if (!password_verify($ancienmdp, $bddMdp)) {
-            return UserView::erreurPost("Le mot de passe ne correspond pas à votre ancien mot de passe.");
+            return ViewRendering::renderError("Le mot de passe ne correspond pas à votre ancien mot de passe.");
         }
 
         if (isset($nouveaumdp)) if ($nouveaumdp != "") {
             if(!preg_match('/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.{7,})/', $nouveaumdp, $matches, PREG_OFFSET_CAPTURE, 0)){
-                return UserView::erreurPost("Votre mot de passe doit comporter au moins 7 caractères dont au moins une majuscule, et un chiffre.");
+                return ViewRendering::renderError("Votre mot de passe doit comporter au moins 7 caractères dont au moins une majuscule, et un chiffre.");
             }
 
             if(($nouveaumdp != $confnouvmdp)){
-                return UserView::erreurPost("Le mot de passe de confirmation est différent du mot de passe.");
+                return ViewRendering::renderError("Le mot de passe de confirmation est différent du mot de passe.");
             }
 
             if(($nouveaumdp == $ancienmdp)){
-                return UserView::erreurPost("Le nouveau mot de passe doit être différent de l'ancien mot de passe.");
+                return ViewRendering::renderError("Le nouveau mot de passe doit être différent de l'ancien mot de passe.");
             }
         }
 
         #Messages d'erreurs pour le téléphone
         if (!isset($tel)) {
-            return UserView::erreurPost("Vous n'avez pas mis de numéro de téléphone.");
+            return ViewRendering::renderError("Vous n'avez pas mis de numéro de téléphone.");
         }
 
         if(strlen($tel) != 10){
-            return UserView::erreurPost("Un numéro de téléphone contient 10 chiffres.");
+            return ViewRendering::renderError("Un numéro de téléphone contient 10 chiffres.");
         }
 
         if(!preg_match("#[0]([6]|[7])[- .?]?([0-9][0-9][- .?]?){4}$#", $tel)){
-            return UserView::erreurPost("Le numéro de téléphone doit commencer par 06 ou 07.");
+            return ViewRendering::renderError("Le numéro de téléphone doit commencer par 06 ou 07.");
         }
 
         #Message d'erreur pour le sexe
         if (!isset($sexe)) {
-            return UserView::erreurPost("Vous n'avez pas indiqué votre sexe.");
+            return ViewRendering::renderError("Vous n'avez pas indiqué votre sexe.");
         }
 
         #Message d'erreur pour le véhicule
         if (!isset($a_voiture)) {
-            return UserView::erreurPost("Vous n'avez pas indiqué si vous aviez une voiture ou non.");
+            return ViewRendering::renderError("Vous n'avez pas indiqué si vous aviez une voiture ou non.");
         }
 
         $user = Utilisateur::where('email', '=', $_SESSION['mail'])->first();
@@ -166,88 +168,88 @@ class UserController
         $image = self::checkUserAvatar();
 
         if ($image == null) {
-            return UserView::erreurPost("Votre avatar doit etre une image et avoir un taille de 400px par 400px et faire un maximium de 20 Mo.");
+            return ViewRendering::renderError("Votre avatar doit etre une image et avoir un taille de 400px par 400px et faire un maximium de 20 Mo.");
         }
 
         $matches = null;
 
         #Messages d'erreurs pour le nom
         if (!isset($nom)){
-            return UserView::erreurPost("Vous n'avez pas mis votre nom.");
+            return ViewRendering::renderError("Vous n'avez pas mis votre nom.");
         }
 
         if(preg_match('/^[a-zA-Z]+$/', $nom, $matches, PREG_OFFSET_CAPTURE, 0) == false){
-            return UserView::erreurPost("Votre nom ne peut pas comporter de chiffre.");
+            return ViewRendering::renderError("Votre nom ne peut pas comporter de chiffre.");
         }
 
         if(strlen($nom) < 2 || strlen($nom) > 25){
-            return UserView::erreurPost("Votre nom ne peut pas comporter aussi peut ou autant de lettre (entre 2 et 25).");
+            return ViewRendering::renderError("Votre nom ne peut pas comporter aussi peut ou autant de lettre (entre 2 et 25).");
         }
 
         #Messages d'erreurs pour le prénom
         if (!isset($prenom)) {
-            return UserView::erreurPost("Vous n'avez pas mis votre prénom.");
+            return ViewRendering::renderError("Vous n'avez pas mis votre prénom.");
         }
 
         if(!preg_match('/^[a-zA-Z]+$/', $prenom, $matches, PREG_OFFSET_CAPTURE, 0)){
-            return UserView::erreurPost("Votre prénom ne peut pas comporter de chiffre.");
+            return ViewRendering::renderError("Votre prénom ne peut pas comporter de chiffre.");
         }
 
         if(strlen($prenom) < 2 || strlen($prenom) > 25){
-            return UserView::erreurPost("Votre prénom ne peut pas comporter aussi peut ou autant de lettre (entre 2 et 25).");
+            return ViewRendering::renderError("Votre prénom ne peut pas comporter aussi peut ou autant de lettre (entre 2 et 25).");
         }
 
         #Messages d'erreurs pour l'adresse éléctronique
         if (!isset($email)){
-            return UserView::erreurPost("Vous n'avez pas mis d'email.");
+            return ViewRendering::renderError("Vous n'avez pas mis d'email.");
         }
 
         if(!filter_var($email, FILTER_VALIDATE_EMAIL)){
-            return UserView::erreurPost("L'email que vous avez noté n'est pas valable (ex: abc@coucou.fr).");
+            return ViewRendering::renderError("L'email que vous avez noté n'est pas valable (ex: abc@coucou.fr).");
         }
 
         #Messages d'erreurs pour le mot de passe
         if (!isset($mdp)){
-            return UserView::erreurPost("Vous n'avez pas mis de mot de passe");
+            return ViewRendering::renderError("Vous n'avez pas mis de mot de passe");
         }
 
         if(!isset($mdpconf)){
-            return UserView::erreurPost("Vous n'avez pas mis de mot de passe de confirmation");
+            return ViewRendering::renderError("Vous n'avez pas mis de mot de passe de confirmation");
         }
 
         if(!preg_match("#^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.{7,})#", $mdp, $matches, PREG_OFFSET_CAPTURE, 0)){
-            return UserView::erreurPost("Votre mot de passe doit comporter au moins 7 caractères dont au moins une majuscule, et un chiffre.");
+            return ViewRendering::renderError("Votre mot de passe doit comporter au moins 7 caractères dont au moins une majuscule, et un chiffre.");
         }
 
         if(($mdp != $mdpconf)){
-            return UserView::erreurPost("Le mot de passe de confirmation est différent du mot de passe.");
+            return ViewRendering::renderError("Le mot de passe de confirmation est différent du mot de passe.");
         }
 
         #Messages d'erreurs pour le téléphone
         if (!isset($tel)) {
-            return UserView::erreurPost("Vous n'avez pas mis de numéro de téléphone.");
+            return ViewRendering::renderError("Vous n'avez pas mis de numéro de téléphone.");
         }
 
         if(strlen($tel) != 10){
-            return UserView::erreurPost("Un numéro de téléphone contient 10 chiffres.");
+            return ViewRendering::renderError("Un numéro de téléphone contient 10 chiffres.");
         }
 
         if(!preg_match("#[0]([6]|[7])[- .?]?([0-9][0-9][- .?]?){4}$#", $tel)){
-            return UserView::erreurPost("Le numéro de téléphone doit commencer par \"06\" ou \"07\".");
+            return ViewRendering::renderError("Le numéro de téléphone doit commencer par \"06\" ou \"07\".");
         }
 
         #Message d'erreur pour le sexe
         if (!isset($sexe)) {
-            return UserView::erreurPost("Vous n'avez pas indiqué votre sexe.");
+            return ViewRendering::renderError("Vous n'avez pas indiqué votre sexe.");
         }
 
         #Message d'erreur pour le véhicule
         if (!isset($a_voiture)) {
-            return UserView::erreurPost("Vous n'avez pas indiqué si vous aviez une voiture ou non.");
+            return ViewRendering::renderError("Vous n'avez pas indiqué si vous aviez une voiture ou non.");
         }
 
         if (isset(Utilisateur::where('email', '=', $email)->first()->email)) {
-            return UserView::erreurPost("Un compte avec cet email existe déjà.");
+            return ViewRendering::renderError("Un compte avec cet email existe déjà.");
         }
 
         $mdpHash = password_hash($mdp, PASSWORD_DEFAULT); //mdp 72 caracteres max (BCRYPT)
@@ -281,13 +283,13 @@ class UserController
         // si aucun email ne correspond alors on renvoie la page d'erreur
         $value = Utilisateur::where('email', '=', $mail)->first();
         if (!isset($value)) {
-            return UserView::erreurPost();
+            return ViewRendering::renderError('L\'email et/ou le mot de passe donnée ne sont pas associés à un compte');
         }
 
         // si le mdp ne correspond pas alors on renvoie la page d'erreur
         $bddMdp = Utilisateur::select('mdp')->where('email', '=', $mail)->first()->mdp;
         if (!password_verify($mdp, $bddMdp)) {
-            return UserView::erreurPost();
+            return ViewRendering::renderError('L\'email et/ou le mot de passe donnée ne sont pas associés à un compte');
         }
 
         // on met a jour la session
@@ -319,7 +321,7 @@ class UserController
         // si aucun email ne correspond alors on renvoie la page d'erreur
         $value = Utilisateur::where("email", $mail)->first();
         if (!isset($value)) {
-            return UserView::erreurPost();
+            return ViewRendering::renderError();
         }
 
         // si une cle existe deja alors on la supprime
@@ -363,7 +365,7 @@ class UserController
                 // recuperation du mail grace a la cle
                 $email = MotDePasseOublie::where('reset_key', '=', $key)->first()->email;
                 if (!isset($email)) {
-                    return UserView::erreurPost();
+                    return ViewRendering::renderError();
                 }
 
                 //change le mdp dans la base de donnée (pas sur ?) 
@@ -378,10 +380,10 @@ class UserController
                 header("Location: $url");
                 exit();
             } else {
-                return UserView::erreurPost();
+                return ViewRendering::renderError();
             }
         } else {
-            return UserView::erreurPost();
+            return ViewRendering::renderError();
         }
     }
 
