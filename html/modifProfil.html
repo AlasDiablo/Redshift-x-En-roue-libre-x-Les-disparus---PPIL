@@ -1,29 +1,43 @@
-﻿<h1>Modifier mon profil</h1>
+﻿<form class="d-flex flex-column col-md-4 offset-md-4 bg-light" method="post" action="${post_url}">
+    <h1 class="d-flex justify-content-center">Modifier mon profil</h1>
 
-<form method="post" action="${post_url}">
-    <label for="nom">Nom</label><br/>
-    <input type="text" name="name" id="nom" value="${name}"/><br/>
+    <div class="align-self-center">
+        <label for="nom">Nom</label><br/>
+        <input type="text" name="name" id="nom" value="${name}"/><br/>
+    </div>
 
-    <label for="prenom">Prénom</label><br/>
-    <input type="text" name="firstName" id="prenom" value="${firstName}"/><br/>
+    <div class="align-self-center">
+        <label for="prenom">Prénom</label><br/>
+        <input type="text" name="firstName" id="prenom" value="${firstName}"/><br/>
+    </div>
 
-    <label for="email">Adresse mail</label><br/>
-    <input type="email" name="mail" id="email" value="${mail}"/><br/>
+    <div class="align-self-center">
+        <label for="email">Adresse mail</label><br/>
+        <input type="email" name="mail" id="email" value="${mail}"/><br/>
+    </div>
 
-    <label for="tel">Numéro de téléphone</label><br/>
-    <input type="tel" name="phone" id="tel" value="${tel}"/><br/>
+    <div class="align-self-center">
+        <label for="tel">Numéro de téléphone</label><br/>
+        <input type="tel" name="phone" id="tel" value="${tel}"/><br/>
+    </div>
 
-    <label>Sexe : </label>
-    <input type="radio" name="sex" value="H" id="H" ${H}/><label for="H">H</label>
-    <input type="radio" name="sex" value="F" id="F" ${F}/><label for="F">F</label><br/>
+    <div class="align-self-center">
+        <label>Sexe : </label>
+        <input type="radio" name="sex" value="H" id="H" ${H}/><label for="H">H</label>
+        <input type="radio" name="sex" value="F" id="F" ${F}/><label for="F">F</label><br/>
+    </div>
 
-    <label>Je possède une voiture : </label>
-    <input type="radio" name="car" value="yes" id="yes" ${yes}/><label for="yes">Oui</label>
-    <input type="radio" name="car" value="no" id="no" ${no}/><label for="no">Non</label><br/>
+    <div class="align-self-center">
+        <label>Je possède une voiture : </label>
+        <input type="radio" name="car" value="yes" id="yes" ${yes}/><label for="yes">Oui</label>
+        <input type="radio" name="car" value="no" id="no" ${no}/><label for="no">Non</label><br/>
+    </div>
 
-    <input type="button" value="Annuler"/>
-    <button onclick="verifForm()">Valider</button>
-    <input type="submit" style="visibility:hidden;" value="Valider"/>
+    <div class="align-self-center">
+        <input type="button" value="Annuler"/>
+        <button onclick="verifForm()">Valider</button>
+        <input type="submit" style="visibility:hidden;" value="Valider"/>
+    </div>
 </form>
 
 <script src="../js/modifProfil.js" defer></script>
