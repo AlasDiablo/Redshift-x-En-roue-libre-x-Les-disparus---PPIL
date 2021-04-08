@@ -1,34 +1,52 @@
-<h1>Inscription</h1>
+<h1 class="d-flex justify-content-center">Inscription</h1>
 
-<form method="post" action="${post_url}">
-    <label for="nom">Nom</label><br/>
-    <input type="text" name="name" id="nom" required/><br/>
+<form class="d-flex flex-column" method="post" action="${post_url}">
+    <div class="align-self-center">
+        <label for="nom">Nom</label><br/>
+        <input type="text" name="name" id="nom" required/><br/>
+    </div>
 
-    <label for="prenom">Prénom</label><br/>
-    <input type="text" name="firstName" id="prenom" required/><br/>
+    <div class="align-self-center">
+        <label for="prenom">Prénom</label><br/>
+        <input type="text" name="firstName" id="prenom" required/><br/>
+    </div>
 
-    <label for="email">Adresse mail</label><br/>
-    <input type="email" name="mail" id="email" required/><br/>
+    <div class="align-self-center">
+        <label for="email">Adresse mail</label><br/>
+        <input type="email" name="mail" id="email" required/><br/>
+    </div>
 
-    <label for="mdp">Mot de passe</label><br/>
-    <input type="password" name="password" id="mdp" required/><br/>
+    <div class="align-self-center">
+        <label for="mdp">Mot de passe</label><br/>
+        <input type="password" name="password" id="mdp" required/><br/>
+    </div>
 
-    <label for="confirmMdp">Confirmation du mot de passe</label><br/>
-    <input type="password" name="confirmpassword" id="confirmMdp" required/><br/>
+    <div class="align-self-center">
+        <label for="confirmMdp">Confirmation du mot de passe</label><br/>
+        <input type="password" name="confirmpassword" id="confirmMdp" required/><br/>
+    </div>
 
-    <label for="tel">Numéro de téléphone</label><br/>
-    <input type="tel" name="phone" id="tel" required/><br/>
+    <div class="align-self-center">
+        <label for="tel">Numéro de téléphone</label><br/>
+        <input type="tel" name="phone" id="tel" required/><br/>
+    </div>
 
-    <label>Sexe : </label>
-    <input type="radio" name="sex" value="H" id="H" required/><label for="H">H</label>
-    <input type="radio" name="sex" value="F" id="F"/><label for="F">F</label><br/>
+    <div class="align-self-center">
+        <label>Sexe : </label>
+        <input type="radio" name="sex" value="H" id="H" required/><label for="H">H</label>
+        <input type="radio" name="sex" value="F" id="F"/><label for="F">F</label><br/>
+    </div>
 
-    <label>Je possède une voiture : </label>
-    <input type="radio" name="car" value="yes" id="yes" required/><label for="yes">Oui</label>
-    <input type="radio" name="car" value="no" id="no"/><label for="no">Non</label><br/>
+    <div class="align-self-center">
+        <label>Je possède une voiture : </label>
+        <input type="radio" name="car" value="yes" id="yes" required/><label for="yes">Oui</label>
+        <input type="radio" name="car" value="no" id="no"/><label for="no">Non</label><br/>
+    </div>
 
-    <button onclick="verifForm()">Je m'inscris</button>
-    <input type="submit" style="visibility: hidden" value="submit"/>
+    <div class="align-self-center">
+        <button onclick="verifForm()">Je m'inscris</button>
+        <input type="submit" style="visibility: hidden" value="submit"/>
+    </div>
 </form>
 
 <script src="../js/CreateAccount.js" defer></script>
