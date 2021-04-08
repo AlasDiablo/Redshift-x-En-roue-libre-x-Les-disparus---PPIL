@@ -1,13 +1,19 @@
-<h1>Connexion</h1>
+<form class="d-flex flex-column col-md-4 offset-md-4 bg-light" method="post" action="${post_url}">
+    <h1 class="d-flex justify-content-center">Connexion</h1>
 
-<form method="post" action="${post_url}">
-    <label for="email">Adresse mail</label><br/>
-    <input type="email" name="mail" id="email" required/><br/>
+    <div class="align-self-center">
+        <label for="email">Adresse mail</label><br/>
+        <input type="email" name="mail" id="email" required/><br/>
+    </div>
 
-    <label for="mdp">Mot de passe</label><br/>
-    <input type="password" name="mdp" id="mdp" required/><br/>
+    <div class="align-self-center">
+        <label for="mdp">Mot de passe</label><br/>
+        <input type="password" name="mdp" id="mdp" required/><br/>
+    </div>
 
-    <input type="submit" value="Valider"/>
+    <div class="align-self-center">
+        <input type="submit" value="Valider"/>
+    </div>
 </form>
 
 <a href="${password_forgotten}">Mot de passe oublié?</a>
