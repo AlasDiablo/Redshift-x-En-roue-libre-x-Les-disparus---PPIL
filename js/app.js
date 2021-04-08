@@ -6,9 +6,11 @@ const checkName = () => {
     let nameForm = document.getElementById('name-form');
     let nameFormData = document.getElementById('nom');
 
-    if (/^(?=.*[a-z])(?=.*[A-Z])(?=.{2,25})/.test(nameFormData.value))
+    if (/^[a-zA-Z]{2,25}$/.test(nameFormData.value)) {
+        nameForm.innerText = 'Nom';
+        nameForm.style.backgroundColor = '';
         return true;
-    else {
+    } else {
         nameForm.innerText = 'Votre nom doit contenir entre 2 et 25 lettres et ne pas contenir de chiffre';
         nameForm.style.backgroundColor = '#F00';
         return false;
@@ -23,9 +25,11 @@ const checkFirstname = () => {
     let firstnameForm = document.getElementById('firstname-form');
     let firstnameFormData = document.getElementById('prenom');
 
-    if (/^(?=.*[a-z])(?=.*[A-Z])(?=.{2,25})/.test(firstnameFormData.value))
+    if (/^[a-zA-Z]{2,25}$/.test(firstnameFormData.value)) {
+        firstnameForm.innerText = 'Prénom';
+        firstnameForm.style.backgroundColor = '';
         return true;
-    else {
+    } else {
         firstnameForm.innerText = 'Votre prénom doit contenir entre 2 et 25 lettres et ne pas contenir de chiffre';
         firstnameForm.style.backgroundColor = '#F00';
         return false;
@@ -40,10 +44,12 @@ const checkEmail = () => {
     let emailForm = document.getElementById('email-form');
     let emailFormData = document.getElementById('email');
 
-    if (/^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(emailFormData.value))
+    if (/^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(emailFormData.value)) {
+        emailForm.innerText = 'Adresse mail';
+        emailForm.style.backgroundColor = '';
         return true;
-    else {
-        emailForm.innerText = 'Votre email doit etre valide';
+    } else {
+        emailForm.innerText = 'Votre adresse mail doit etre valide';
         emailForm.style.backgroundColor = '#F00';
         return false;
     }
@@ -61,9 +67,13 @@ const checkPassword = () => {
     let regexResult = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.{7,})/.test(passwordFormData.value);
     let passwordMatchResult = passwordFormData.value === passwordConfirmFormData.value;
 
-    if (regexResult && passwordMatchResult)
+    if (regexResult && passwordMatchResult) {
+        passwordConfirmForm.innerText = 'Confirmation du mot de passe';
+        passwordConfirmForm.style.backgroundColor = '';
+        passwordForm.innerText = 'Mot de passe';
+        passwordForm.style.backgroundColor = '';
         return true;
-    else {
+    } else {
         if (!passwordMatchResult) {
             passwordConfirmForm.innerText = 'Votre mot de passe doit être identique au précédent';
             passwordConfirmForm.style.backgroundColor = '#F00';
@@ -84,14 +94,16 @@ const checkPhone = () => {
     let phoneForm = document.getElementById('phone-form');
     let phoneFormData = document.getElementById('tel');
 
-    if (/[0]([6]|[7])[- .?]?([0-9][0-9][- .?]?){4}$/.test(phoneFormData.value))
+    if (/[0]([6]|[7])[- .?]?([0-9][0-9][- .?]?){4}$/.test(phoneFormData.value)) {
+        phoneForm.innerText = 'Numéro de téléphone';
+        phoneForm.style.backgroundColor = '';
         return true;
-    else {
+    } else {
         phoneForm.innerText = 'Votre numéro de téléphone doit etre numéro de portable valable en france';
         phoneForm.style.backgroundColor = '#F00';
         return false;
     }
-}
+};
 
 /**
  * Check and valid the user transaction
@@ -133,7 +145,7 @@ const checkPassengers = () => {
         passengers.style.backgroundColor = '#F00';
         return false;
     }
-}
+};
 
 const checkPrice = () => {
     let price = document.getElementById('prix-form');
@@ -145,7 +157,7 @@ const checkPrice = () => {
         price.style.backgroundColor = '#F00';
         return false;
     }
-}
+};
 
 let stages = 0;
 
@@ -162,10 +174,10 @@ const addStages = () => {
     input.name = 'stages[' + stages + ']';
     input.id = 'etapes[' + stages + ']';
     container.append(label, input, br);
-}
+};
 
 const createRide = (event) => {
     let boolCheckPassengers = checkPassengers();
     let boolCheckPrice = checkPrice();
     if (boolCheckPassengers && boolCheckPrice) event.parentNode.submit();
-}
+};
