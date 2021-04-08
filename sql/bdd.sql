@@ -65,6 +65,8 @@ CREATE TABLE IF NOT EXISTS `Trajet` (
     `nbr_passager` integer NOT NULL DEFAULT 1,
     `id_groupe` integer DEFAULT NULL,
     `prix` integer NOT NULL,
+    `lieuxRDV` varchar(512),
+    `commentaires` varchar(1024),
     PRIMARY KEY (`id_trajet`),
     CONSTRAINT fk_mail_conducteur_trajet FOREIGN KEY (`email_conducteur`) REFERENCES `Utilisateur`(`email`) ON DELETE CASCADE,
     CONSTRAINT fk_id_groupe_trajet FOREIGN KEY (`id_groupe`) REFERENCES `Groupe`(`id_groupe`) ON DELETE CASCADE,

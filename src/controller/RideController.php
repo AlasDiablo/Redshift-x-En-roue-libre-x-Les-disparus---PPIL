@@ -68,7 +68,7 @@ class RideController
             $i++;
         }
 
-        // Lieu de rendez vous c'est quoi ? C4est meme pas dans la base de donées / j'en ai jamais entendu parler
+        $lieuxRDV = filter_var($_POST['place'], FILTER_DEFAULT);
 
         $commentaires = filter_var($_POST['comments'], FILTER_DEFAULT);
 
@@ -149,6 +149,8 @@ class RideController
         $ride->email_conducteur = $_SESSION['mail'];
         $ride->nbr_passager = $nbPassagers;
         $ride->prix = $prix;
+        $ride->commentaires = $commentaires;
+        $ride->lieuxRDV = $lieuxRDV;
 
         $id = Trajet::max('id_trajet');
         if (isset($id)) $id++;
@@ -158,10 +160,12 @@ class RideController
         $ride->save();
 
         foreach ($etapeInter as $etape) {
-            $villeIntermediaire = new VilleIntermediaire();
-            $villeIntermediaire->id_trajet = $id;
-            $villeIntermediaire->ville = $etape;
-            $villeIntermediaire->save();
+            if (isset($etape) && $etape != '') {
+                $villeIntermediaire = new VilleIntermediaire();
+                $villeIntermediaire->id_trajet = $id;
+                $villeIntermediaire->ville = $etape;
+                $villeIntermediaire->save();
+            }
         }
 
         $url = AppContainer::getInstance()->getRouteCollector()->getRouteParser()->urlFor('root');
