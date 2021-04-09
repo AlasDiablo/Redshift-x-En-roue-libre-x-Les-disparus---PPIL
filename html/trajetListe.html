@@ -1,4 +1,4 @@
-<a class="d-inline p-3 bg-danger text-light" href="${create_ride}">Créer une offre de trajet</a>
+<a class="d-inline-flex p-3 bg-danger text-light" href="${create_ride}">Créer une offre de trajet</a>
 
 <section class="d-flex flex-column col-md-6 offset-md-3 bg-light">
     <p>Rechercher ${title} : </p>
@@ -12,15 +12,19 @@
         <label for="date">Date :</label>
         <input type="date" name="date" id="date" /><br />
 
-        <label for="tri">Trier par : </label>
-        <select name="tri" id="tri">
-            <option value="">--selectionnez une option--</option>
-            <option value="prix">Prix</option>
-            <option value="dateDepart">Date de départ</option>
-            <option value="dateArrivee">Date d'arrivée</option>
-        </select>
+        <div class="d-flex justify-content-between">
+            <div>
+                <label for="tri">Trier par : </label>
+                <select name="tri" id="tri">
+                    <option value="">--selectionnez une option--</option>
+                    <option value="prix">Prix</option>
+                    <option value="dateDepart">Date de départ</option>
+                    <option value="dateArrivee">Date d'arrivée</option>
+                </select>
+            </div>
 
-        <button type="button">Rechercher</button>
+            <button type="button">Rechercher</button>
+        </div>
     </form>
 </section>
 
