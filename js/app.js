@@ -138,9 +138,11 @@ const checkPassengers = () => {
     let passengers = document.getElementById('passagers-form');
     let passengersData = document.getElementById('passagers').value;
 
-    if (passengersData >= 1 && passengersData <= 9)
+    if (passengersData >= 1 && passengersData <= 9) {
+        passengers.innerText = 'Nombre de passagers max :';
+        passengers.style.backgroundColor = '';
         return true;
-    else {
+    } else {
         passengers.innerText = 'Le nombre de passagers doit se trouvé entre 1 et 9';
         passengers.style.backgroundColor = '#F00';
         return false;
@@ -150,14 +152,31 @@ const checkPassengers = () => {
 const checkPrice = () => {
     let price = document.getElementById('prix-form');
     let priceData = document.getElementById('prix').value;
-    if (priceData > 0)
+    if (priceData > 0) {
+        price.innerText = 'Prix de la place:';
+        price.style.backgroundColor = '';
         return true;
-    else {
+    } else {
         price.innerText = 'Le prix doit etre positive';
         price.style.backgroundColor = '#F00';
         return false;
     }
 };
+
+const checkLocation = () => {
+    let form = document.getElementById('depart-form');
+    let departData = document.getElementById('depart').value;
+    let arriverData = document.getElementById('arrivee').value;
+    if (departData !== arriverData) {
+        form.innerText = 'Départ :';
+        form.style.backgroundColor = '';
+        return true;
+    } else {
+        form.innerText = 'Le lieux de départ et le lieux d\'arrivé doit etré diffrent';
+        form.style.backgroundColor = '#F00';
+        return false;
+    }
+}
 
 let stages = 0;
 
@@ -179,5 +198,6 @@ const addStages = () => {
 const createRide = (event) => {
     let boolCheckPassengers = checkPassengers();
     let boolCheckPrice = checkPrice();
-    if (boolCheckPassengers && boolCheckPrice) event.parentNode.submit();
+    let boolCheckLocation = checkLocation();
+    if (boolCheckPassengers && boolCheckPrice && boolCheckLocation) event.parentNode.submit();
 };
