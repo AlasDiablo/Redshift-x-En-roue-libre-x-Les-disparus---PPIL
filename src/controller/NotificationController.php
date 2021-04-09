@@ -11,11 +11,16 @@ use ppil\util\AppContainer;
 
 class NotificationController
 {
-    public static function sendMyParticipationTo($from, $for, $rideId) {
-        $fromUser = Utilisateur::where('email', '=', $from)->first();
+    private static function today()
+    {
         setlocale(LC_TIME, "fr_FR");
         // March 10, 2001, 17:16
-        $today = strftime("%B %e, %Y, %H:%M");
+        return strftime("%B %e, %Y, %H:%M");
+    }
+
+    private static function participationDismiss($from, $for, $rideId, $text) {
+        $fromUser = Utilisateur::where('email', '=', $from)->first();
+        $today = self::today();
         $fromName = $fromUser->nom . ' ' . $fromUser->prenom;
         $ride = Trajet::where('id_trajet', '=', $rideId)->first();
         $rideFrom = $ride->ville_depart;
@@ -23,7 +28,7 @@ class NotificationController
         $rideUrl = AppContainer::getInstance()->getRouteCollector()->getRouteParser()->urlFor('ride', array('id' => $rideId));
         $content = <<<text
 $today<br>
-$fromName, A rejoin votre trajet allent de $rideFrom à $rideTo <a href="$rideUrl">(voir mon trajet)</a>.
+$fromName, $text $rideFrom à $rideTo <a href="$rideUrl">(voir mon trajet)</a>.
 text;
         $notif = new Notification();
 
@@ -35,5 +40,15 @@ text;
         else $id = 0;
         $notif->id_notif = $id;
         $notif->save();
+    }
+
+    public static function sendMyParticipationTo($from, $for, $rideId)
+    {
+        self::participationDismiss($from, $for, $rideId, 'A rejoin votre trajet allent de');
+    }
+
+    public static function sendMyDismissTo($from, $for, $rideId)
+    {
+        self::participationDismiss($from, $for, $rideId, 'A annulé ça participation au trajet de');
     }
 }
