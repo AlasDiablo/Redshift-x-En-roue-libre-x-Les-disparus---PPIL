@@ -1,62 +1,42 @@
-<h1>Modifier mon profil</h1>
+<section class="d-flex flex-column col-md-4 offset-md-4 bg-light">
+    <h1 class="align-self-center">Modifier mon profil</h1>
 
-<img src="${my_avatar}" alt="My Avatar">
+    <img src="${my_avatar}" alt="My Avatar">
 
-<form class="d-flex flex-column col-md-4 offset-md-4 bg-light" method="post" action="${post_url}" enctype="multipart/form-data">
-    <div class="align-self-center">
+    <form class="align-self-center" method="post" action="${post_url}" enctype="multipart/form-data">
         <label for="nom" id="name-form">Nom</label><br/>
         <input type="text" name="name" id="nom" value="${name}"/><br/>
-    </div>
 
-    <div class="align-self-center">
         <label for="prenom" id="firstname-form">Prénom</label><br/>
         <input type="text" name="firstName" id="prenom" value="${firstName}"/><br/>
-    </div>
 
-    <div class="align-self-center">
         <label for="email">Adresse mail</label><br/>
         <input type="email" name="mail" id="email" value="${mail}" disabled/><br/>
-    </div>
 
-    <div class="align-self-center">
         <label for="oldmdp">Ancien mot de passe</label><br/>
         <input type="password" name="oldpassword" id="oldmdp"/><br/>
-    </div>
 
-    <div class="align-self-center">
         <label for="mdp" id="password-form">Nouveau mot de passe</label><br/>
         <input type="password" name="newpassword" id="mdp"/><br/>
-    </div>
 
-    <div class="align-self-center">
         <label for="confirmMdp" id="password-confirm-form">Confirmation du nouveau mot de passe</label><br/>
         <input type="password" name="confirmnewpassword" id="confirmMdp"/><br/>
-    </div>
 
-    <div class="align-self-center">
         <label for="tel" id="phone-form">Numéro de téléphone</label><br/>
         <input type="tel" name="phone" id="tel" value="${tel}"/><br/>
-    </div>
 
-    <div class="align-self-center">
         <label>Sexe : </label>
         <input type="radio" name="sex" value="H" id="H" ${H}/><label for="H">H</label>
         <input type="radio" name="sex" value="F" id="F" ${F}/><label for="F">F</label><br/>
-    </div>
 
-    <div class="align-self-center">
         <label>Je possède une voiture : </label>
         <input type="radio" name="car" value="yes" id="yes" ${yes}/><label for="yes">Oui</label>
         <input type="radio" name="car" value="no" id="no" ${no}/><label for="no">Non</label><br/>
-    </div>
 
-    <div class="align-self-center">
         <label for="avatar">Ajour un Avatar : </label>
         <input type="file" name="avatar" id="avatar"><br/>
-    </div> 
 
-    <div class="align-self-center">
         <input type="button" value="Annuler"/>
         <button type="button" onclick="editAccount(this)">Valider</button>
-    </div>
-</form>
+    </form>
+</section>
