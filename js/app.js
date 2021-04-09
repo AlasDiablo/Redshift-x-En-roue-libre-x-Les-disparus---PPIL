@@ -106,7 +106,7 @@ const checkPhone = () => {
 };
 
 /**
- * Check and valid the user transaction
+ * function call for checking and valid the account creation
  * @param event form button event
  */
 const createAccount = (event) => {
@@ -118,6 +118,10 @@ const createAccount = (event) => {
     if (boolName && boolFirstname && boolEmail && boolPassword && boolPhone) event.parentNode.submit();
 };
 
+/**
+ * Function call for checking all data on account edition
+ * @param event user transaction event
+ */
 const editAccount = (event) => {
     let boolName = checkName();
     let boolFirstname = checkFirstname();
@@ -130,10 +134,18 @@ const editAccount = (event) => {
     if (boolName && boolFirstname && boolPassword && boolPhone) event.parentNode.submit();
 };
 
+/**
+ * Check the new user password
+ * @param event user transaction event
+ */
 const changePassword = (event) => {
     if (checkPassword()) event.parentNode.submit();
 };
 
+/**
+ * Check if the number of passagers is correct
+ * @returns {boolean} true if check have pass, false in other case
+ */
 const checkPassengers = () => {
     let passengers = document.getElementById('passagers-form');
     let passengersData = document.getElementById('passagers').value;
@@ -149,6 +161,10 @@ const checkPassengers = () => {
     }
 };
 
+/**
+ * Check if the price is positive
+ * @returns {boolean} true if check have pass, false in other case
+ */
 const checkPrice = () => {
     let price = document.getElementById('prix-form');
     let priceData = document.getElementById('prix').value;
@@ -163,11 +179,15 @@ const checkPrice = () => {
     }
 };
 
+/**
+ * Check if the start is different to the end
+ * @returns {boolean} true if check have pass, false in other case
+ */
 const checkLocation = () => {
     let form = document.getElementById('depart-form');
-    let departData = document.getElementById('depart').value;
-    let arriverData = document.getElementById('arrivee').value;
-    if (departData !== arriverData) {
+    let startData = document.getElementById('depart').value;
+    let endData = document.getElementById('arrivee').value;
+    if (startData !== endData) {
         form.innerText = 'Départ :';
         form.style.backgroundColor = '';
         return true;
@@ -178,8 +198,15 @@ const checkLocation = () => {
     }
 }
 
+/**
+ * Store the current stages id
+ * @type {number} stage id
+ */
 let stages = 0;
 
+/**
+ * Function call for create a new stage between the ride start and the ride end
+ */
 const addStages = () => {
     let container = document.getElementById('stages');
     let label = document.createElement('label');
@@ -195,6 +222,10 @@ const addStages = () => {
     container.append(label, input, br);
 };
 
+/**
+ * Function call for checking all data on ride creation
+ * @param event user transaction event
+ */
 const createRide = (event) => {
     let boolCheckPassengers = checkPassengers();
     let boolCheckPrice = checkPrice();
