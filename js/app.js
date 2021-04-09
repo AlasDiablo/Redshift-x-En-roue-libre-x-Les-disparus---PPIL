@@ -106,7 +106,7 @@ const checkPhone = () => {
 };
 
 /**
- * Check and valid the user transaction
+ * function call for checking and valid the account creation
  * @param event form button event
  */
 const createAccount = (event) => {
@@ -118,6 +118,10 @@ const createAccount = (event) => {
     if (boolName && boolFirstname && boolEmail && boolPassword && boolPhone) event.parentNode.submit();
 };
 
+/**
+ * Function call for checking all data on account edition
+ * @param event user transaction event
+ */
 const editAccount = (event) => {
     let boolName = checkName();
     let boolFirstname = checkFirstname();
@@ -130,37 +134,79 @@ const editAccount = (event) => {
     if (boolName && boolFirstname && boolPassword && boolPhone) event.parentNode.submit();
 };
 
+/**
+ * Check the new user password
+ * @param event user transaction event
+ */
 const changePassword = (event) => {
     if (checkPassword()) event.parentNode.submit();
 };
 
+/**
+ * Check if the number of passagers is correct
+ * @returns {boolean} true if check have pass, false in other case
+ */
 const checkPassengers = () => {
     let passengers = document.getElementById('passagers-form');
     let passengersData = document.getElementById('passagers').value;
 
-    if (passengersData >= 1 && passengersData <= 9)
+    if (passengersData >= 1 && passengersData <= 9) {
+        passengers.innerText = 'Nombre de passagers max :';
+        passengers.style.backgroundColor = '';
         return true;
-    else {
+    } else {
         passengers.innerText = 'Le nombre de passagers doit se trouvé entre 1 et 9';
         passengers.style.backgroundColor = '#F00';
         return false;
     }
 };
 
+/**
+ * Check if the price is positive
+ * @returns {boolean} true if check have pass, false in other case
+ */
 const checkPrice = () => {
     let price = document.getElementById('prix-form');
     let priceData = document.getElementById('prix').value;
-    if (priceData > 0)
+    if (priceData > 0) {
+        price.innerText = 'Prix de la place:';
+        price.style.backgroundColor = '';
         return true;
-    else {
+    } else {
         price.innerText = 'Le prix doit etre positive';
         price.style.backgroundColor = '#F00';
         return false;
     }
 };
 
+/**
+ * Check if the start is different to the end
+ * @returns {boolean} true if check have pass, false in other case
+ */
+const checkLocation = () => {
+    let form = document.getElementById('depart-form');
+    let startData = document.getElementById('depart').value;
+    let endData = document.getElementById('arrivee').value;
+    if (startData !== endData) {
+        form.innerText = 'Départ :';
+        form.style.backgroundColor = '';
+        return true;
+    } else {
+        form.innerText = 'Le lieux de départ et le lieux d\'arrivé doit etré diffrent';
+        form.style.backgroundColor = '#F00';
+        return false;
+    }
+}
+
+/**
+ * Store the current stages id
+ * @type {number} stage id
+ */
 let stages = 0;
 
+/**
+ * Function call for create a new stage between the ride start and the ride end
+ */
 const addStages = () => {
     let container = document.getElementById('stages');
     let label = document.createElement('label');
@@ -176,8 +222,13 @@ const addStages = () => {
     container.append(label, input, br);
 };
 
+/**
+ * Function call for checking all data on ride creation
+ * @param event user transaction event
+ */
 const createRide = (event) => {
     let boolCheckPassengers = checkPassengers();
     let boolCheckPrice = checkPrice();
-    if (boolCheckPassengers && boolCheckPrice) event.parentNode.submit();
+    let boolCheckLocation = checkLocation();
+    if (boolCheckPassengers && boolCheckPrice && boolCheckLocation) event.parentNode.submit();
 };
