@@ -1,8 +1,8 @@
-<a href="${create_ride}">Créer une offre de trajet</a>
+<a class="d-inline p-3 bg-danger text-light" href="${create_ride}">Créer une offre de trajet</a>
 
-<section>
+<section class="d-flex flex-column col-md-6 offset-md-3 bg-light">
     <p>Rechercher ${title} : </p>
-    <form method="POST" action="">
+    <form class="align-self-center" method="POST" action="">
         <label for="depart">Départ</label>
         <input type="text" name="depart" id="depart" />
 
@@ -10,7 +10,7 @@
         <input type="text" name="arrive" id="arrive" />
 
         <label for="date">Date :</label>
-        <input type="date" name="date" id="date" />
+        <input type="date" name="date" id="date" /><br />
 
         <label for="tri">Trier par : </label>
         <select name="tri" id="tri">
@@ -24,6 +24,6 @@
     </form>
 </section>
 
-<section>
+<section class="d-flex flex-column col-md-6 offset-md-3 bg-light">
     ${list_trajet}
 </section>
