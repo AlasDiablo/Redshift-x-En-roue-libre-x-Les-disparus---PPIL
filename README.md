@@ -23,7 +23,8 @@ A. Downloading Composer:
 [Command-line installation](https://getcomposer.org/download/)
         
 B. Chose php version (Windows only):
-![composer-windows](https://raw.githubusercontent.com/AlasDiablo/Rs-Rl-Ld-PPIL/readme/readme-assets/compser.jpg)
+
+<img src="https://raw.githubusercontent.com/AlasDiablo/Rs-Rl-Ld-PPIL/readme/readme-assets/compser.jpg" alt="composer-windows" width="400px"/>
 
 </details>
 
