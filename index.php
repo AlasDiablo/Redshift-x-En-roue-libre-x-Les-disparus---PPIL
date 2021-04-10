@@ -1,6 +1,7 @@
 <?php
 
 use ppil\controller\ListController;
+use ppil\controller\NotificationController;
 use ppil\controller\RideController;
 use ppil\controller\UserController;
 use ppil\util\AppContainer;
@@ -45,12 +46,12 @@ $app->get('/', function (Request $request, Response $response, $args) {
 
 // --------------------- Creation d'un compte ---------------------
 // Get (obtenir la page web)
-$app->get('/accounts/sign-up', function (Request $request, Response $response, $args) {
+$app->get('/account/sign-up', function (Request $request, Response $response, $args) {
     $response->getBody()->write(UserView::creerUnCompte());
     return $response;
 })->setName('sign-up');
 // Post géré les donnée entré par l'utilisateur
-$app->post('/accounts/sign-up', function (Request $request, Response $response, $args) {
+$app->post('/account/sign-up', function (Request $request, Response $response, $args) {
     $response->getBody()->write(UserController::creerUtilisateur());
     return $response;
 })->setName('sign-up_post');
@@ -58,53 +59,53 @@ $app->post('/accounts/sign-up', function (Request $request, Response $response, 
 
 // --------------------- Connexion a un compte ---------------------
 // Get (obtenir la page web)
-$app->get('/accounts/sign-in', function (Request $request, Response $response, $args) {
+$app->get('/account/sign-in', function (Request $request, Response $response, $args) {
     $response->getBody()->write(UserView::seConnecter());
     return $response;
 })->setName('sign-in');
 // Post géré les donnée entré par l'utilisateur
-$app->post('/accounts/sign-in', function (Request $request, Response $response, $args) {
+$app->post('/account/sign-in', function (Request $request, Response $response, $args) {
     $response->getBody()->write(UserController::seConnecter());
     return $response;
 })->setName('sign-in_post');
 
 // --------------------- Se deconnecté ---------------------
-$app->get('/accounts/logout', function (Request $request, Response $response, $args) {
+$app->get('/account/logout', function (Request $request, Response $response, $args) {
     UserController::seDeconnecter();
     return $response;
 })->setName('logout');
 
 // --------------------- Mot de passe oublié ---------------------
 // Get (obtenir la page web)
-$app->get('/accounts/password-forgotten', function (Request $request, Response $response, $args) {
+$app->get('/account/password-forgotten', function (Request $request, Response $response, $args) {
     $response->getBody()->write(UserView::motDePasseOublie());
     return $response;
 })->setName('password-forgotten');
 // Post géré les donnée entré par l'utilisateur
-$app->post('/accounts/password-forgotten', function (Request $request, Response $response, $args) {
+$app->post('/account/password-forgotten', function (Request $request, Response $response, $args) {
     $response->getBody()->write(UserController::mdpOublie());
     return $response;
 })->setName('password-forgotten_post');
 
 // Get formulaire de modification de mot de passe
-$app->get('/accounts/password-forgotten/{key}', function (Request $request, Response $response, $args) {
+$app->get('/account/password-forgotten/{key}', function (Request $request, Response $response, $args) {
     $response->getBody()->write(UserView::motDePasseOublieForm($args['key']));
     return $response;
 })->setName('password-forgotten-key');
 // Post formulaire de modification de mot de passe
-$app->post('/accounts/password-forgotten/{key}', function (Request $request, Response $response, $args) {
+$app->post('/account/password-forgotten/{key}', function (Request $request, Response $response, $args) {
     $response->getBody()->write(UserController::recupererMdp($args['key']));
     return $response;
 })->setName('password-forgotten-key_post');
 
 // --------------------- Mofifier mon profil ---------------------
 // Get (obtenir la page web)
-$app->get('/accounts/edit-profile', function (Request $request, Response $response, $args) {
+$app->get('/account/edit-profile', function (Request $request, Response $response, $args) {
     $response->getBody()->write(UserController::modifierProfilVue());
     return $response;
 })->setName('edit-profile');
 // Post géré les donnée entré par l'utilisateur
-$app->post('/accounts/edit-profile', function (Request $request, Response $response, $args) {
+$app->post('/account/edit-profile', function (Request $request, Response $response, $args) {
     $response->getBody()->write(UserController::modifierUtilisateur());
     return $response;
 })->setName('edit-profile_post');
@@ -122,7 +123,7 @@ $app->post('/ride/create', function (Request $request, Response $response, $args
 
 // --------------------- Consulter mes trajets ---------------------
 // 
-$app->get('/accounts/myrides', function (Request $request, Response $response, $args) {
+$app->get('/account/myrides', function (Request $request, Response $response, $args) {
     $response->getBody()->write(ListController::mesTrajets());
     return $response;
 })->setName('myrides');
@@ -141,6 +142,13 @@ $app->get('/ride/{id}', function (Request $request, Response $response, $args) {
     $response->getBody()->write(RideController::displayRide($args['id']));
     return $response;
 })->setName('ride');
+
+// --------------------- Liste des notification ---------------------
+$app->get('/account/notifications', function (Request $request, Response $response, $args) {
+    $response->getBody()->write(NotificationController::renderNotificationsList());
+    return $response;
+})->setName('notifications');
+
 
 // Demarais l'appliquation web
 $app->run();

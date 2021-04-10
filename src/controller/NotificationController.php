@@ -8,6 +8,8 @@ use ppil\models\Notification;
 use ppil\models\Trajet;
 use ppil\models\Utilisateur;
 use ppil\util\AppContainer;
+use ppil\view\NotificationView;
+use ppil\view\ViewRendering;
 
 class NotificationController
 {
@@ -50,5 +52,14 @@ text;
     public static function sendMyDismissTo($from, $for, $rideId)
     {
         self::participationDismiss($from, $for, $rideId, 'A annulé ça participation au trajet de');
+    }
+
+    public static function renderNotificationsList() {
+        if (isset($_SESSION['mail'])) {
+            $data = Notification::where('utilisateur', '=', $_SESSION['mail'])->get();
+            return NotificationView::renderNotificationsList($data);
+        } else {
+            return ViewRendering::renderError('Forbidden');
+        }
     }
 }

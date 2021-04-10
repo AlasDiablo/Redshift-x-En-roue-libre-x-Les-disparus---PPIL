@@ -10,19 +10,20 @@ class ViewRendering
 
     private static function getNavBar($app)
     {
-        $nav = "<ul>";
         $urlSignIn = $app->getRouteCollector()->getRouteParser()->urlFor('sign-in');
         $urlLogout = $app->getRouteCollector()->getRouteParser()->urlFor('logout');
         $urlProfile = $app->getRouteCollector()->getRouteParser()->urlFor('edit-profile');
 		$urlPublicRide = $app->getRouteCollector()->getRouteParser()->urlFor('public-ride');
         $urlRoot = $app->getRouteCollector()->getRouteParser()->urlFor('root');
         $urlRides = $app->getRouteCollector()->getRouteParser()->urlFor('myrides');
+        $urlNotification = $app->getRouteCollector()->getRouteParser()->urlFor('notifications');
         $connected = <<<html
-        <li><a href="$urlRoot">ShareMyRide</a></li>
-        <li><a href="$urlPublicRide">Trajet public</a></li>
-        <li><a href="#">Trajet privé</a></li>
-        <li><a href="$urlLogout">Se déconnecter</a></li>
-        <li><a href="$urlRides">MyRides</a></li>
+<li><a href="$urlRoot">ShareMyRide</a></li>
+<li><a href="$urlPublicRide">Trajet public</a></li>
+<li><a href="#">Trajet privé</a></li>
+<li><a href="$urlRides">MyRides</a></li>
+<li><a href="$urlNotification">Mes Notification</a></li>
+<li><a href="$urlLogout">Se déconnecter</a></li>
 html;
         if (isset($_SESSION['mail'])) {
             $user = Utilisateur::where('email', '=', $_SESSION['mail'])->first();
@@ -39,15 +40,11 @@ html;
 </a></li>
 html;
         }
-
-
         $notConnected = <<<html
-        <li><a href="$urlRoot">ShareMyRide</a></li>
-        <li><a href="$urlSignIn">Me connecter</a></li>
+<li><a href="$urlRoot">ShareMyRide</a></li>
+<li><a href="$urlSignIn">Me connecter</a></li>
 html;
-        $nav .= (isset($_SESSION['mail'])) ? $connected : $notConnected;
-        $nav .= "</ul>";
-        return $nav;
+        return (isset($_SESSION['mail'])) ? $connected : $notConnected;
     }
 
     /**
@@ -71,7 +68,7 @@ html;
         }
 
         // Web Site link
-        $template = str_replace('${nav_bar}', self::getNavBar($app), $template);
+        $template = str_replace('${nav_bar}', '<ul>' .  self::getNavBar($app) . '</ul>', $template);
 
         // Site content
 

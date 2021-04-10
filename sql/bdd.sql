@@ -28,7 +28,7 @@ CREATE TABLE IF NOT EXISTS `Notification` (
     `id_notif` integer NOT NULL,
     `utilisateur` varchar(255) NOT NULL,
     `emeteur` varchar(255) NOT NULL,
-    `message` varchar(255) NOT NULL,
+    `message` text NOT NULL,
     `vu` varchar(1) DEFAULT 'N',
     PRIMARY KEY (`id_notif`),
     CONSTRAINT fk_utilisateur_notif FOREIGN KEY (`utilisateur`) REFERENCES `Utilisateur`(`email`) ON DELETE CASCADE,
