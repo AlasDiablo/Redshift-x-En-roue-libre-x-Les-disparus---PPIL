@@ -16,13 +16,17 @@ class ViewRendering
         $urlProfile = $app->getRouteCollector()->getRouteParser()->urlFor('edit-profile');
 		$urlPublicRide = $app->getRouteCollector()->getRouteParser()->urlFor('public-ride');
         $urlRoot = $app->getRouteCollector()->getRouteParser()->urlFor('root');
-        $urlRides = $app->getRouteCollector()->getRouteParser()->urlFor('myrides');
+        $urlMyRides = $app->getRouteCollector()->getRouteParser()->urlFor('myrides');
+        $urlParticipatingRides = $app->getRouteCollector()->getRouteParser()->urlFor('participating-rides');
         $connected = <<<html
         <li><a href="$urlRoot">ShareMyRide</a></li>
         <li><a href="$urlPublicRide">Trajet public</a></li>
         <li><a href="#">Trajet privé</a></li>
         <li><a href="$urlLogout">Se déconnecter</a></li>
-        <li><a href="$urlRides">MyRides</a></li>
+        <ul><p>MyRides</p>
+            <li><a href="$urlMyRides">Trajets que j'ai créées</a></li>
+            <li><a href="$urlParticipatingRides">Trajets auxquels je participe</a></li>
+        </ul>
 html;
         if (isset($_SESSION['mail'])) {
             $user = Utilisateur::where('email', '=', $_SESSION['mail'])->first();
