@@ -81,15 +81,15 @@ On php you don't need a specifique configuration, you juste need to enable `mysq
 <ul><li>
 
 A. Import tables into the DBMS
-- Import `sql/bdd.sql` (tables use for all interation on the application)
-- Import `sql/ville_france.sql` (table containing all french city)
+- Import `sql/bdd.sql` (tables use for all interation on the application).
+- Import `sql/ville_france.sql` (table containing all french city).
 
 </li><li>
 
 B. Create database config file
-- Create a new folder into `src` named `conf`
-- Create a new file into `src/conf` named `conf.ini`
-- Add this content into it with the proper modification
+- Create a new folder into `src` named `conf`.
+- Create a new file into `src/conf` named `conf.ini`.
+- Add this content into it with the proper modification:
 ```ini
 # driver to use
 driver=mysql
@@ -104,6 +104,37 @@ username=root
 # Password linked to your Username
 password=
 ```
+
+</li></ul>
+</details>
+
+<details><summary><b>1. Setup email sending</b></summary>
+<ul><li>
+
+A. Create email config file (gmail service)
+- Create a new folder into `src` named `conf`.
+- Create a new file into `src/conf` named `email.ini`.
+- Add this content into it with the proper modification:
+```ini
+# Your gmail username (equivalent to your email)
+username=email@gmail.com
+# Your gmail password (Is highly recommended to create an application password)
+password="My password"
+```
+
+</li><li>
+
+A. Create email config file
+- Create a new folder into `src` named `conf`0
+- Create a new file into `src/conf` named `email.ini`.
+- Add this content into it with the proper modification:
+```ini
+# Your username
+username=email@email.com
+# Your password
+password="My password"
+```
+- Edit `src/util/EmailFactory.php` and change the host, port and all information you need to change for matching the config for sur stmp server/service.
 
 </li></ul>
 </details>
