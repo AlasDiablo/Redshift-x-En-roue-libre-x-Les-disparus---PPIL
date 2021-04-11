@@ -182,10 +182,10 @@ class RideController
         return strtotime($date_now->format($format)) <= strtotime($date) ;
     }
 
-    public static function participate()
+    public static function participate($id)
     {
         // parametre
-        $id = filter_var($_POST['id_trajet'], FILTER_DEFAULT);
+        $id = filter_var($id, FILTER_DEFAULT);
 
         // verif trajet existe
         $trajet = Trajet::where('id_trajet', '=', $id)->first();
@@ -204,20 +204,19 @@ class RideController
         // modif
         $trajet->nbr_passager -= 1;
         $trajet->save();
-        $passager = new Passager;
+        $passager = new Passager();
         $passager->email_passager = $mail;
         $passager->id_trajet = $id;
         $passager->save();
 
-        // envoie un mail
-        $mailConducteur = $trajet->email_conducteur;
+        /*$mailConducteur = $trajet->email_conducteur;
         $conducteur = Utilisateur::where('email', '=', $mailConducteur)->first();
         if(!isset($conducteur)) {
             return ViewRendering::renderError("Le responsable du trajet est introuvable.");
         }
-        EmailFactory::envoieEmail("", "Demande de participation à votre trajet", $mailConducteur, $conducteur->nom);
+        EmailFactory::envoieEmail("", "Demande de participation à votre trajet", $mailConducteur, $conducteur->nom);*/
 
-        // notif
+        // notif et mail
         NotificationController::sendMyParticipationTo($mail, $mailConducteur, $id);
 
         // redirection
