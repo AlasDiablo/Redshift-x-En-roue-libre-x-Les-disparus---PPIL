@@ -124,7 +124,7 @@ password="My password"
 
 </li><li>
 
-A. Create email config file
+A. Create email config file (other service)
 - Create a new folder into `src` named `conf`0
 - Create a new file into `src/conf` named `email.ini`.
 - Add this content into it with the proper modification:
