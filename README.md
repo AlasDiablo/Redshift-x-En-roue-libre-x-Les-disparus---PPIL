@@ -10,21 +10,44 @@
 
 ## Who to install
 
-### Install Composer Dependencies
+### Downloading project
 
+<summary><b>1. Cloning this repository</b></summary>
 
+```
+git clone https://github.com/AlasDiablo/Rs-Rl-Ld-PPIL.git
+```
+
+### Install Composer and project Dependencies
 
 <details><summary><b>1. Installing Composer</b></summary>
+<ul><li>
 
 A. Downloading Composer:
 - Windows:
 [Composer-Setup.exe](https://getcomposer.org/Composer-Setup.exe)    
 - Ubuntu & other:
 [Command-line installation](https://getcomposer.org/download/)
-        
+</li>
+<li>
 B. Chose php version (Windows only):
 
 <img src="https://raw.githubusercontent.com/AlasDiablo/Rs-Rl-Ld-PPIL/readme/readme-assets/compser.jpg" alt="composer-windows" width="400px"/>
+</li></ul>
+</details><br><br>
 
-</details>
+<summary><b>2. Install Dependencies and Autoloader</b></summary>
+<ul><li>
+A. Via make
 
+```
+project location $> make
+```
+</li>
+<li>
+B. Via composer directly
+
+```
+project location $> composer install
+```
+</li></ul>
