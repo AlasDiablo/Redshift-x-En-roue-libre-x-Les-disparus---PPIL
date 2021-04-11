@@ -2,6 +2,7 @@
 
 namespace ppil\view;
 
+use ppil\controller\NotificationController;
 use ppil\models\Utilisateur;
 use ppil\util\AppContainer;
 
@@ -10,41 +11,37 @@ class ViewRendering
 
     private static function getNavBar($app)
     {
-        $urlSignIn = $app->getRouteCollector()->getRouteParser()->urlFor('sign-in');
-        $urlLogout = $app->getRouteCollector()->getRouteParser()->urlFor('logout');
-        $urlProfile = $app->getRouteCollector()->getRouteParser()->urlFor('edit-profile');
-		$urlPublicRide = $app->getRouteCollector()->getRouteParser()->urlFor('public-ride');
+        $out = '<ul>';
         $urlRoot = $app->getRouteCollector()->getRouteParser()->urlFor('root');
-        $urlRides = $app->getRouteCollector()->getRouteParser()->urlFor('myrides');
-        $urlNotification = $app->getRouteCollector()->getRouteParser()->urlFor('notifications');
-        $connected = <<<html
+        if (isset($_SESSION['mail'])) {
+            $urlLogout = $app->getRouteCollector()->getRouteParser()->urlFor('logout');
+            $urlProfile = $app->getRouteCollector()->getRouteParser()->urlFor('edit-profile');
+            $urlPublicRide = $app->getRouteCollector()->getRouteParser()->urlFor('public-ride');
+            $urlRides = $app->getRouteCollector()->getRouteParser()->urlFor('myrides');
+            $urlNotification = $app->getRouteCollector()->getRouteParser()->urlFor('notifications');
+            $notificationCount = NotificationController::getUnreadNotificationCount();
+            $notificationCountText = ($notificationCount > 0) ? ' (' . $notificationCount . ')' : '';
+            $user = Utilisateur::where('email', '=', $_SESSION['mail'])->first();
+            $url_img = isset($user->url_img) ? $user->url_img : '/uploads/default';
+            $out .= <<<html
 <li><a href="$urlRoot">ShareMyRide</a></li>
 <li><a href="$urlPublicRide">Trajet public</a></li>
 <li><a href="#">Trajet privé</a></li>
 <li><a href="$urlRides">MyRides</a></li>
-<li><a href="$urlNotification">Mes Notification</a></li>
+<li><a href="$urlNotification">Mes Notification$notificationCountText</a></li>
 <li><a href="$urlLogout">Se déconnecter</a></li>
-html;
-        if (isset($_SESSION['mail'])) {
-            $user = Utilisateur::where('email', '=', $_SESSION['mail'])->first();
-            $url_img = isset($user->url_img) ? $user->url_img : '/uploads/default';
-            $connected .= <<<html
 <li><a href="$urlProfile">
     <img src="$url_img" alt="My Avatar" width="64px" height="64px">
 </a></li>
 html;
         } else {
-            $connected .= <<<html
-<li><a href="$urlProfile">
-    <img src="/uploads/default" alt="My Avatar" width="64px" height="64px">
-</a></li>
-html;
-        }
-        $notConnected = <<<html
+            $urlSignIn = $app->getRouteCollector()->getRouteParser()->urlFor('sign-in');
+            $out .= <<<html
 <li><a href="$urlRoot">ShareMyRide</a></li>
 <li><a href="$urlSignIn">Me connecter</a></li>
 html;
-        return (isset($_SESSION['mail'])) ? $connected : $notConnected;
+        }
+        return $out . '</ul>';
     }
 
     /**
@@ -68,7 +65,7 @@ html;
         }
 
         // Web Site link
-        $template = str_replace('${nav_bar}', '<ul>' .  self::getNavBar($app) . '</ul>', $template);
+        $template = str_replace('${nav_bar}', self::getNavBar($app), $template);
 
         // Site content
 

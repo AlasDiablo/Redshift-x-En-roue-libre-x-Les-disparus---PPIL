@@ -62,4 +62,9 @@ text;
             return ViewRendering::renderError('Forbidden');
         }
     }
+
+    public static function getUnreadNotificationCount()
+    {
+        return Notification::where('utilisateur', '=', $_SESSION['mail'])->where('vu', '=', 'N')->count();
+    }
 }
