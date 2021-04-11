@@ -55,7 +55,7 @@ project location $> composer install
 
 ### Apache configuration
 
-<summary><b>1. Create a VirtualHost</b></summary>
+<details><summary><b>1. Create a VirtualHost</b></summary>
 <ul><li>
 
 A. For the apache configuration you need to create a VirtualHost with the name of your choice.
@@ -69,6 +69,7 @@ B. This VirtualHost need to allow override this is needed by the `.htaccess` fil
 C. Don't forget to enable `mod_write` on apache, the `.htaccess` file use this module for enable feature for slim(php framework for url rooting).
 
 </li></ul>
+</details>
 
 ### Php configuration
 
