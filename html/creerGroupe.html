@@ -1,0 +1,13 @@
+<h1>Créer un groupe avec vos amis</h1>
+
+<form method="post" action="${post_url}">
+
+    <label for="nomGroupe" id="groupname-form">Nom du groupe:</label><br/>
+    <input type="text" name="groupname" id="nomGroupe" required/><br/>
+
+    <label for="group-avatar">Ajouter une photo de groupe : </label>
+    <input type="file" name="group-avatar" id="group-avatar"><br/>
+
+    <button type="button" onclick="createGroup(this)">Valider</button>
+
+</form>
