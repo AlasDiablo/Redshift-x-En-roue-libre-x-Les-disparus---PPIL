@@ -30,13 +30,13 @@ A. Downloading Composer:
 [Command-line installation](https://getcomposer.org/download/)
 </li>
 <li>
-B. Chose php version (Windows only):
-
+B. Chose php version (Windows only):<br>
 <img src="https://raw.githubusercontent.com/AlasDiablo/Rs-Rl-Ld-PPIL/readme/readme-assets/compser.jpg" alt="composer-windows" width="400px"/>
+
 </li></ul>
 </details><br><br>
 
-<summary><b>2. Install Dependencies and Autoloader</b></summary>
+<details><summary><b>2. Install Dependencies and Autoloader</b></summary>
 <ul><li>
 A. Via make
 
@@ -51,3 +51,4 @@ B. Via composer directly
 project location $> composer install
 ```
 </li></ul>
+</details>
