@@ -181,3 +181,31 @@ const createRide = (event) => {
     let boolCheckPrice = checkPrice();
     if (boolCheckPassengers && boolCheckPrice) event.parentNode.submit();
 };
+
+/**
+ * Check if the group name is containing between 3 and 25 letter
+ * @returns {boolean} true if check have pass, false in other case
+ */
+const checkGroupName = () => {
+    let groupNameForm = document.getElementById('groupname-form');
+    let groupNameFormData = document.getElementById('nomGroupe');
+
+    if (/^.{3,25}$/.test(groupNameFormData.value)) {
+        groupNameForm.innerText = 'Nom du groupe';
+        groupNameForm.style.backgroundColor = '';
+        return true;
+    } else {
+        groupNameForm.innerText = 'Le nom de groupe doit contenir entre 3 et 25 caractères';
+        groupNameForm.style.backgroundColor = '#F00';
+        return false;
+    }
+};
+
+/**
+ * Check and valid the group of friends transaction
+ * @param event form button event
+ */
+const createGroup = (event) => {
+    let boolCheckGroupName = checkGroupName();
+    if (boolCheckGroupName) event.parentNode.submit();
+}
