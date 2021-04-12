@@ -4,11 +4,14 @@ namespace ppil\controller;
 
 use ppil\models\Passager;
 use ppil\models\Trajet;
+use ppil\models\Utilisateur;
 use ppil\models\VilleFrance;
 use ppil\models\VilleIntermediaire;
 use ppil\util\AppContainer;
+use ppil\util\EmailFactory;
 use ppil\view\RideView;
 use ppil\view\ViewRendering;
+use ppil\controller\NotificationController;
 
 class RideController
 {
@@ -177,5 +180,48 @@ class RideController
     {
         $date_now = new \DateTime();
         return strtotime($date_now->format($format)) <= strtotime($date) ;
+    }
+
+    public static function participate($id)
+    {
+        // parametre
+        $id = filter_var($id, FILTER_DEFAULT);
+
+        // verif trajet existe
+        $trajet = Trajet::where('id_trajet', '=', $id)->first();
+        if (!isset($trajet)){
+            return ViewRendering::renderError("Le trajet n'existe pas/plus.");
+        }
+        // verif nb place
+        if ($trajet->nbr_passager <= 0) {
+            return ViewRendering::renderError("Plus de place disponible.");
+        }
+        $mail = $_SESSION['mail'];
+        if (!isset($mail)) {
+            return ViewRendering::renderError("Vous n'êtes pas connecté.");
+        }
+
+        // modif
+        $trajet->nbr_passager -= 1;
+        $trajet->save();
+        $passager = new Passager();
+        $passager->email_passager = $mail;
+        $passager->id_trajet = $id;
+        $passager->save();
+
+        /*$mailConducteur = $trajet->email_conducteur;
+        $conducteur = Utilisateur::where('email', '=', $mailConducteur)->first();
+        if(!isset($conducteur)) {
+            return ViewRendering::renderError("Le responsable du trajet est introuvable.");
+        }
+        EmailFactory::envoieEmail("", "Demande de participation à votre trajet", $mailConducteur, $conducteur->nom);*/
+
+        // notif et mail
+        NotificationController::sendMyParticipationTo($mail, $mailConducteur, $id);
+
+        // redirection
+        $url = AppContainer::getInstance()->getRouteCollector()->getRouteParser()->urlFor('root');
+        header("Location: $url");
+        exit();
     }
 }
