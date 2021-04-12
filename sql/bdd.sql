@@ -25,7 +25,7 @@ CREATE TABLE IF NOT EXISTS `Utilisateur` (
 );
 
 CREATE TABLE IF NOT EXISTS `Notification` (
-    `id_notif` integer NOT NULL,
+    `id_notif` integer NOT NULL AUTO_INCREMENT,
     `utilisateur` varchar(255) NOT NULL,
     `emeteur` varchar(255) NOT NULL,
     `message` varchar(255) NOT NULL,
@@ -37,7 +37,7 @@ CREATE TABLE IF NOT EXISTS `Notification` (
 );
 
 CREATE TABLE IF NOT EXISTS `Groupe` (
-    `id_groupe` integer NOT NULL,
+    `id_groupe` integer NOT NULL AUTO_INCREMENT,
     `nom` varchar(25) NOT NULL,
     `email_createur` varchar(255) NOT NULL,
     `url_img` varchar(255) DEFAULT NULL,
@@ -56,15 +56,18 @@ CREATE TABLE IF NOT EXISTS `Membre` (
 );
 
 CREATE TABLE IF NOT EXISTS `Trajet` (
-    `id_trajet` integer NOT NULL,
+    `id_trajet` integer NOT NULL AUTO_INCREMENT,
     `date` date NOT NULL,
     `ville_depart` varchar(255) NOT NULL,
     `ville_arrivee` varchar(255) NOT NULL,
     `heure_depart` time NOT NULL,
     `email_conducteur` varchar(255) NOT NULL,
     `nbr_passager` integer NOT NULL DEFAULT 1,
+    `nb_max_passager` integer NOT NULL DEFAULT 2,
     `id_groupe` integer DEFAULT NULL,
     `prix` integer NOT NULL,
+    `lieuxRDV` varchar(512),
+    `commentaires` varchar(1024),
     PRIMARY KEY (`id_trajet`),
     CONSTRAINT fk_mail_conducteur_trajet FOREIGN KEY (`email_conducteur`) REFERENCES `Utilisateur`(`email`) ON DELETE CASCADE,
     CONSTRAINT fk_id_groupe_trajet FOREIGN KEY (`id_groupe`) REFERENCES `Groupe`(`id_groupe`) ON DELETE CASCADE,
@@ -75,7 +78,6 @@ CREATE TABLE IF NOT EXISTS `Trajet` (
 CREATE TABLE IF NOT EXISTS `Ville_intermediaire` (
     `id_trajet` integer NOT NULL,
     `ville` varchar(255) NOT NULL,
-    PRIMARY KEY (`id_trajet`),
     CONSTRAINT fk_id_trajet_ville_intermediaire FOREIGN KEY (`id_trajet`) REFERENCES `Trajet`(`id_trajet`) ON DELETE CASCADE
 );
 
@@ -97,6 +99,7 @@ CREATE TABLE IF NOT EXISTS forgotten_password
     CONSTRAINT fk_mail_rest FOREIGN KEY (email) REFERENCES Utilisateur (email)
 );
 
+
 DELIMITER |
 CREATE OR REPLACE TRIGGER check_date
     BEFORE INSERT ON `Trajet` FOR EACH ROW
@@ -108,9 +111,35 @@ CREATE OR REPLACE TRIGGER check_date
     |
 
 DELIMITER |
-CREATE OR REPLACE PROCEDURE `insert_groupe` (IN i INT, IN u VARCHAR(25), IN e VARCHAR(255), IN n VARCHAR(255))  BEGIN
+CREATE OR REPLACE TRIGGER add_passager
+    BEFORE UPDATE ON `Passager` FOR EACH ROW
+    BEGIN
+	DECLARE x integer;
+    	DECLARE y integer;
+	DECLARE z integer;
+	SELECT `nbr_passager`, `nb_max_passager`, `id_trajet` INTO x, y, z FROM `Trajet` LEFT JOIN `Passager` ON `Trajet`.`id_trajet`=`Passager`.`id_trajet`;
+        IF (NEW.`reponse`!="N" AND x<y) THEN
+            UPDATE `Trajet` SET `nbr_passager`=`nbr_passager`+1 WHERE `id_trajet`=z;
+        END IF;
+    END;
+    |
 
-INSERT INTO `Groupe` (`id_groupe`, `nom`, `email_createur`, `url_img`) VALUES (i,u,e,n);
+DELIMITER |
+CREATE OR REPLACE TRIGGER rem_passager
+    BEFORE UPDATE ON `Passager` FOR EACH ROW
+    BEGIN
+	DECLARE z integer;
+	SELECT `id_trajet` INTO z FROM `Passager` ;
+        IF (NEW.`reponse`="N") THEN
+            UPDATE `Trajet` SET `nbr_passager`=`nbr_passager`-1 WHERE `id_trajet`=z;
+        END IF;
+    END;
+    |
+
+DELIMITER |
+CREATE OR REPLACE PROCEDURE `insert_groupe` (IN u VARCHAR(25), IN e VARCHAR(255), IN n VARCHAR(255))  BEGIN
+
+INSERT INTO `Groupe` (`nom`, `email_createur`, `url_img`) VALUES (i,u,e,n);
 
 END;
 |
@@ -124,9 +153,9 @@ END;
 |
 
 DELIMITER |
-CREATE OR REPLACE PROCEDURE `insert_notif` (IN id INT, IN u VARCHAR(255), IN e VARCHAR(255), IN m VARCHAR(255), IN v VARCHAR(1))  BEGIN
+CREATE OR REPLACE PROCEDURE `insert_notif` (IN u VARCHAR(255), IN e VARCHAR(255), IN m VARCHAR(255), IN v VARCHAR(1))  BEGIN
 
-INSERT INTO `Notification`(`id_notif`, `utilisateur`, `emeteur`, `message`, `vu`) VALUES (id, u, e, m, v);
+INSERT INTO `Notification`(`utilisateur`, `emeteur`, `message`, `vu`) VALUES (id, u, e, m, v);
 
 END;
 |
@@ -140,15 +169,15 @@ END;
 |
 
 DELIMITER |
-CREATE OR REPLACE PROCEDURE `insert_trajet` (IN `id` INT, IN `d` DATE, IN `e` VARCHAR(255), IN `m` VARCHAR(255), IN `hd` TIME, IN `ed` VARCHAR(255), IN `v` INT, IN `g` INT, IN `p` INT)  BEGIN
+CREATE OR REPLACE PROCEDURE `insert_trajet` (IN `d` DATE, IN `e` VARCHAR(255), IN `m` VARCHAR(255), IN `hd` TIME, IN `ed` VARCHAR(255), IN `v` INT, IN `nbm` INT, IN `g` INT, IN `p` INT, IN `rdv` VARCHAR(512),  IN `commentaire` VARCHAR(1024))  BEGIN
 
-INSERT INTO `Trajet`(`id_trajet`, `date`, `ville_depart`, `ville_arrivee`, `heure_depart`, `email_conducteur`, `nbr_passager`, `id_groupe`, `prix`) VALUES (id, d, e, m, hd, ed, v, g, p);
+INSERT INTO `Trajet`(`date`, `ville_depart`, `ville_arrivee`, `heure_depart`, `email_conducteur`, `nbr_passager`, `nb_max_passager`, `id_groupe`, `prix`, `lieuRDV`, `commentaires`) VALUES (id, d, e, m, hd, ed, v, nbm, g, p, rdv, commentaire);
 
 END;
 |
 
 DELIMITER |
-CREATE OR REPLACE PROCEDURE `insert_user` (IN `e` VARCHAR(255), IN `m` VARCHAR(255), IN `n` VARCHAR(25), IN `p` VARCHAR(25), IN `t` VARCHAR(10), IN `s` VARCHAR(1), IN `v` VARCHAR(1), IN `i` VARCHAR(255), IN `no` DECIMAL(2,1), IN `notif` VARCHAR(1))  BEGIN
+CREATE OR REPLACE PROCEDURE `insert_user` (IN `e` VARCHAR(255), IN `m` VARCHAR(255), IN `n` VARCHAR(25), IN `p` VARCHAR(25), IN `t` VARCHAR(25), IN `s` VARCHAR(1), IN `v` VARCHAR(1), IN `i` VARCHAR(255), IN `no` DECIMAL(2,1), IN `notif` VARCHAR(1))  BEGIN
 
 INSERT INTO `Utilisateur` (`email`, `mdp`, `nom`, `prenom`, `tel`, `sexe`, `a_voiture`, `url_img`, `note`, `activer_notif`) VALUES (e, m, n, p, t, s, v, i, no, notif);
 
