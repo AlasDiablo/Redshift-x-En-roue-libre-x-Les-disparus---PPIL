@@ -11,7 +11,7 @@ class ViewRendering
 
     private static function getNavBar($app)
     {
-        $out = '<ul>';
+        $out = '<ul class="navbar-nav">';
         $urlRoot = $app->getRouteCollector()->getRouteParser()->urlFor('root');
         if (isset($_SESSION['mail'])) {
             $urlLogout = $app->getRouteCollector()->getRouteParser()->urlFor('logout');
@@ -24,12 +24,15 @@ class ViewRendering
             $user = Utilisateur::where('email', '=', $_SESSION['mail'])->first();
             $url_img = isset($user->url_img) ? $user->url_img : '/uploads/default';
             $out .= <<<html
-<li><a href="$urlRoot">ShareMyRide</a></li>
-<li><a href="$urlPublicRide">Trajet public</a></li>
-<li><a href="#">Trajet privé</a></li>
-<li><a href="$urlRides">MyRides</a></li>
-<li><a href="$urlNotification">Mes Notification$notificationCountText</a></li>
-<li><a href="$urlLogout">Se déconnecter</a></li>
+<li class="nav-item"><a class="nav-link" href="$urlRoot">ShareMyRide</a></li>
+<li class="nav-item"><a class="nav-link" href="$urlPublicRide">Trajet public</a></li>
+<li class="nav-item"><a class="nav-link" href="#">Trajet privé</a></li>
+<li class="nav-item"><a class="nav-link" href="$urlNotification">Mes Notification$notificationCountText</a></li>
+<ul><p>MyRides</p>
+    <li class="nav-item"><a class="nav-link" href="$urlRides">Trajets que j'ai créées</a></li>
+    <li><a href="$urlParticipatingRides">Trajets auxquels je participe</a></li>
+</ul>
+<li class="nav-item"><a class="nav-link" href="$urlLogout">Se déconnecter</a></li>
 <li><a href="$urlProfile">
     <img src="$url_img" alt="My Avatar" width="64px" height="64px">
 </a></li>
@@ -37,8 +40,8 @@ html;
         } else {
             $urlSignIn = $app->getRouteCollector()->getRouteParser()->urlFor('sign-in');
             $out .= <<<html
-<li><a href="$urlRoot">ShareMyRide</a></li>
-<li><a href="$urlSignIn">Me connecter</a></li>
+<li class="nav-item"><a class="nav-link" href="$urlRoot">ShareMyRide</a></li>
+<li class="nav-item"><a class="nav-link" href="$urlSignIn">Me connecter</a></li>
 html;
         }
         return $out . '</ul>';

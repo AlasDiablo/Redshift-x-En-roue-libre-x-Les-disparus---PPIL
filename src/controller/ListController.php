@@ -46,6 +46,12 @@ class ListController
         return RideView::renderRideList($filteredRide, 'Mes trajet', 'dans mes offres de trajet');
     }
 
+    public static function trajetsParticipes()
+    {
+        $rides = Utilisateur::where("email", '=', $_SESSION['mail'])->first()->mesParticipation()->get();
+        return RideView::renderRideList($rides, 'Mes trajet', 'dans mes offres de trajet');
+    }
+
     public static function listPublic()
     {
         $filteredRide = self::applyFilter(Trajet::whereNull('id_groupe'));

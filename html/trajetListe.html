@@ -1,8 +1,8 @@
-<a href="${create_ride}">Créer une offre de trajet</a>
+<a class="d-inline-flex p-3 bg-danger text-light" href="${create_ride}">Créer une offre de trajet</a>
 
-<section>
+<section class="d-flex flex-column col-md-6 offset-md-3 bg-light">
     <p>Rechercher ${title} : </p>
-    <form method="GET">
+    <form class="align-self-center" method="GET" action="">
         <label for="depart">Départ</label>
         <input type="text" name="depart" id="depart" />
 
@@ -10,20 +10,24 @@
         <input type="text" name="arrive" id="arrive" />
 
         <label for="date">Date :</label>
-        <input type="date" name="date" id="date" />
+        <input type="date" name="date" id="date" /><br />
 
-        <label for="tri">Trier par : </label>
-        <select name="tri" id="tri">
-            <option value="">--selectionnez une option--</option>
-            <option value="prix">Prix</option>
-            <option value="dateDepart">Date de départ</option>
-            <option value="dateArrivee">Date d'arrivée</option>
-        </select>
+        <div class="d-flex justify-content-between">
+            <div>
+                <label for="tri">Trier par : </label>
+                <select name="tri" id="tri">
+                    <option value="">--selectionnez une option--</option>
+                    <option value="prix">Prix</option>
+                    <option value="dateDepart">Date de départ</option>
+                    <option value="dateArrivee">Date d'arrivée</option>
+                </select>
+            </div>
 
-        <button type="submit">Rechercher</button>
+            <button type="submit">Rechercher</button>
+        </div>
     </form>
 </section>
 
-<section>
+<section class="d-flex flex-column col-md-6 offset-md-3 bg-light">
     ${list_trajet}
 </section>

@@ -128,6 +128,11 @@ $app->get('/account/myrides', function (Request $request, Response $response, $a
     return $response;
 })->setName('myrides');
 
+$app->get('/accounts/participating-rides', function (Request $request, Response $response, $args) {
+    $response->getBody()->write(ListController::trajetsParticipes());
+    return $response;
+})->setName('participating-rides');
+
 // --------------------- Consulter les trajets public ---------------------
 //
 $app->get('/ride/public', function (Request $request, Response $response, $args) {
