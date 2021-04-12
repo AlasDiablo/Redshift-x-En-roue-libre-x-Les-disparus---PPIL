@@ -10,7 +10,7 @@ class ViewRendering
 
     private static function getNavBar($app)
     {
-        $nav = "<ul>";
+        $nav = "<ul class=\"navbar-nav\">";
         $urlSignIn = $app->getRouteCollector()->getRouteParser()->urlFor('sign-in');
         $urlLogout = $app->getRouteCollector()->getRouteParser()->urlFor('logout');
         $urlProfile = $app->getRouteCollector()->getRouteParser()->urlFor('edit-profile');
@@ -18,11 +18,12 @@ class ViewRendering
         $urlRoot = $app->getRouteCollector()->getRouteParser()->urlFor('root');
         $urlRides = $app->getRouteCollector()->getRouteParser()->urlFor('myrides');
         $connected = <<<html
-        <li><a href="$urlRoot">ShareMyRide</a></li>
-        <li><a href="$urlPublicRide">Trajet public</a></li>
-        <li><a href="#">Trajet privé</a></li>
-        <li><a href="$urlLogout">Se déconnecter</a></li>
-        <li><a href="$urlRides">MyRides</a></li>
+
+        <li class="nav-item"><a class="nav-link" href="$urlRoot">ShareMyRide</a></li>
+        <li class="nav-item"><a class="nav-link" href="$urlPublicRide">Trajet public</a></li>
+        <li class="nav-item"><a class="nav-link" href="#">Trajet privé</a></li>
+        <li class="nav-item"><a class="nav-link" href="$urlLogout">Se déconnecter</a></li>
+        <li class="nav-item"><a class="nav-link" href="$urlRides">MyRides</a></li>
 html;
         if (isset($_SESSION['mail'])) {
             $user = Utilisateur::where('email', '=', $_SESSION['mail'])->first();
@@ -42,8 +43,8 @@ html;
 
 
         $notConnected = <<<html
-        <li><a href="$urlRoot">ShareMyRide</a></li>
-        <li><a href="$urlSignIn">Me connecter</a></li>
+        <li class="nav-item"><a class="nav-link" href="$urlRoot">ShareMyRide</a></li>
+        <li class="nav-item"><a class="nav-link" href="$urlSignIn">Me connecter</a></li>
 html;
         $nav .= (isset($_SESSION['mail'])) ? $connected : $notConnected;
         $nav .= "</ul>";

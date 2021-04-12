@@ -1,35 +1,37 @@
-<h1>Proposer un trajet</h1>
+<section class="d-flex flex-column col-md-6 offset-md-3 bg-light">
+    <h1 class="align-self-center">Proposer un trajet</h1>
 
-<form method="post" action="${post_url}">
-    <label for="depart" id="depart-form">Départ :</label>
-    <input type="text" name="departure" id="depart" required/>
+    <form class="align-self-center" method="post" action="${post_url}">
+        <label for="depart" id="depart-form">Départ :</label>
+        <input type="text" name="departure" id="depart" required/>
 
-    <label for="arrivee">Arrivée :</label>
-    <input type="text" name="arrival" id="arrivee" required/>
+        <label for="arrivee">Arrivée :</label>
+        <input type="text" name="arrival" id="arrivee" required/>
 
-    <label for="date">Date :</label>
-    <input type="date" name="date" id="date" required/><br/>
+        <label for="date">Date :</label>
+        <input type="date" name="date" id="date" required/><br/>
 
-    <label for="passagers" id="passagers-form">Nombre de passagers max :</label>
-    <input type="number" name="passengers" id="passagers" required/><br/>
+        <label for="passagers" id="passagers-form">Nombre de passagers max :</label>
+        <input type="number" name="passengers" id="passagers" required/><br/>
 
-    <label for="heure">Heure de départ :</label>
-    <input type="time" name="hour" id="heure" required/><br/>
+        <label for="heure">Heure de départ :</label>
+        <input type="time" name="hour" id="heure" required/><br/>
 
-    <label for="prix" id="prix-form">Prix de la place :</label>
-    <input type="number" name="price" id="prix" required/><br/>
+        <label for="prix" id="prix-form">Prix de la place :</label>
+        <input type="number" name="price" id="prix" required/><br/>
 
-    <label for="stages">Etapes intermédiaires (optionnel) :</label><br/>
-    <div id="stages">
-        <label for="etapes[0]">etape 1</label><input type="text" name="stages[0]" id="etapes[0]"/>
-    </div>
-    <button type="button" onclick="addStages()">Ajouter une étape</button><br/>
+        <label for="stages">Etapes intermédiaires (optionnel) :</label><br/>
+        <div id="stages">
+            <label for="etapes[0]">etape 1</label><input type="text" name="stages[0]" id="etapes[0]"/>
+        </div>
+        <button type="button" onclick="addStages()">Ajouter une étape</button><br/>
 
-    <label for="lieu">Lieu de rendez-vous :</label>
-    <input type="text" name="place" id="lieu" required/>
+        <label for="lieu">Lieu de rendez-vous :</label>
+        <input type="text" name="place" id="lieu" required/>
 
-    <label for="commentaires">Commentaires/Contraintes :</label>
-    <input type="text" name="comments" id="commentaires" required/><br/>
+        <label for="commentaires">Commentaires/Contraintes :</label>
+        <input type="text" name="comments" id="commentaires" required/><br/>
 
-    <button type="button" onclick="createRide(this)">Valider</button>
-</form>
+        <button type="button" onclick="createRide(this)">Valider</button>
+    </form>
+</section>
