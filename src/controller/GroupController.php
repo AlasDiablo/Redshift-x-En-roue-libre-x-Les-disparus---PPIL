@@ -4,32 +4,12 @@ use ppil\models\Groupe;
 use ppil\models\Membre ;
 use ppil\models\Trajet;
 use ppil\models\Utilisateur;
+use ppil\util\ImageChecker;
 use ppil\view\ViewRendering;
 
 class GroupController
 
 {
-
-    private static function checkUserAvatar($id)
-    {
-        if (!empty($_FILES['avatar']['name']))
-        {
-            $targetDir = realpath('uploads/');
-            $fileName = basename(md5($_SESSION['mail']) . $id);
-            $targetFilePath = $targetDir . DIRECTORY_SEPARATOR . $fileName;
-            $imageSize = getimagesize($_FILES['avatar']['tmp_name']);
-            $fileSize = filesize($_FILES['avatar']['tmp_name']);
-            if ($imageSize !== false && $fileSize !== false)
-            {
-                list($width, $height) = $imageSize;
-                if ($width <= 400 && $height <= 400 && $fileSize <= 20971520) {
-                    if (move_uploaded_file($_FILES['avatar']['tmp_name'], $targetFilePath))
-                        return $fileName;
-                    else return null;
-                } else return null;
-            } else return null;
-        } else return 'no_image';
-    }
 
     public function deleteMember($idGroup)
     {
@@ -82,7 +62,7 @@ class GroupController
 
     }
 
-    public function CreerGroupe(){
+    public function creerGroupe(){
 
         //recuperation des valeurs post
         $mail = filter_var($_POST["mail"], FILTER_DEFAULT);
@@ -93,7 +73,8 @@ class GroupController
         else $id = 0;
 
         $nom = filter_var($_POST['groupname-form'], FILTER_DEFAULT);
-        $image = self::checkUserAvatar($id);
+
+        $image = ImageChecker::checkAvatar('groups' . DIRECTORY_SEPARATOR . basename(md5($nom . $id)));
 
         //message d'erreur image
         if($image == null){

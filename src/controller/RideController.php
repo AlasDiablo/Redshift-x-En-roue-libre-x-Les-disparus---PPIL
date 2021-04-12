@@ -2,6 +2,7 @@
 
 namespace ppil\controller;
 
+use DateTime;
 use ppil\models\Passager;
 use ppil\models\Trajet;
 use ppil\models\Utilisateur;
@@ -180,7 +181,7 @@ class RideController
 
     private static function validateDateDepart($date, $format)
     {
-        $date_now = new \DateTime();
+        $date_now = new DateTime();
         return strtotime($date_now->format($format)) <= strtotime($date);
     }
 
@@ -211,12 +212,12 @@ class RideController
         $passager->id_trajet = $id;
         $passager->save();
 
-        /*$mailConducteur = $trajet->email_conducteur;
+        $mailConducteur = $trajet->email_conducteur;
         $conducteur = Utilisateur::where('email', '=', $mailConducteur)->first();
         if(!isset($conducteur)) {
             return ViewRendering::renderError("Le responsable du trajet est introuvable.");
         }
-        EmailFactory::envoieEmail("", "Demande de participation à votre trajet", $mailConducteur, $conducteur->nom);*/
+        /*EmailFactory::envoieEmail("", "Demande de participation à votre trajet", $mailConducteur, $conducteur->nom);*/
 
         // notif et mail
         NotificationController::sendMyParticipationTo($mail, $mailConducteur, $id);

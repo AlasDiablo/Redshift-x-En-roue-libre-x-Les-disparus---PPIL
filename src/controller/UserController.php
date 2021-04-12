@@ -8,30 +8,12 @@ use ppil\models\MotDePasseOublie;
 use ppil\models\Utilisateur;
 use ppil\util\AppContainer;
 use ppil\util\EmailFactory;
+use ppil\util\ImageChecker;
 use ppil\view\UserView;
 use ppil\view\ViewRendering;
 
 class UserController
 {
-
-    private static function checkUserAvatar()
-    {
-        if (!empty($_FILES['avatar']['name'])) {
-            $targetDir = realpath('uploads/');
-            $fileName = basename(md5($_SESSION['mail']));
-            $targetFilePath = $targetDir . DIRECTORY_SEPARATOR . $fileName;
-            $imageSize = getimagesize($_FILES['avatar']['tmp_name']);
-            $fileSize = filesize($_FILES['avatar']['tmp_name']);
-            if ($imageSize !== false && $fileSize !== false) {
-                list($width, $height) = $imageSize;
-                if ($width <= 400 && $height <= 400 && $fileSize <= 20971520) {
-                    if (move_uploaded_file($_FILES['avatar']['tmp_name'], $targetFilePath))
-                        return $fileName;
-                    else return null;
-                } else return null;
-            } else return null;
-        } else return 'no_image';
-    }
 
     public static function modifierUtilisateur()
     {
@@ -43,7 +25,7 @@ class UserController
         $confnouvmdp = filter_var($_POST['confirmnewpassword'], FILTER_DEFAULT);
         $sexe = filter_var($_POST['sex'], FILTER_DEFAULT);
         $a_voiture = filter_var($_POST['car']);
-        $image = self::checkUserAvatar();
+        $image = ImageChecker::checkAvatar(basename(md5($_SESSION['mail'])));
 
         if ($image == null) {
             return ViewRendering::renderError("Votre avatar doit etre une image et avoir un taille de 400px par 400px et faire un maximium de 20 Mo.");
@@ -163,7 +145,7 @@ class UserController
         $tel = filter_var($_POST['phone'], FILTER_DEFAULT);
         $sexe = filter_var($_POST['sex'], FILTER_DEFAULT);
         $a_voiture = filter_var($_POST['car'], FILTER_DEFAULT);
-        $image = self::checkUserAvatar();
+        $image = ImageChecker::checkAvatar(basename(md5($_SESSION['mail'])));
 
         if ($image == null) {
             return ViewRendering::renderError("Votre avatar doit etre une image et avoir un taille de 400px par 400px et faire un maximium de 20 Mo.");

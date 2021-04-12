@@ -1,19 +1,53 @@
-<form class="d-flex flex-column col-md-4 offset-md-4 bg-light" method="post" action="${post_url}">
-    <h1 class="d-flex justify-content-center">Connexion</h1>
+<style>
+    .form-signin {
+        width: 100%;
+        max-width: 330px;
+        padding: 15px;
+        margin: 8% auto auto;
+    }
 
-    <div class="align-self-center">
-        <label for="email">Adresse mail</label><br/>
-        <input type="email" name="mail" id="email" required/><br/>
-    </div>
+    .form-signin .forgotten {
+        font-weight: 400;
+    }
 
-    <div class="align-self-center">
-        <label for="mdp">Mot de passe</label><br/>
-        <input type="password" name="mdp" id="mdp" required/><br/>
-    </div>
+    .form-signin .form-floating:focus-within {
+        z-index: 2;
+    }
 
-    <div class="align-self-center">
-        <input type="submit" value="Valider"/>
-    </div>
+    .form-signin input[type="email"] {
+        margin-bottom: -1px;
+        border-bottom-right-radius: 0;
+        border-bottom-left-radius: 0;
+    }
 
-    <a class="align-self-center" href="${password_forgotten}">Mot de passe oublié?</a>
-</form>
+    .form-signin input[type="password"] {
+        margin-bottom: 10px;
+        border-top-left-radius: 0;
+        border-top-right-radius: 0;
+    }
+</style>
+<div class="text-center">
+    <main class="form-signin card">
+        <div class="card-img-top">
+            <img class="mb-4" src="/html/img/logo.png" alt="" width="64" height="32">
+        </div>
+        <form class="card-body" method="post" action="${post_url}">
+            <h1 class="h3 mb-3 fw-normal">Connecté Vous</h1>
+            <div class="form-floating">
+                <input name="mail" type="email" class="form-control" id="email" placeholder="name@example.com">
+                <label for="email">Adresse mail</label>
+            </div>
+            <div class="form-floating">
+                <input name="mdp" type="password" class="form-control" id="mdp" placeholder="Mot de passe">
+                <label for="mdp">Mot de passe</label>
+            </div>
+
+            <div class="mb-3">
+                <label>
+                    <a class="align-self-center forgotten text-black-50" href="${password_forgotten}">Mot de passe oublié?</a>
+                </label>
+            </div>
+            <button class="w-100 btn btn-lg btn-primary" type="submit">Me connecté</button>
+        </form>
+    </main>
+</div>
