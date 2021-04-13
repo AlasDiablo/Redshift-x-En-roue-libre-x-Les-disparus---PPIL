@@ -99,4 +99,10 @@ html;
 
         return ViewRendering::render($templateView, 'Groupe - ' . $data['nom']);
     }
+
+    public static function createGroup() {
+        $template = file_get_contents('./html/creerGroupe.html');
+        $template = str_replace('${post_url}', AppContainer::getInstance()->getRouteCollector()->getRouteParser()->urlFor('group-create_post'), $template);
+        return ViewRendering::render($template, 'Créer un groupe d\'amie');
+    }
 }

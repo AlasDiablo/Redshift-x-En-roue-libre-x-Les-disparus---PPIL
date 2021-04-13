@@ -83,7 +83,6 @@ class GroupController
         $mail = filter_var($_POST["friendNameDel"], FILTER_DEFAULT);
 
         //recuperer les trajets du membre
-        //$rides = Utilisateur::where('email', '=', $mail)->where('id_groupe', '=', $idGroup)->first()->mesParticipation()->get();
         $rides = Utilisateur::where('email', '=', $mail)->first()->mesParticipation()->where('id_groupe', '=', $idGroup)->get();
         $validDeletion = true;
         foreach ($rides as $ride) {
@@ -140,23 +139,22 @@ class GroupController
         exit();
     }
 
-    public function creerGroupe()
+    public static function creerGroupe()
     {
         //recuperation des valeurs post
-        $mail = filter_var($_POST["mail"], FILTER_DEFAULT);
+        $mail = filter_var($_SESSION['mail'], FILTER_DEFAULT);
 
-        $id = Groupe::max('id_group');
+        $id = Groupe::max('id_groupe');
         if (isset($id)) $id++;
         else $id = 0;
 
-        $nom = filter_var($_POST['groupname-form'], FILTER_DEFAULT);
+        $nom = filter_var($_POST['groupname'], FILTER_DEFAULT);
 
         $image = ImageChecker::checkAvatar('groups' . DIRECTORY_SEPARATOR . basename(md5($nom . $id)));
 
         //message d'erreur image
         if ($image == null) {
             return ViewRendering::renderError("Votre image de groupe doit etre une image et avoir une taille de 400px par 400 px et faire un maximum de 20 Mo.");
-
         }
 
         //message d'erreur nom
@@ -168,20 +166,21 @@ class GroupController
             return ViewRendering::renderError("Le nom du groupe doit avoir une taille de minimum 3 et de maximum 25");
         }
 
-        if (!isset(Groupe::where('nom', '=', $nom)->first()->nom)) {
-            return ViewRendering::renderError("Le nom du groupe existe déjà");
-
-        }
-
         $group = new Groupe();
-        $group->id_group = $id;
+        $group->id_groupe = $id;
         $group->nom = $nom;
         $group->email_createur = $mail;
         $group->save();
         if ($image != 'no_image') $group->url_img = '/uploads/' . $image;
 
-        self::addMember($id);
+        $member = new Membre();
+        $member->email_membre = $mail;
+        $member->id_groupe = $id;
+        $member->reponse = 'O';
+        $member->save();
 
+        $urlParent = AppContainer::getInstance()->getRouteCollector()->getRouteParser()->urlFor('group', array('id' => $id));
+        header("Location: $urlParent");
         exit();
     }
 

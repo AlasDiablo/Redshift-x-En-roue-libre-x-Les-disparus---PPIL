@@ -167,7 +167,7 @@ $app->get('/account/groups', function (Request $request, Response $response, $ar
 // --------------------- Affiché un groupe groupe ---------------------
 // Créer un groupe
 $app->get('/account/group/create', function (Request $request, Response $response, $args) {
-    $response->getBody()->write('');
+    $response->getBody()->write(GroupView::createGroup());
     return $response;
 })->setName('group-create');
 
@@ -191,7 +191,7 @@ $app->get('/account/group/{id}/delete', function (Request $request, Response $re
 
 // Créer un groupe
 $app->post('/account/group/create', function (Request $request, Response $response, $args) {
-    $response->getBody()->write('');
+    $response->getBody()->write(GroupController::creerGroupe());
     return $response;
 })->setName('group-create_post');
 
