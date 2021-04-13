@@ -190,4 +190,16 @@ class GroupController
         }
     }
 
+    public static function acceptInvitation($id)
+    {
+        $member = Membre::where('email_membre','=', $_SESSION['mail'])->where('id_groupe', '=', $id)->first();
+        $member->reponse = 'O';
+        $member->save();
+    }
+
+    public static function declineInvitation($id)
+    {
+        Membre::where('email_membre','=', $_SESSION['mail'])->where('id_groupe', '=', $id)->delete();
+    }
+
 }
