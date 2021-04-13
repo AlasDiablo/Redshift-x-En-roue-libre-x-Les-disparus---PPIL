@@ -127,7 +127,7 @@ const createAccount = (event) => {
     let boolEmail = checkEmail();
     let boolPassword = checkPassword();
     let boolPhone = checkPhone();
-    if (boolName && boolFirstname && boolEmail && boolPassword && boolPhone) event.parentNode.submit();
+    if (boolName && boolFirstname && boolEmail && boolPassword && boolPhone) event.parentNode.parentNode.submit();
 };
 
 /**

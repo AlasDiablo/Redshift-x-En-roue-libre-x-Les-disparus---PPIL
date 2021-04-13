@@ -88,6 +88,7 @@ text;
     {
         if (isset($_SESSION['mail'])) {
             $data = Notification::where('utilisateur', '=', $_SESSION['mail'])->get();
+            Notification::where('utilisateur', '=', $_SESSION['mail'])->update(['vu' => 'O']);
             return NotificationView::renderNotificationsList($data);
         } else {
             return ViewRendering::renderError('Forbidden');
