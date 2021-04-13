@@ -53,6 +53,8 @@ class RideController
         $data['commentaires'] = $ride->commentaires;
         $data['ville_intermediere'] = self::getEtape($id);
         $data['passagers'] = self::getPassager($id);
+        $data['creator'] = $ride->email_conducteur;
+        $data['id'] = $id;
 
         return RideView::renderRide($data);
     }

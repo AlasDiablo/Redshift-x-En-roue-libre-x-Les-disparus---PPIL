@@ -31,6 +31,25 @@ class RideView
 
         $template = str_replace('${commentaires}', $data['commentaires'], $template);
 
+        if ($data['creator'] == $_SESSION['mail']) {
+            $template = str_replace('${button}', '', $template);
+        } else {
+            $tmp = array();
+            foreach ($data['passagers'] as $passager) array_push($tmp, $passager->email_passager);
+            if (in_array($_SESSION['mail'], $tmp, false)) {
+                $out = <<<html
+<button type="button" class="btn btn-primary" onclick="">Annulé ma participation</button>
+html;
+                $template = str_replace('${button}', $out, $template);
+            } else {
+                $url = AppContainer::getInstance()->getRouteCollector()->getRouteParser()->urlFor('ride-participated', array('id' => $data['id']));
+                $out = <<<html
+<button type="button" class="btn btn-primary" onclick="location.replace('$url')">Participé au trajet</button>
+html;
+                $template = str_replace('${button}', $out, $template);
+            }
+        }
+
         $ville_intermediere = '';
         foreach ($data['ville_intermediere'] as $datum) {
             $ville_intermediere .= '<li>' . $datum->ville . '</li>';
