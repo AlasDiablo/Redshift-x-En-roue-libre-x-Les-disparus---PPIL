@@ -1,5 +1,6 @@
 <?php
 
+use ppil\controller\GroupController;
 use ppil\controller\ListController;
 use ppil\controller\NotificationController;
 use ppil\controller\RideController;
@@ -128,7 +129,7 @@ $app->get('/account/myrides', function (Request $request, Response $response, $a
     return $response;
 })->setName('myrides');
 
-$app->get('/accounts/participating-rides', function (Request $request, Response $response, $args) {
+$app->get('/account/participating-rides', function (Request $request, Response $response, $args) {
     $response->getBody()->write(ListController::trajetsParticipes());
     return $response;
 })->setName('participating-rides');
@@ -153,6 +154,13 @@ $app->get('/account/notifications', function (Request $request, Response $respon
     $response->getBody()->write(NotificationController::renderNotificationsList());
     return $response;
 })->setName('notifications');
+
+
+// --------------------- Liste des groupe ---------------------
+$app->get('/account/groups', function (Request $request, Response $response, $args) {
+    $response->getBody()->write(GroupController::renderGroupList());
+    return $response;
+})->setName('groups');
 
 
 // Demarais l'appliquation web

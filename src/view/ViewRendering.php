@@ -34,21 +34,8 @@ class ViewRendering
             $file = str_replace('${my-ride}', $urlRides, $file);
             $file = str_replace('${public-ride}', $urlPublicRide, $file);
             $file = str_replace('${notifcation}', $urlNotification, $file);
+            $file = str_replace('${notifcation_count}', $notificationCountText, $file);
             $out .= $file;
-//            $out .= <<<html
-//<li class="nav-item"><a class="nav-link" href="$urlRoot">ShareMyRide</a></li>
-//<li class="nav-item"><a class="nav-link" href="$urlPublicRide">Trajet public</a></li>
-//<li class="nav-item"><a class="nav-link" href="#">Trajet privé</a></li>
-//<li class="nav-item"><a class="nav-link" href="$urlNotification">Mes Notification$notificationCountText</a></li>
-//<ul><p>MyRides</p>
-//    <li class="nav-item"><a class="nav-link" href="$urlRides">Trajets que j'ai créées</a></li>
-//    <li><a href="$urlParticipatingRides">Trajets auxquels je participe</a></li>
-//</ul>
-//<li class="nav-item"><a class="nav-link" href="$urlLogout">Se déconnecter</a></li>
-//<li><a href="$urlProfile">
-//    <img src="$url_img" alt="My Avatar" width="64px" height="64px">
-//</a></li>
-//html;
         } else {
             $urlSignIn = $app->getRouteCollector()->getRouteParser()->urlFor('sign-in');
             $urlSignUp = $app->getRouteCollector()->getRouteParser()->urlFor('sign-up');
@@ -58,11 +45,6 @@ class ViewRendering
             $file = str_replace('${signup}', $urlSignUp, $file);
             $file = str_replace('${root}', $urlRoot, $file);
             $out .= $file;
-
-//            $out .= <<<html
-//<li class="nav-item"><a class="nav-link" href="$urlRoot">ShareMyRide</a></li>
-//<li class="nav-item"><a class="nav-link" href="$urlSignIn">Me connecter</a></li>
-//html;
         }
         return $out . '</ul>';
     }

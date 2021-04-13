@@ -29,4 +29,20 @@ class GroupView
 
         return ViewRendering::render($template, 'Ajouter un ami');
     }
+
+    public static function renderList($groups)
+    {
+        $out = '';
+        foreach ($groups as $group) {
+            $template = file_get_contents('./html/sub-element/case-group.html');
+            $template = str_replace('${title}', $group->nom, $template);
+            $template = str_replace('${url}', '#', $template);
+            $out .= $template;
+        }
+
+        $templateView = file_get_contents('./html/list-group.html');
+        $templateView = str_replace('${list_group}', $out, $templateView);
+
+        return ViewRendering::render($templateView, 'Mes Groupes');
+    }
 }
