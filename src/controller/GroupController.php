@@ -2,14 +2,69 @@
 namespace ppil\controller ;
 use ppil\models\Groupe;
 use ppil\models\Membre ;
-use ppil\models\Trajet;
 use ppil\models\Utilisateur;
 use ppil\view\ViewRendering;
 
 class GroupController
-
 {
+	
+	public static function getGroupe($id)
+    {
+        return Groupe::where('id_groupe', '=', $id)->first();
+    }
 
+    public static function getMembre($id)
+    {
+        return Membre::where('id_groupe', '=', $id)->get();
+    }
+	
+	public static function getNbMembre($id)
+    {
+        return count(self::getMembre($id));
+    }
+	
+	public static function getCreateur($id)
+    {
+        return Utilisateur::where('email', '=', $id)->first();
+    }
+	
+	public static function getTrajetCours($id)
+    {
+        return Trajet::where('id_groupe', '=', $id)
+			->where('date', '>', 'DATE(NOW())', 'OR', 
+				'(', 'date', '=', 'DATE(NOW())', 'AND', 'heure_depart', '>=', 'CAST(NOW() AS TIME)', ')')
+			->get();
+    }
+	
+	public static function getNbTrajetCours($id)
+    {
+        return count(self::getTrajetCours($id));
+    }
+	
+	public static function getDateMaj($id)
+    {
+        return max(Trajet::where('id_groupe', '=', $id)->latest('updated_at')->first()->updated_at, Membre::where('id_groupe', '=', $id)->latest('updated_at')->first()->updated_at);
+    }
+
+    public static function displayGroupe($id) {
+        $data = array();
+        $groupe = self::getGroupe($id);
+		
+        $data['nom'] = $groupe->nom;
+		$data['url_img'] = $groupe->url_img;
+		$data['date_maj'] = self::getDateMaj($id);
+		$data['membres'] = self::getMembre($id);
+		$data['nbr_membre'] = self::getNbMembre($id);		
+		$data['trajet_propose_en_cours'] = self::getTrajetCours($id);
+		$data['nbr_trajet_propose_en_cours'] = self::getNbTrajetCours($id);
+		$data['email_createur'] = $groupe->email_createur;
+		$createur = self::getCreateur($groupe->email_createur);
+        $data['nom_createur'] = $createur->nom;
+		$data['prenom_createur'] = $createur->prenom;
+
+        return GroupView::renderGroupe($data);
+    }
+	
     private static function checkUserAvatar($id)
     {
         if (!empty($_FILES['avatar']['name']))
