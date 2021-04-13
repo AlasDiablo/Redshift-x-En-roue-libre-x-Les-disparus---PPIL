@@ -1,54 +1,108 @@
-<form class="d-flex flex-column col-md-4 offset-md-4 bg-light" method="post" action="${post_url}" enctype="multipart/form-data">
-    <h1>Inscription</h1>
-    
-    <div class="align-self-center">
-        <label for="nom" id="name-form">Nom</label><br/>
-        <input type="text" name="name" id="nom" required/><br/>
-    </div>
+<style>
+    .form-signup {
+        width: 100%;
+        max-width: 500px;
+        padding: 15px;
+        margin: 4% auto auto;
+    }
 
-    <div class="align-self-center">
-        <label for="prenom" id="firstname-form">Prénom</label><br/>
-        <input type="text" name="firstName" id="prenom" required/><br/>
-    </div>
+    .form-signup {
+        font-weight: 400;
+    }
 
-    <div class="align-self-center">
-        <label for="email" id="email-form">Adresse mail</label><br/>
-        <input type="email" name="mail" id="email" required/><br/>
-    </div>
+    .form-signup .form-signup:focus-within {
+        z-index: 2;
+    }
+</style>
+<div class="text-center">
 
-    <div class="align-self-center">
-        <label for="mdp" id="password-form">Mot de passe</label><br/>
-        <input type="password" name="password" id="mdp" required/><br/>
-    </div>
+    <main class="form-signup card">
+        <div class="card-img-top">
+            <img class="mb-4" src="/html/img/logo.png" alt="" width="64" height="32">
+        </div>
+        <form class="card-body" method="post" action="${post_url}" enctype="multipart/form-data">
+            <h1>Inscription</h1>
 
-    <div class="align-self-center">
-        <label for="confirmMdp" id="password-confirm-form">Confirmation du mot de passe</label><br/>
-        <input type="password" name="confirmpassword" id="confirmMdp" required/><br/>
-    </div>
+            <label id="name-form"></label>
+            <div class="form-floating">
+                <input type="text" class="form-control" name="name" id="nom" placeholder="Nom" required/>
+                <label for="nom">Nom</label>
+            </div>
 
-    <div class="align-self-center">
-        <label for="tel" id="phone-form">Numéro de téléphone</label><br/>
-        <input type="tel" name="phone" id="tel" required/><br/>
-    </div>
+            <label id="firstname-form"></label>
+            <div class="form-floating">
+                <input type="text" class="form-control" name="firstName" id="prenom" placeholder="Prénom" required/>
+                <label for="prenom">Prénom</label>
+            </div>
 
-    <div class="align-self-center">
-        <label id="sex-form">Sexe : </label>
-        <input type="radio" name="sex" value="H" id="H" required/><label for="H">H</label>
-        <input type="radio" name="sex" value="F" id="F"/><label for="F">F</label><br/>
-    </div>
+            <label id="email-form"></label>
+            <div class="form-floating">
+                <input type="email" name="mail" class="form-control" id="email" placeholder="Adresse mail" required/>
+                <label for="email">Adresse mail</label>
+            </div>
 
-    <div class="align-self-center">
-        <label id="car-form">Je possède une voiture : </label>
-        <input type="radio" name="car" value="yes" id="yes" required/><label for="yes">Oui</label>
-        <input type="radio" name="car" value="no" id="no"/><label for="no">Non</label><br/>
-    </div>
+            <label id="password-form"></label>
+            <div class="form-floating">
+                <input type="password" name="password" class="form-control" id="mdp" placeholder="Mot de passe"
+                       required/>
+                <label for="mdp">Mot de passe</label>
+            </div>
 
-    <div class="align-self-center">
-        <label for="avatar">Ajour un Avatar : </label>
-        <input type="file" name="avatar" id="avatar"><br/>
-    </div>
+            <label id="password-confirm-form"></label>
+            <div class="form-floating">
+                <input type="password" name="confirmpassword" class="form-control" id="confirmMdp"
+                       placeholder="Confirmation du mot de passe" required/>
+                <label for="confirmMdp">Confirmation du mot de passe</label>
+            </div>
 
-    <div class="align-self-center">
-        <button type="button" onclick="createAccount(this)">Je m'inscris</button>
-    </div>
-</form>
+            <label id="phone-form"></label>
+            <div class="form-floating">
+                <input type="tel" name="phone" id="tel" class="form-control" placeholder="Numéro de téléphone"
+                       required/>
+                <label for="tel">Numéro de téléphone</label>
+            </div>
+
+            <div>
+                <label id="sex-form"><b>Sexe :</b></label><br>
+                <div class="form-check-inline">
+                    <input class="form-check-input" type="radio" name="sex" id="H" value="H" checked>
+                    <label class="form-check-label" for="H">
+                        Homme
+                    </label>
+                </div>
+                <div class="form-check-inline">
+                    <input class="form-check-input" type="radio" name="sex" id="F" value="F">
+                    <label class="form-check-label" for="F">
+                        Femme
+                    </label>
+                </div>
+            </div>
+
+            <div>
+                <label id="car-form"><b>Je possède une voiture :</b></label><br>
+                <div class="form-check-inline">
+                    <input class="form-check-input" type="radio" name="car" id="yes" value="yes">
+                    <label class="form-check-label" for="yes">
+                        Oui
+                    </label>
+                </div>
+                <div class="form-check-inline">
+                    <input class="form-check-input" type="radio" name="car" id="no" value="no" checked>
+                    <label class="form-check-label" for="no">
+                        Non
+                    </label>
+                </div>
+            </div>
+
+            <div class="input-group mb-3">
+                <label class="input-group-text" for="avatar">Ajour un Avatar</label>
+                <input type="file" name="avatar" class="form-control" id="avatar">
+            </div>
+
+            <div class="d-grid gap-2">
+                <button class="btn btn-primary" type="button" onclick="createAccount(this)">Je m'inscris</button>
+            </div>
+        </form>
+    </main>
+</div>
+
