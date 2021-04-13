@@ -221,17 +221,19 @@ let stages = 0;
  */
 const addStages = () => {
     let container = document.getElementById('stages');
+    let div = document.createElement('div');
     let label = document.createElement('label');
     let input = document.createElement('input');
-    let br = document.createElement('br');
-    if (stages === 0) container.append(document.createElement('br'));
     stages++;
     label.setAttribute('for', 'etapes[' + stages + ']')
-    label.innerText = 'étape ' + (stages + 1);
+    label.innerText = 'Etape ' + (stages + 1);
     input.type = 'text';
     input.name = 'stages[' + stages + ']';
     input.id = 'etapes[' + stages + ']';
-    container.append(label, input, br);
+    input.className = 'form-control d-inline w-75';
+    div.className = 'col-4';
+    div.append(label, input)
+    container.append(div);
 };
 
 /**
