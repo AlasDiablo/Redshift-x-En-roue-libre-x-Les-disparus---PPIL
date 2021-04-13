@@ -4,6 +4,7 @@
 namespace ppil\controller;
 
 
+use PHPUnit\TextUI\XmlConfiguration\Group;
 use ppil\models\Notification;
 use ppil\models\Trajet;
 use ppil\models\Utilisateur;
@@ -20,28 +21,37 @@ class NotificationController
         return strftime("%B %e, %Y, %H:%M");
     }
 
-    private static function participationDismiss($from, $for, $rideId, $text) {
+    private static function sendNotification($from, $for, $text)
+    {
         $fromUser = Utilisateur::where('email', '=', $from)->first();
         $today = self::today();
         $fromName = $fromUser->nom . ' ' . $fromUser->prenom;
+        $content = <<<text
+$today, par $fromName<br>
+$text
+text;
+        $notif = new Notification();
+        $notif->utilisateur = $for;
+        $notif->emeteur = $from;
+        $notif->message = $content;
+        $id = Notification::max('id_notif');
+        if (isset($id)) $id++;
+        else $id = 0;
+        $notif->id_notif = $id;
+        $notif->save();
+    }
+
+
+    private static function participationDismiss($from, $for, $rideId, $text)
+    {
         $ride = Trajet::where('id_trajet', '=', $rideId)->first();
         $rideFrom = $ride->ville_depart;
         $rideTo = $ride->ville_arrivee;
         $rideUrl = AppContainer::getInstance()->getRouteCollector()->getRouteParser()->urlFor('ride', array('id' => $rideId));
         $content = <<<text
-$today<br>
-$fromName, $text $rideFrom à $rideTo <a href="$rideUrl">(voir mon trajet)</a>.
+$text $rideFrom à $rideTo <a href="$rideUrl">(voir mon trajet)</a>.
 text;
-        $notif = new Notification();
-
-        $notif->utilisateur = $for;
-        $notif->emeteur = $from;
-        $notif->message = $content;
-        $id = Trajet::max('id_trajet');
-        if (isset($id)) $id++;
-        else $id = 0;
-        $notif->id_notif = $id;
-        $notif->save();
+        self::sendNotification($from, $for, $content);
     }
 
     public static function sendMyParticipationTo($from, $for, $rideId)
@@ -54,7 +64,28 @@ text;
         self::participationDismiss($from, $for, $rideId, 'A annulé ça participation au trajet de');
     }
 
-    public static function renderNotificationsList() {
+    public static function sendGroupInvitation($from, $for, $groupID)
+    {
+        $acceptUrl = '';
+        $declineUrl = '';
+        $name = Group::where('id_trajet', '=', $groupID)->first()->nom;
+        $content = <<<text
+Vous avais etais invité a rejoindre le group <b>$name</b>.<br>
+<button type="button" onclick="accept()">Accpeté</button><button type="button" onclick="decline()">Refusais</button>
+<script>
+const accept = () => {
+    location.replace("$acceptUrl")
+};
+const decline = () => {
+    location.replace("$declineUrl")
+};
+</script>
+text;
+        self::sendNotification($from, $for, $content);
+    }
+
+    public static function renderNotificationsList()
+    {
         if (isset($_SESSION['mail'])) {
             $data = Notification::where('utilisateur', '=', $_SESSION['mail'])->get();
             return NotificationView::renderNotificationsList($data);

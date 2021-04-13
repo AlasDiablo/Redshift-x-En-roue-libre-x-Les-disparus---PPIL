@@ -116,8 +116,6 @@ class GroupController
 
     public static function addMember($idGroup)
     {
-        //C'EST TOTALEMENT FOIREUX
-
         //recuperation des valeurs post
         $mail = filter_var($_POST["friendNameAdd"], FILTER_DEFAULT);
         $tmp = Membre::where('email_membre', '=', $mail)->where('id_groupe', '=', $idGroup)->first();
@@ -128,12 +126,10 @@ class GroupController
             $member->id_groupe = $idGroup;
             $member->reponse = 'N';
             $member->save();
-
-            // TODO Ajouté des notif...
+            NotificationController::sendGroupInvitation($_SESSION['mail'], $mail, $idGroup);
         } else {
             return ViewRendering::renderError('Le membre avec l\'email : ' . $mail . ' exsite déjà.');
         }
-
         $urlParent = AppContainer::getInstance()->getRouteCollector()->getRouteParser()->urlFor('group', array('id' => $idGroup));
         header("Location: $urlParent");
         exit();
