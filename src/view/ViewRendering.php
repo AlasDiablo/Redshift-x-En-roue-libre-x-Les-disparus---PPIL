@@ -20,6 +20,7 @@ class ViewRendering
             $urlRides = $app->getRouteCollector()->getRouteParser()->urlFor('myrides');
             $urlNotification = $app->getRouteCollector()->getRouteParser()->urlFor('notifications');
             $urlParticipatingRides = $app->getRouteCollector()->getRouteParser()->urlFor('participating-rides');
+            $urlMyGroups = $app->getRouteCollector()->getRouteParser()->urlFor('groups');
             $notificationCount = NotificationController::getUnreadNotificationCount();
             $notificationCountText = ($notificationCount > 0) ? ' (' . $notificationCount . ')' : '';
             $user = Utilisateur::where('email', '=', $_SESSION['mail'])->first();
@@ -35,6 +36,7 @@ class ViewRendering
             $file = str_replace('${public-ride}', $urlPublicRide, $file);
             $file = str_replace('${notifcation}', $urlNotification, $file);
             $file = str_replace('${notifcation_count}', $notificationCountText, $file);
+            $file = str_replace('${my-group}', $urlMyGroups, $file);
             $out .= $file;
         } else {
             $urlSignIn = $app->getRouteCollector()->getRouteParser()->urlFor('sign-in');

@@ -4,6 +4,7 @@ namespace ppil\controller;
 
 use ppil\models\Groupe;
 use ppil\models\Membre;
+use ppil\models\Trajet;
 use ppil\models\Utilisateur;
 use ppil\util\ImageChecker;
 use ppil\view\GroupView;
@@ -19,7 +20,7 @@ class GroupController
 
     public static function getMembre($id)
     {
-        return Membre::where('id_groupe', '=', $id)->get();
+        return Membre::where('id_groupe', '=', $id)->where('reponse', '=', 'O')->get();
     }
 
     public static function getNbMembre($id)
@@ -52,22 +53,27 @@ class GroupController
 
     public static function displayGroupe($id)
     {
-        $data = array();
-        $groupe = self::getGroupe($id);
+        if (isset($_SESSION['mail'])) {
+            $inGroup = Membre::where('email_membre', '=', $_SESSION['mail'])->where('id_groupe', '=', $id)->where('reponse', '=', 'O')->first();
+            if (isset($inGroup)) {
+                $data = array();
+                $groupe = self::getGroupe($id);
+                $data['id'] = $id;
+                $data['nom'] = $groupe->nom;
+                $data['url_img'] = $groupe->url_img;
+                //$data['date_maj'] = self::getDateMaj($id);
+                $data['membres'] = self::getMembre($id);
+                $data['nbr_membre'] = self::getNbMembre($id);
+                $data['trajet_propose_en_cours'] = self::getTrajetCours($id);
+                $data['nbr_trajet_propose_en_cours'] = self::getNbTrajetCours($id);
+                $data['email_createur'] = $groupe->email_createur;
+                $data['createur'] = self::getCreateur($groupe->email_createur);
 
-        $data['nom'] = $groupe->nom;
-        $data['url_img'] = $groupe->url_img;
-        $data['date_maj'] = self::getDateMaj($id);
-        $data['membres'] = self::getMembre($id);
-        $data['nbr_membre'] = self::getNbMembre($id);
-        $data['trajet_propose_en_cours'] = self::getTrajetCours($id);
-        $data['nbr_trajet_propose_en_cours'] = self::getNbTrajetCours($id);
-        $data['email_createur'] = $groupe->email_createur;
-        $createur = self::getCreateur($groupe->email_createur);
-        $data['nom_createur'] = $createur->nom;
-        $data['prenom_createur'] = $createur->prenom;
+                return GroupView::renderGroupe($data);
+            }
+        }
 
-        return GroupView::renderGroupe($data);
+        return ViewRendering::renderError('Forbidden');
     }
 
     public function deleteMember($idGroup)

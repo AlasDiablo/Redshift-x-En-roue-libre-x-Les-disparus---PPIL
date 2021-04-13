@@ -6,6 +6,7 @@ use ppil\controller\NotificationController;
 use ppil\controller\RideController;
 use ppil\controller\UserController;
 use ppil\util\AppContainer;
+use ppil\view\GroupView;
 use ppil\view\RideView;
 use ppil\view\UserView;
 use ppil\view\IndexView;
@@ -162,6 +163,49 @@ $app->get('/account/groups', function (Request $request, Response $response, $ar
     return $response;
 })->setName('groups');
 
+
+// --------------------- Affiché un groupe groupe ---------------------
+// Créer un groupe
+$app->get('/account/group/create', function (Request $request, Response $response, $args) {
+    $response->getBody()->write('');
+    return $response;
+})->setName('group-create');
+
+// Consulté un groupe
+$app->get('/account/group/{id}', function (Request $request, Response $response, $args) {
+    $response->getBody()->write(GroupController::displayGroupe($args['id']));
+    return $response;
+})->setName('group');
+
+// Ajouté un membre
+$app->get('/account/group/{id}/add', function (Request $request, Response $response, $args) {
+    $response->getBody()->write(GroupView::ajouterAmiGroupe($args['id']));
+    return $response;
+})->setName('group-add');
+
+// Suprimé un membre
+$app->get('/account/group/{id}/delete', function (Request $request, Response $response, $args) {
+    $response->getBody()->write(GroupView::supprimerAmiGroupe($args['id']));
+    return $response;
+})->setName('group-delete');
+
+// Créer un groupe
+$app->post('/account/group/create', function (Request $request, Response $response, $args) {
+    $response->getBody()->write('');
+    return $response;
+})->setName('group-create_post');
+
+// Ajouté un membre
+$app->post('/account/group/{id}/add', function (Request $request, Response $response, $args) {
+    $response->getBody()->write('');
+    return $response;
+})->setName('group-add_post');
+
+// Suprimé un membre
+$app->post('/account/group/{id}/delete', function (Request $request, Response $response, $args) {
+    $response->getBody()->write('');
+    return $response;
+})->setName('group-delete_post');
 
 // Demarais l'appliquation web
 $app->run();
