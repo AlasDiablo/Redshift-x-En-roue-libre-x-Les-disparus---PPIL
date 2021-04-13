@@ -23,39 +23,39 @@
         <form class="card-body" method="post" action="${post_url}" enctype="multipart/form-data">
             <h1>Inscription</h1>
 
-            <label id="name-form"></label>
+            <label id="name-form" hidden></label>
             <div class="form-floating">
                 <input type="text" class="form-control" name="name" id="nom" placeholder="Nom" required/>
                 <label for="nom">Nom</label>
             </div>
 
-            <label id="firstname-form"></label>
+            <label id="firstname-form" hidden></label>
             <div class="form-floating">
                 <input type="text" class="form-control" name="firstName" id="prenom" placeholder="Prénom" required/>
                 <label for="prenom">Prénom</label>
             </div>
 
-            <label id="email-form"></label>
+            <label id="email-form" hidden></label>
             <div class="form-floating">
                 <input type="email" name="mail" class="form-control" id="email" placeholder="Adresse mail" required/>
                 <label for="email">Adresse mail</label>
             </div>
 
-            <label id="password-form"></label>
+            <label id="password-form" hidden></label>
             <div class="form-floating">
                 <input type="password" name="password" class="form-control" id="mdp" placeholder="Mot de passe"
                        required/>
                 <label for="mdp">Mot de passe</label>
             </div>
 
-            <label id="password-confirm-form"></label>
+            <label id="password-confirm-form" hidden></label>
             <div class="form-floating">
                 <input type="password" name="confirmpassword" class="form-control" id="confirmMdp"
                        placeholder="Confirmation du mot de passe" required/>
                 <label for="confirmMdp">Confirmation du mot de passe</label>
             </div>
 
-            <label id="phone-form"></label>
+            <label id="phone-form" hidden></label>
             <div class="form-floating">
                 <input type="tel" name="phone" id="tel" class="form-control" placeholder="Numéro de téléphone"
                        required/>

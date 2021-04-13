@@ -1,42 +1,101 @@
-<section class="d-flex flex-column col-md-4 offset-md-4 bg-light">
-    <h1 class="align-self-center">Modifier mon profil</h1>
+<style>
+.middle {
+    margin-right: 24%;
+    margin-left: 24%;
+}
+</style>
+<div class="container">
+    <div class="text-center">
+        <section class="border rounded mb-4 mt-4 middle bg-light">
+            <h1 class="align-self-center mb-4">Modifier mon profil</h1>
 
-    <img src="${my_avatar}" alt="My Avatar">
+            <img src="${my_avatar}" class="rounded-circle border border-secondary border-2 mb-4" alt="My Avatar">
 
-    <form class="align-self-center" method="post" action="${post_url}" enctype="multipart/form-data">
-        <label for="nom" id="name-form">Nom</label><br/>
-        <input type="text" name="name" id="nom" value="${name}"/><br/>
+            <form class="align-self-center" method="post" action="${post_url}" enctype="multipart/form-data">
 
-        <label for="prenom" id="firstname-form">Prénom</label><br/>
-        <input type="text" name="firstName" id="prenom" value="${firstName}"/><br/>
+                <label for="nom" id="name-form" hidden>sdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdf</label>
+                <div class="input-group mb-3 me-auto ms-auto w-75">
+                    <span class="input-group-text">Nom</span>
+                    <input type="text" name="name" id="nom" class="form-control" placeholder="${name}" value="${name}">
+                </div>
 
-        <label for="email">Adresse mail</label><br/>
-        <input type="email" name="mail" id="email" value="${mail}" disabled/><br/>
+                <label for="prenom" id="firstname-form" hidden></label>
+                <div class="input-group mb-3 me-auto ms-auto w-75">
+                    <span class="input-group-text">Prénom</span>
+                    <input type="text" name="firstName" id="prenom" class="form-control" placeholder="${firstName}" value="${firstName}">
+                </div>
 
-        <label for="oldmdp">Ancien mot de passe</label><br/>
-        <input type="password" name="oldpassword" id="oldmdp"/><br/>
+                <label for="email" hidden></label>
+                <div class="input-group mb-3 me-auto ms-auto w-75">
+                    <span class="input-group-text">Adresse mail</span>
+                    <input type="email" name="mail" id="email" class="form-control" placeholder="${mail}" value="${mail}" disabled>
+                </div>
 
-        <label for="mdp" id="password-form">Nouveau mot de passe</label><br/>
-        <input type="password" name="newpassword" id="mdp"/><br/>
+                <label for="oldmdp" hidden></label>
+                <div class="input-group mb-3 me-auto ms-auto w-75">
+                    <span class="input-group-text">Ancien mot de passe*</span>
+                    <input type="password" class="form-control" name="oldpassword" id="oldmdp"/>
+                </div>
 
-        <label for="confirmMdp" id="password-confirm-form">Confirmation du nouveau mot de passe</label><br/>
-        <input type="password" name="confirmnewpassword" id="confirmMdp"/><br/>
+                <label for="mdp" id="password-form" hidden></label>
+                <div class="input-group mb-3 me-auto ms-auto w-75">
+                    <span class="input-group-text">Nouveau mot de passe</span>
+                    <input type="password" class="form-control" name="newpassword" id="mdp"/>
+                </div>
 
-        <label for="tel" id="phone-form">Numéro de téléphone</label><br/>
-        <input type="tel" name="phone" id="tel" value="${tel}"/><br/>
 
-        <label>Sexe : </label>
-        <input type="radio" name="sex" value="H" id="H" ${H}/><label for="H">H</label>
-        <input type="radio" name="sex" value="F" id="F" ${F}/><label for="F">F</label><br/>
+                <label for="confirmMdp" id="password-confirm-form" hidden></label>
+                <div class="input-group mb-3 me-auto ms-auto w-75">
+                    <span class="input-group-text">Confirmé le mot de passe</span>
+                    <input type="password" class="form-control" name="confirmnewpassword" id="confirmMdp"/>
+                </div>
 
-        <label>Je possède une voiture : </label>
-        <input type="radio" name="car" value="yes" id="yes" ${yes}/><label for="yes">Oui</label>
-        <input type="radio" name="car" value="no" id="no" ${no}/><label for="no">Non</label><br/>
+                <label for="tel" id="phone-form" hidden></label>
+                <div class="input-group mb-3 me-auto ms-auto w-75">
+                    <span class="input-group-text">Numéro de téléphone</span>
+                    <input type="tel" class="form-control" name="phone" id="tel" value="${tel}" placeholder="${tel}"/>
+                </div>
 
-        <label for="avatar">Ajour un Avatar : </label>
-        <input type="file" name="avatar" id="avatar"><br/>
+                <div>
+                    <label id="sex-form"><b>Sexe :</b></label><br>
+                    <div class="form-check-inline">
+                        <input class="form-check-input" type="radio" name="sex" id="H" value="H" ${H}>
+                        <label class="form-check-label" for="H">
+                            Homme
+                        </label>
+                    </div>
+                    <div class="form-check-inline">
+                        <input class="form-check-input" type="radio" name="sex" id="F" value="F" ${F}>
+                        <label class="form-check-label" for="F">
+                            Femme
+                        </label>
+                    </div>
+                </div>
 
-        <input type="button" value="Annuler"/>
-        <button type="button" onclick="editAccount(this)">Valider</button>
-    </form>
-</section>
+                <div>
+                    <label id="car-form"><b>Je possède une voiture :</b></label><br>
+                    <div class="form-check-inline">
+                        <input class="form-check-input" type="radio" name="car" id="yes" value="yes" ${yes}>
+                        <label class="form-check-label" for="yes">
+                            Oui
+                        </label>
+                    </div>
+                    <div class="form-check-inline">
+                        <input class="form-check-input" type="radio" name="car" id="no" value="no" ${no}>
+                        <label class="form-check-label" for="no">
+                            Non
+                        </label>
+                    </div>
+                </div>
+
+                <div class="input-group mb-3 me-auto ms-auto w-75">
+                    <label class="input-group-text" for="avatar">Modifier mon Avatar</label>
+                    <input type="file" name="avatar" class="form-control" id="avatar">
+                </div>
+
+                <input type="button" class="btn btn-secondary w-25 mb-1 mt-1" onclick="location.reload()" value="Annuler"/>
+                <button type="button" class="btn btn-outline-success w-25 mb-1 mt-1" onclick="editAccount(this)">Valider</button>
+            </form>
+        </section>
+    </div>
+</div>
