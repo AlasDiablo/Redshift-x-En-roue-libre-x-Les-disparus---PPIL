@@ -66,8 +66,8 @@ text;
 
     public static function sendGroupInvitation($from, $for, $groupID)
     {
-        $acceptUrl = '';
-        $declineUrl = '';
+        $acceptUrl = AppContainer::getInstance()->getRouteCollector()->getRouteParser()->urlFor('group-invit-accept', array('id' => $groupID));
+        $declineUrl = AppContainer::getInstance()->getRouteCollector()->getRouteParser()->urlFor('group-invit-decline', array('id' => $groupID));
         $name = Group::where('id_trajet', '=', $groupID)->first()->nom;
         $content = <<<text
 Vous avais etais invité a rejoindre le group <b>$name</b>.<br>
