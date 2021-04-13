@@ -197,13 +197,13 @@ $app->post('/account/group/create', function (Request $request, Response $respon
 
 // Ajouté un membre
 $app->post('/account/group/{id}/add', function (Request $request, Response $response, $args) {
-    $response->getBody()->write('');
+    $response->getBody()->write(GroupController::addMember($args['id']));
     return $response;
 })->setName('group-add_post');
 
 // Suprimé un membre
 $app->post('/account/group/{id}/delete', function (Request $request, Response $response, $args) {
-    $response->getBody()->write('');
+    $response->getBody()->write(GroupController::deleteMember($args['id']));
     return $response;
 })->setName('group-delete_post');
 

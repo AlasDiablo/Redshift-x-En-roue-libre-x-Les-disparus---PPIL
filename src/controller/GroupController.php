@@ -6,6 +6,7 @@ use ppil\models\Groupe;
 use ppil\models\Membre;
 use ppil\models\Trajet;
 use ppil\models\Utilisateur;
+use ppil\util\AppContainer;
 use ppil\util\ImageChecker;
 use ppil\view\GroupView;
 use ppil\view\ViewRendering;
@@ -76,13 +77,14 @@ class GroupController
         return ViewRendering::renderError('Forbidden');
     }
 
-    public function deleteMember($idGroup)
+    public static function deleteMember($idGroup)
     {
         //recuperation des valeurs post
-        $mail = filter_var($_POST["mail"], FILTER_DEFAULT);
+        $mail = filter_var($_POST["friendNameDel"], FILTER_DEFAULT);
 
         //recuperer les trajets du membre
-        $rides = Utilisateur::where('email', '=', $mail)->where('id_groupe', '=', $idGroup)->first()->mesParticipation()->get();
+        //$rides = Utilisateur::where('email', '=', $mail)->where('id_groupe', '=', $idGroup)->first()->mesParticipation()->get();
+        $rides = Utilisateur::where('email', '=', $mail)->first()->mesParticipation()->where('id_groupe', '=', $idGroup)->get();
         $validDeletion = true;
         foreach ($rides as $ride) {
             $date = date("d-m-Y H:i");
@@ -96,7 +98,7 @@ class GroupController
 
         //supprimer le membre du groupe
         if ($validDeletion) {
-            Membre::where('email_member', '=', $mail)->where('id_groupe', '=', $idGroup)->delete();
+            Membre::where('email_membre', '=', $mail)->where('id_groupe', '=', $idGroup)->delete();
 
             //supprimer ses trajets
             Trajet::where('email_conducteur', '=', $mail)->where('id_groupe', '=', $idGroup)->delete();
@@ -107,6 +109,8 @@ class GroupController
             return ViewRendering::renderError("des trajets de - de 24h existe");
         }
 
+        $urlParent = AppContainer::getInstance()->getRouteCollector()->getRouteParser()->urlFor('group', array('id' => $idGroup));
+        header("Location: $urlParent");
         exit();
     }
 
@@ -116,15 +120,24 @@ class GroupController
         //C'EST TOTALEMENT FOIREUX
 
         //recuperation des valeurs post
-        $mail = filter_var($_POST["mail"], FILTER_DEFAULT);
+        $mail = filter_var($_POST["friendNameAdd"], FILTER_DEFAULT);
+        $tmp = Membre::where('email_membre', '=', $mail)->where('id_groupe', '=', $idGroup)->first();
+        if (!isset($tmp->email_membre)) {
+            //ajout du membre
+            $member = new Membre();
+            $member->email_membre = $mail;
+            $member->id_groupe = $idGroup;
+            $member->reponse = 'N';
+            $member->save();
 
-        //ajout du membre
-        $member = new Member();
-        $member->email_membre = $mail;
-        $member->id_groupe = $idGroup;
-        $member->reponse = false;
-        $member->save();
+            // TODO Ajouté des notif...
+        } else {
+            return ViewRendering::renderError('Le membre avec l\'email : ' . $mail . ' exsite déjà.');
+        }
 
+        $urlParent = AppContainer::getInstance()->getRouteCollector()->getRouteParser()->urlFor('group', array('id' => $idGroup));
+        header("Location: $urlParent");
+        exit();
     }
 
     public function creerGroupe()
