@@ -9,7 +9,7 @@ use ppil\util\AppContainer;
 
 class RideView
 {
-    public static function renderUser($data)
+    public static function renderRide($data)
     {
         $template = file_get_contents('./html/detailsTrajet.html');
 
@@ -38,7 +38,8 @@ class RideView
 
         $passagers = '';
         foreach ($data['passagers'] as $datum) {
-            $passagers .= '<li>' . $datum->prenom . ' ' . $datum->nom . '</li>';
+            $user = Utilisateur::where('email', '=', $datum->email_passager)->first();
+            $passagers .= '<li>' . $user->prenom . ' ' . $user->nom . '</li>';
         }
 
         $template = str_replace('${ville_intermediere}', $ville_intermediere, $template);

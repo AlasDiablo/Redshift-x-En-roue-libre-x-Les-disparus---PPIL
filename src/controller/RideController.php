@@ -44,7 +44,7 @@ class RideController
 
         $data['ville_depart'] = $ride->ville_depart;
         $data['ville_arrivee'] = $ride->ville_arrivee;
-        $data['nbr_passager'] = $ride->date;
+        $data['nbr_passager'] = $ride->nbr_passager;
         $data['nbr_passager_occup'] = self::getNbPlaceOccupee($id);
         $data['heure_depart'] = $ride->heure_depart;
         $data['prix'] = $ride->prix;
@@ -54,7 +54,7 @@ class RideController
         $data['ville_intermediere'] = self::getEtape($id);
         $data['passagers'] = self::getPassager($id);
 
-        return RideView::renderUser($data);
+        return RideView::renderRide($data);
     }
 
     public static function creerTrajet()
@@ -196,7 +196,7 @@ class RideController
             return ViewRendering::renderError("Le trajet n'existe pas/plus.");
         }
         // verif nb place
-        if ($trajet->nbr_passager <= 0) {
+        if ($trajet->nbr_passager <= self::getNbPlaceOccupee($id)) {
             return ViewRendering::renderError("Plus de place disponible.");
         }
         $mail = $_SESSION['mail'];
@@ -204,9 +204,6 @@ class RideController
             return ViewRendering::renderError("Vous n'êtes pas connecté.");
         }
 
-        // modif
-        $trajet->nbr_passager -= 1;
-        $trajet->save();
         $passager = new Passager();
         $passager->email_passager = $mail;
         $passager->id_trajet = $id;
@@ -223,7 +220,7 @@ class RideController
         NotificationController::sendMyParticipationTo($mail, $mailConducteur, $id);
 
         // redirection
-        $url = AppContainer::getInstance()->getRouteCollector()->getRouteParser()->urlFor('root');
+        $url = AppContainer::getInstance()->getRouteCollector()->getRouteParser()->urlFor('participating-rides');
         header("Location: $url");
         exit();
     }

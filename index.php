@@ -144,11 +144,15 @@ $app->get('/ride/public', function (Request $request, Response $response, $args)
 
 
 // --------------------- Consulter les trajets public ---------------------
-//
 $app->get('/ride/{id}', function (Request $request, Response $response, $args) {
     $response->getBody()->write(RideController::displayRide($args['id']));
     return $response;
 })->setName('ride');
+
+$app->get('/ride/{id}/participated', function (Request $request, Response $response, $args) {
+    $response->getBody()->write(RideController::participate($args['id']));
+    return $response;
+})->setName('ride-participated');
 
 // --------------------- Liste des notification ---------------------
 $app->get('/account/notifications', function (Request $request, Response $response, $args) {
