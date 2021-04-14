@@ -71,15 +71,7 @@ text;
         $name = Group::where('id_trajet', '=', $groupID)->first()->nom;
         $content = <<<text
 Vous avais etais invité a rejoindre le group <b>$name</b>.<br>
-<button type="button" onclick="accept()">Accpeté</button><button type="button" onclick="decline()">Refusais</button>
-<script>
-const accept = () => {
-    location.replace("$acceptUrl")
-};
-const decline = () => {
-    location.replace("$declineUrl")
-};
-</script>
+<button type="button" onclick="location.replace('$acceptUrl')">Accpeté</button><button type="button" onclick="location.replace('$declineUrl')">Refusais</button>
 text;
         self::sendNotification($from, $for, $content);
     }
