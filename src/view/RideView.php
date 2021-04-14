@@ -54,14 +54,14 @@ html;
         foreach ($data['ville_intermediere'] as $datum) {
             $ville_intermediere .= '<li>' . $datum->ville . '</li>';
         }
-        if ($ville_intermediere == '') $ville_intermediere .= '<li>Aucun etape intemerdier a etais induqué</li>';
+        if ($ville_intermediere == '') $ville_intermediere .= '<li>Aucun etape intemerdier a été indiqué</li>';
 
         $passagers = '';
         foreach ($data['passagers'] as $datum) {
             $user = Utilisateur::where('email', '=', $datum->email_passager)->first();
             $passagers .= '<li>' . $user->prenom . ' ' . $user->nom . '</li>';
         }
-        if ($passagers == '') $passagers .= '<li>Aucun passager n\'a etais trouvé</li>';
+        if ($passagers == '') $passagers .= '<li>Aucun passager n\'a été trouvé</li>';
 
         $template = str_replace('${ville_intermediere}', $ville_intermediere, $template);
 
