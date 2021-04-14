@@ -1,6 +1,6 @@
 <a class="d-inline-flex p-3 bg-danger text-light" href="${create_ride}">Créer une offre de trajet</a>
 
-<section class="d-flex flex-column col-md-6 offset-md-3 bg-light">
+<section class="container border rounded mb-4 mt-4 middle bg-light">
     <p>Rechercher ${title} : </p>
     <form class="align-self-center" method="GET" action="">
         <label for="depart">Départ</label>
@@ -28,6 +28,8 @@
     </form>
 </section>
 
-<section class="d-flex flex-column col-md-6 offset-md-3 bg-light">
-    ${list_trajet}
+<section class="container border rounded mb-4 mt-4 middle bg-light">
+    <div class="m-4">
+        ${list_trajet}
+    </div>
 </section>

@@ -1,8 +1,9 @@
-<li>
-    <div class="caseTrajet">
-        <p>${ville_depart} -> ${ville_arrivee}</p>
-        <p>Date : ${date}</p>
-        <p>Nombre de passagers : ${nbr_passager}</p>
-        <a href="${details}">Voir les details</a>
+<div class="card mb-4">
+    <div class="card-header">
+        <b>${ville_depart} ➔ ${ville_arrivee}</b>
     </div>
-</li>
+    <div class="card-body">
+        <p class="card-text">Nombre de passagers : ${nbr_passager}</p>
+        <a href="${details}" class="btn btn-primary">Voir les details</a>
+    </div>
+</div>
