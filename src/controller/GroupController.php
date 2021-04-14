@@ -190,16 +190,36 @@ class GroupController
         }
     }
 
+    private static function handleError() {
+        set_error_handler (
+            function($errno, $errstr, $errfile, $errline) {
+                $urlParent = AppContainer::getInstance()->getRouteCollector()->getRouteParser()->urlFor('notifications');
+                header("Location: $urlParent");
+                exit();
+            }
+        );
+    }
+
     public static function acceptInvitation($id)
     {
+        self::handleError();
         $member = Membre::where('email_membre','=', $_SESSION['mail'])->where('id_groupe', '=', $id)->first();
         $member->reponse = 'O';
         $member->save();
+
+        $urlParent = AppContainer::getInstance()->getRouteCollector()->getRouteParser()->urlFor('notifications');
+        header("Location: $urlParent");
+        exit();
     }
 
     public static function declineInvitation($id)
     {
+        self::handleError();
         Membre::where('email_membre','=', $_SESSION['mail'])->where('id_groupe', '=', $id)->delete();
+
+        $urlParent = AppContainer::getInstance()->getRouteCollector()->getRouteParser()->urlFor('notifications');
+        header("Location: $urlParent");
+        exit();
     }
 
 }

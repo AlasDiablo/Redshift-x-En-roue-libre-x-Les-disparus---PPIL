@@ -4,7 +4,7 @@
 namespace ppil\controller;
 
 
-use PHPUnit\TextUI\XmlConfiguration\Group;
+use ppil\models\Groupe;
 use ppil\models\Notification;
 use ppil\models\Trajet;
 use ppil\models\Utilisateur;
@@ -27,8 +27,14 @@ class NotificationController
         $today = self::today();
         $fromName = $fromUser->nom . ' ' . $fromUser->prenom;
         $content = <<<text
-$today, par $fromName<br>
-$text
+<div class="card mt-4">
+    <div class="card-header">
+        $today, par $fromName
+    </div>
+    <div class="card-body container">
+        $text
+    </div>
+</div>
 text;
         $notif = new Notification();
         $notif->utilisateur = $for;
@@ -49,7 +55,9 @@ text;
         $rideTo = $ride->ville_arrivee;
         $rideUrl = AppContainer::getInstance()->getRouteCollector()->getRouteParser()->urlFor('ride', array('id' => $rideId));
         $content = <<<text
-$text $rideFrom à $rideTo <a href="$rideUrl">(voir mon trajet)</a>.
+<div class="row m-2">
+    <div class="col">$text $rideFrom à $rideTo <a href="$rideUrl">(voir mon trajet)</a>.</div>
+</div>
 text;
         self::sendNotification($from, $for, $content);
     }
@@ -68,10 +76,15 @@ text;
     {
         $acceptUrl = AppContainer::getInstance()->getRouteCollector()->getRouteParser()->urlFor('group-invit-accept', array('id' => $groupID));
         $declineUrl = AppContainer::getInstance()->getRouteCollector()->getRouteParser()->urlFor('group-invit-decline', array('id' => $groupID));
-        $name = Group::where('id_trajet', '=', $groupID)->first()->nom;
+        $name = Groupe::where('id_groupe', '=', $groupID)->first()->nom;
         $content = <<<text
-Vous avais etais invité a rejoindre le group <b>$name</b>.<br>
-<button type="button" onclick="location.replace('$acceptUrl')">Accpeté</button><button type="button" onclick="location.replace('$declineUrl')">Refusais</button>
+<div class="row m-2">
+    <div class="col">Vous avais etais invité a rejoindre le group <b>$name</b>.</div>
+</div>
+<div class="row m-2">
+    <button type="button" class="btn btn-outline-success col" onclick="location.replace('$acceptUrl')">Accpeté</button>
+    <button class="btn btn-outline-danger col" type="button" onclick="location.replace('$declineUrl')">Refusais</button>
+</div>
 text;
         self::sendNotification($from, $for, $content);
     }
@@ -79,7 +92,7 @@ text;
     public static function renderNotificationsList()
     {
         if (isset($_SESSION['mail'])) {
-            $data = Notification::where('utilisateur', '=', $_SESSION['mail'])->get();
+            $data = Notification::where('utilisateur', '=', $_SESSION['mail'])->orderBy('id_notif', 'desc')->get();
             Notification::where('utilisateur', '=', $_SESSION['mail'])->update(['vu' => 'O']);
             return NotificationView::renderNotificationsList($data);
         } else {

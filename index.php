@@ -213,13 +213,13 @@ $app->post('/account/group/{id}/delete', function (Request $request, Response $r
 
 // Accepter une invitation à un groupe d'amis
 $app->get('/account/group/{id}/accept', function (Request $request, Response $response, $args) {
-    $response->getBody()->write(GroupController::acceptInvitation($args['id']));
+    GroupController::acceptInvitation($args['id']);
     return $response;
 })->setName('group-invit-accept');
 
 // Refuser une invitation à un groupe d'amis
 $app->get('/account/group/{id}/decline', function (Request $request, Response $response, $args) {
-    $response->getBody()->write(GroupController::declineInvitation($args['id']));
+    GroupController::declineInvitation($args['id']);
     return $response;
 })->setName('group-invit-decline');
 
