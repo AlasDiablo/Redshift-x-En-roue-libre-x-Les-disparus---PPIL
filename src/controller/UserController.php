@@ -8,32 +8,12 @@ use ppil\models\MotDePasseOublie;
 use ppil\models\Utilisateur;
 use ppil\util\AppContainer;
 use ppil\util\EmailFactory;
+use ppil\util\ImageChecker;
 use ppil\view\UserView;
 use ppil\view\ViewRendering;
 
 class UserController
 {
-
-    private static function checkUserAvatar()
-    {
-        if (!empty($_FILES['avatar']['name']))
-        {
-            $targetDir = realpath('uploads/');
-            $fileName = basename(md5($_SESSION['mail']));
-            $targetFilePath = $targetDir . DIRECTORY_SEPARATOR . $fileName;
-            $imageSize = getimagesize($_FILES['avatar']['tmp_name']);
-            $fileSize = filesize($_FILES['avatar']['tmp_name']);
-            if ($imageSize !== false && $fileSize !== false)
-            {
-                list($width, $height) = $imageSize;
-                if ($width <= 400 && $height <= 400 && $fileSize <= 20971520) {
-                    if (move_uploaded_file($_FILES['avatar']['tmp_name'], $targetFilePath))
-                        return $fileName;
-                    else return null;
-                } else return null;
-            } else return null;
-        } else return 'no_image';
-    }
 
     public static function modifierUtilisateur()
     {
@@ -45,7 +25,7 @@ class UserController
         $confnouvmdp = filter_var($_POST['confirmnewpassword'], FILTER_DEFAULT);
         $sexe = filter_var($_POST['sex'], FILTER_DEFAULT);
         $a_voiture = filter_var($_POST['car']);
-        $image = self::checkUserAvatar();
+        $image = ImageChecker::checkAvatar(basename(md5($_SESSION['mail'])));
 
         if ($image == null) {
             return ViewRendering::renderError("Votre avatar doit etre une image et avoir un taille de 400px par 400px et faire un maximium de 20 Mo.");
@@ -54,15 +34,15 @@ class UserController
         $matches = null;
 
         #Messages d'erreurs pour le nom
-        if (!isset($nom)){
+        if (!isset($nom)) {
             return ViewRendering::renderError("Vous n'avez pas mis votre nom.");
         }
 
-        if(preg_match('/^[a-zA-Z]+$/', $nom, $matches, PREG_OFFSET_CAPTURE, 0) == false){
+        if (preg_match('/^[a-zA-Z]+$/', $nom, $matches, PREG_OFFSET_CAPTURE, 0) == false) {
             return ViewRendering::renderError("Votre nom ne peut pas comporter de chiffre.");
         }
 
-        if(strlen($nom) < 2 || strlen($nom) > 25){
+        if (strlen($nom) < 2 || strlen($nom) > 25) {
             return ViewRendering::renderError("Votre nom ne peut pas comporter aussi peut ou autant de lettre (entre 2 et 25).");
         }
 
@@ -71,32 +51,32 @@ class UserController
             return ViewRendering::renderError("Vous n'avez pas mis votre prénom.");
         }
 
-        if(!preg_match('/^[a-zA-Z]+$/', $prenom, $matches, PREG_OFFSET_CAPTURE, 0)){
+        if (!preg_match('/^[a-zA-Z]+$/', $prenom, $matches, PREG_OFFSET_CAPTURE, 0)) {
             return ViewRendering::renderError("Votre prénom ne peut pas comporter de chiffre.");
         }
 
-        if(strlen($prenom) < 2 || strlen($prenom) > 25){
+        if (strlen($prenom) < 2 || strlen($prenom) > 25) {
             return ViewRendering::renderError("Votre prénom ne peut pas comporter aussi peut ou autant de lettre (entre 2 et 25).");
         }
 
         #Messages d'erreurs pour le mot de passe
 
-            // si le mdp ne correspond pas alors on renvoie la page d'erreur
+        // si le mdp ne correspond pas alors on renvoie la page d'erreur
         $bddMdp = Utilisateur::select('mdp')->where('email', '=', $_SESSION['mail'])->first()->mdp;
         if (!password_verify($ancienmdp, $bddMdp)) {
             return ViewRendering::renderError("Le mot de passe ne correspond pas à votre ancien mot de passe.");
         }
 
         if (isset($nouveaumdp)) if ($nouveaumdp != "") {
-            if(!preg_match('/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.{7,})/', $nouveaumdp, $matches, PREG_OFFSET_CAPTURE, 0)){
+            if (!preg_match('/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.{7,})/', $nouveaumdp, $matches, PREG_OFFSET_CAPTURE, 0)) {
                 return ViewRendering::renderError("Votre mot de passe doit comporter au moins 7 caractères dont au moins une majuscule, et un chiffre.");
             }
 
-            if(($nouveaumdp != $confnouvmdp)){
+            if (($nouveaumdp != $confnouvmdp)) {
                 return ViewRendering::renderError("Le mot de passe de confirmation est différent du mot de passe.");
             }
 
-            if(($nouveaumdp == $ancienmdp)){
+            if (($nouveaumdp == $ancienmdp)) {
                 return ViewRendering::renderError("Le nouveau mot de passe doit être différent de l'ancien mot de passe.");
             }
         }
@@ -106,11 +86,11 @@ class UserController
             return ViewRendering::renderError("Vous n'avez pas mis de numéro de téléphone.");
         }
 
-        if(strlen($tel) != 10){
+        if (strlen($tel) != 10) {
             return ViewRendering::renderError("Un numéro de téléphone contient 10 chiffres.");
         }
 
-        if(!preg_match("#[0]([6]|[7])[- .?]?([0-9][0-9][- .?]?){4}$#", $tel)){
+        if (!preg_match("#[0]([6]|[7])[- .?]?([0-9][0-9][- .?]?){4}$#", $tel)) {
             return ViewRendering::renderError("Le numéro de téléphone doit commencer par 06 ou 07.");
         }
 
@@ -165,7 +145,7 @@ class UserController
         $tel = filter_var($_POST['phone'], FILTER_DEFAULT);
         $sexe = filter_var($_POST['sex'], FILTER_DEFAULT);
         $a_voiture = filter_var($_POST['car'], FILTER_DEFAULT);
-        $image = self::checkUserAvatar();
+        $image = ImageChecker::checkAvatar(basename(md5($_SESSION['mail'])));
 
         if ($image == null) {
             return ViewRendering::renderError("Votre avatar doit etre une image et avoir un taille de 400px par 400px et faire un maximium de 20 Mo.");
@@ -174,15 +154,15 @@ class UserController
         $matches = null;
 
         #Messages d'erreurs pour le nom
-        if (!isset($nom)){
+        if (!isset($nom)) {
             return ViewRendering::renderError("Vous n'avez pas mis votre nom.");
         }
 
-        if(preg_match('/^[a-zA-Z]+$/', $nom, $matches, PREG_OFFSET_CAPTURE, 0) == false){
+        if (preg_match('/^[a-zA-Z]+$/', $nom, $matches, PREG_OFFSET_CAPTURE, 0) == false) {
             return ViewRendering::renderError("Votre nom ne peut pas comporter de chiffre.");
         }
 
-        if(strlen($nom) < 2 || strlen($nom) > 25){
+        if (strlen($nom) < 2 || strlen($nom) > 25) {
             return ViewRendering::renderError("Votre nom ne peut pas comporter aussi peut ou autant de lettre (entre 2 et 25).");
         }
 
@@ -191,37 +171,37 @@ class UserController
             return ViewRendering::renderError("Vous n'avez pas mis votre prénom.");
         }
 
-        if(!preg_match('/^[a-zA-Z]+$/', $prenom, $matches, PREG_OFFSET_CAPTURE, 0)){
+        if (!preg_match('/^[a-zA-Z]+$/', $prenom, $matches, PREG_OFFSET_CAPTURE, 0)) {
             return ViewRendering::renderError("Votre prénom ne peut pas comporter de chiffre.");
         }
 
-        if(strlen($prenom) < 2 || strlen($prenom) > 25){
+        if (strlen($prenom) < 2 || strlen($prenom) > 25) {
             return ViewRendering::renderError("Votre prénom ne peut pas comporter aussi peut ou autant de lettre (entre 2 et 25).");
         }
 
         #Messages d'erreurs pour l'adresse éléctronique
-        if (!isset($email)){
+        if (!isset($email)) {
             return ViewRendering::renderError("Vous n'avez pas mis d'email.");
         }
 
-        if(!filter_var($email, FILTER_VALIDATE_EMAIL)){
+        if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
             return ViewRendering::renderError("L'email que vous avez noté n'est pas valable (ex: abc@coucou.fr).");
         }
 
         #Messages d'erreurs pour le mot de passe
-        if (!isset($mdp)){
+        if (!isset($mdp)) {
             return ViewRendering::renderError("Vous n'avez pas mis de mot de passe");
         }
 
-        if(!isset($mdpconf)){
+        if (!isset($mdpconf)) {
             return ViewRendering::renderError("Vous n'avez pas mis de mot de passe de confirmation");
         }
 
-        if(!preg_match("#^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.{7,})#", $mdp, $matches, PREG_OFFSET_CAPTURE, 0)){
+        if (!preg_match("#^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.{7,})#", $mdp, $matches, PREG_OFFSET_CAPTURE, 0)) {
             return ViewRendering::renderError("Votre mot de passe doit comporter au moins 7 caractères dont au moins une majuscule, et un chiffre.");
         }
 
-        if(($mdp != $mdpconf)){
+        if (($mdp != $mdpconf)) {
             return ViewRendering::renderError("Le mot de passe de confirmation est différent du mot de passe.");
         }
 
@@ -230,11 +210,11 @@ class UserController
             return ViewRendering::renderError("Vous n'avez pas mis de numéro de téléphone.");
         }
 
-        if(strlen($tel) != 10){
+        if (strlen($tel) != 10) {
             return ViewRendering::renderError("Un numéro de téléphone contient 10 chiffres.");
         }
 
-        if(!preg_match("#[0]([6]|[7])[- .?]?([0-9][0-9][- .?]?){4}$#", $tel)){
+        if (!preg_match("#[0]([6]|[7])[- .?]?([0-9][0-9][- .?]?){4}$#", $tel)) {
             return ViewRendering::renderError("Le numéro de téléphone doit commencer par \"06\" ou \"07\".");
         }
 

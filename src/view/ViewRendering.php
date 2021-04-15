@@ -2,6 +2,7 @@
 
 namespace ppil\view;
 
+use ppil\controller\NotificationController;
 use ppil\models\Utilisateur;
 use ppil\util\AppContainer;
 
@@ -10,48 +11,44 @@ class ViewRendering
 
     private static function getNavBar($app)
     {
-        $nav = "<ul class=\"navbar-nav\">";
-        $urlSignIn = $app->getRouteCollector()->getRouteParser()->urlFor('sign-in');
-        $urlLogout = $app->getRouteCollector()->getRouteParser()->urlFor('logout');
-        $urlProfile = $app->getRouteCollector()->getRouteParser()->urlFor('edit-profile');
-		$urlPublicRide = $app->getRouteCollector()->getRouteParser()->urlFor('public-ride');
+        $out = '<ul class="navbar-nav">';
         $urlRoot = $app->getRouteCollector()->getRouteParser()->urlFor('root');
-        $urlMyRides = $app->getRouteCollector()->getRouteParser()->urlFor('myrides');
-        $urlParticipatingRides = $app->getRouteCollector()->getRouteParser()->urlFor('participating-rides');
-        $connected = <<<html
-        <li class="nav-item"><a class="nav-link" href="$urlRoot">ShareMyRide</a></li>
-        <li class="nav-item"><a class="nav-link" href="$urlPublicRide">Trajet public</a></li>
-        <li class="nav-item"><a class="nav-link" href="#">Trajet privé</a></li>
-        <li class="nav-item"><a class="nav-link" href="$urlLogout">Se déconnecter</a></li>
-        <ul><p>MyRides</p>
-             <li class="nav-item"><a class="nav-link" href="$urlRides">Trajets que j'ai créées</a></li>
-            <li><a href="$urlParticipatingRides">Trajets auxquels je participe</a></li>
-        </ul>
-html;
         if (isset($_SESSION['mail'])) {
+            $urlLogout = $app->getRouteCollector()->getRouteParser()->urlFor('logout');
+            $urlProfile = $app->getRouteCollector()->getRouteParser()->urlFor('edit-profile');
+            $urlPublicRide = $app->getRouteCollector()->getRouteParser()->urlFor('public-ride');
+            $urlRides = $app->getRouteCollector()->getRouteParser()->urlFor('myrides');
+            $urlNotification = $app->getRouteCollector()->getRouteParser()->urlFor('notifications');
+            $urlParticipatingRides = $app->getRouteCollector()->getRouteParser()->urlFor('participating-rides');
+            $urlMyGroups = $app->getRouteCollector()->getRouteParser()->urlFor('groups');
+            $notificationCount = NotificationController::getUnreadNotificationCount();
+            $notificationCountText = ($notificationCount > 0) ? ' (' . $notificationCount . ')' : '';
             $user = Utilisateur::where('email', '=', $_SESSION['mail'])->first();
             $url_img = isset($user->url_img) ? $user->url_img : '/uploads/default';
-            $connected .= <<<html
-<li><a href="$urlProfile">
-    <img src="$url_img" alt="My Avatar" width="64px" height="64px">
-</a></li>
-html;
+
+            $file = file_get_contents('./html/sub-element/header-login.html');
+            $file = str_replace('${avatar}', $url_img, $file);
+            $file = str_replace('${root}', $urlRoot, $file);
+            $file = str_replace('${logout}', $urlLogout, $file);
+            $file = str_replace('${my-profil}', $urlProfile, $file);
+            $file = str_replace('${my-participation}', $urlParticipatingRides, $file);
+            $file = str_replace('${my-ride}', $urlRides, $file);
+            $file = str_replace('${public-ride}', $urlPublicRide, $file);
+            $file = str_replace('${notifcation}', $urlNotification, $file);
+            $file = str_replace('${notifcation_count}', $notificationCountText, $file);
+            $file = str_replace('${my-group}', $urlMyGroups, $file);
+            $out .= $file;
         } else {
-            $connected .= <<<html
-<li><a href="$urlProfile">
-    <img src="/uploads/default" alt="My Avatar" width="64px" height="64px">
-</a></li>
-html;
+            $urlSignIn = $app->getRouteCollector()->getRouteParser()->urlFor('sign-in');
+            $urlSignUp = $app->getRouteCollector()->getRouteParser()->urlFor('sign-up');
+            $file = file_get_contents('./html/sub-element/header-anonymous.html');
+
+            $file = str_replace('${login}', $urlSignIn, $file);
+            $file = str_replace('${signup}', $urlSignUp, $file);
+            $file = str_replace('${root}', $urlRoot, $file);
+            $out .= $file;
         }
-
-
-        $notConnected = <<<html
-        <li class="nav-item"><a class="nav-link" href="$urlRoot">ShareMyRide</a></li>
-        <li class="nav-item"><a class="nav-link" href="$urlSignIn">Me connecter</a></li>
-html;
-        $nav .= (isset($_SESSION['mail'])) ? $connected : $notConnected;
-        $nav .= "</ul>";
-        return $nav;
+        return $out . '</ul>';
     }
 
     /**

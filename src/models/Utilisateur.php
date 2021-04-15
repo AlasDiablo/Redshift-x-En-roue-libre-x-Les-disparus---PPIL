@@ -25,7 +25,8 @@ class Utilisateur extends Model
 
     public function memberDe()
     {
-        return $this->belongsToMany(Groupe::class, 'membre', 'id_groupe', 'email_membre', 'email', 'id_groupe');
+        return $this->belongsToMany(Groupe::class, 'membre', 'email_membre', 'id_groupe', 'email', 'id_groupe')
+            ->wherePivot('reponse', '=', 'O');
     }
 
     public function notificationRecu()

@@ -1,21 +1,33 @@
-<a class="d-inline-flex p-3 bg-danger text-light" href="${create_ride}">Créer une offre de trajet</a>
 
-<section class="d-flex flex-column col-md-6 offset-md-3 bg-light">
-    <p>Rechercher ${title} : </p>
-    <form class="align-self-center" method="POST" action="">
-        <label for="depart">Départ</label>
-        <input type="text" name="depart" id="depart" />
 
-        <label for="arrive">Arrivées :</label>
-        <input type="text" name="arrive" id="arrive" />
+<section class="card me-4 ms-4 mt-4">
+    <div class="card-header"><b>Rechercher ${title}</b></div>
+    <form class="align-self-center container mt-4" method="GET" action="">
 
-        <label for="date">Date :</label>
-        <input type="date" name="date" id="date" /><br />
+        <div class="row">
+            <label for="depart" hidden></label>
+            <div class="input-group mb-3 col">
+                <span class="input-group-text">Départ</span>
+                <input class="form-control" type="text" name="depart" id="depart" />
+            </div>
 
-        <div class="d-flex justify-content-between">
-            <div>
-                <label for="tri">Trier par : </label>
-                <select name="tri" id="tri">
+            <label for="arrive" hidden></label>
+            <div class="input-group mb-3 col">
+                <span class="input-group-text">Arrivées</span>
+                <input class="form-control" type="text" name="arrive" id="arrive" />
+            </div>
+        </div>
+
+        <div class="row">
+            <label for="date" hidden></label>
+            <div class="input-group mb-3 col">
+                <span class="input-group-text">Date</span>
+                <input class="form-control" type="date" name="date" id="date" />
+            </div>
+
+            <div class="input-group mb-3 col">
+                <label class="input-group-text" for="tri">Trier par </label>
+                <select class="form-select" id="tri">
                     <option value="">--selectionnez une option--</option>
                     <option value="prix">Prix</option>
                     <option value="dateDepart">Date de départ</option>
@@ -23,11 +35,14 @@
                 </select>
             </div>
 
-            <button type="button">Rechercher</button>
+            <button class="btn btn-outline-primary col-2 h-50" type="submit">Rechercher</button>
         </div>
     </form>
+    <a class="btn btn-outline-danger container me-4 mb-1 ms-4 mt-1" href="${create_ride}">Créer une offre de trajet</a>
 </section>
 
-<section class="d-flex flex-column col-md-6 offset-md-3 bg-light">
-    ${list_trajet}
+<section class="container border rounded mb-4 mt-4 middle bg-light">
+    <div class="m-4">
+        ${list_trajet}
+    </div>
 </section>

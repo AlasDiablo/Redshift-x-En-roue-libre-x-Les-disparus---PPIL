@@ -5,62 +5,56 @@ namespace ppil\controller;
 use DateTime;
 use ppil\models\Trajet;
 use ppil\models\Utilisateur;
-use ppil\models\VillesFrance;
 use ppil\view\RideView;
-use ppil\view\ViewRendering;
 
 class ListController
 {
 
-    public static function filterList()
+    public static function applyFilter($rides)
     {
-        // recuperation des parametres
-        $villeDepart = filter_var($_POST['villeDepart'], FILTER_DEFAULT);
-        $villeArrive = filter_var($_POST['villeArrive'], FILTER_DEFAULT);
-        $date = filter_var($_POST['date'], FILTER_DEFAULT);
-        $ordre = filter_var($_POST['ordre'], FILTER_DEFAULT);
-
-        // faire les verifs
-        $value = VillesFrance::where('ville_nom', '=', $villeDepart)->first();
-        if (!isset($value)) {
-            return ViewRendering::renderError();
-        }
-        $value = VillesFrance::where('ville_nom', '=', $villeArrive)->first();
-        if (!isset($value)) {
-            return ViewRendering::renderError();
-        }
-        $dateFormat = DateTime::createFromFormat('d/m/Y', $date);
-        if (!$dateFormat) {
-            return ViewRendering::renderError();
-        }
-        if (strcmp($ordre, 'date') != 0 || strcmp($ordre, 'ville_depart') || strcmp($ordre, 'ville_arrivee')) {
-            return ViewRendering::renderError();
+        if (isset($_GET['depart'])) if ($_GET['depart'] != '') {
+            $villeDepart = filter_var($_GET['depart'], FILTER_DEFAULT);
+            $rides = $rides->where('ville_depart', '=', $villeDepart);
         }
 
-        // filtrer & trier
-        $trajets = Trajet::where('ville_depart', '=', $villeDepart)->
-                           where('ville_arrivee', '=', $villeArrive)->
-                           where('date', '=', $date)->
-                           whereNull('id_groupe')->orderBy($ordre)->get();
+        if (isset($_GET['arrive'])) if ($_GET['arrive'] != '') {
+            $villeArrive = filter_var($_GET['arrive'], FILTER_DEFAULT);
+            $rides = $rides->where('ville_arrivee', '=', $villeArrive);
+        }
 
-        // envoie de la liste
-        return RideView::renderRideList($trajets, '', '');
+        if (isset($_GET['date'])) if ($_GET['date'] != '') {
+            $date = filter_var($_GET['date'], FILTER_DEFAULT);
+            $dateFormat = DateTime::createFromFormat('d/m/Y', $date);
+            if ($dateFormat != false) {
+                $rides = $rides->where('date', '=', $date);
+            }
+        }
+
+        if (isset($_GET['ordre'])) if ($_GET['ordre'] != '') {
+            $ordre = filter_var($_GET['ordre'], FILTER_DEFAULT);
+            if ($ordre == 'date' || $ordre == 'ville_depart' || $ordre == 'ville_arrivee') {
+                $rides = $rides->orderBy($ordre);
+            }
+        }
+
+        return $rides->get();
     }
 
     public static function mesTrajets()
     {
-        $rides = Utilisateur::where("email", '=', $_SESSION['mail'])->first()->mesTrajets()->get();
-        return RideView::renderRideList($rides, 'Mes trajet', 'dans mes offres de trajet');
+        $filteredRide = self::applyFilter(Utilisateur::where("email", '=', $_SESSION['mail'])->first()->mesTrajets());
+        return RideView::renderRideList($filteredRide, 'Mes trajet', 'dans mes offres de trajet');
     }
 
     public static function trajetsParticipes()
     {
         $rides = Utilisateur::where("email", '=', $_SESSION['mail'])->first()->mesParticipation()->get();
-        return RideView::renderRideList($rides, 'Mes trajet', 'dans mes offres de trajet');
+        return RideView::renderRideList($rides, 'Mes trajet', 'dans mes participation');
     }
 
     public static function listPublic()
     {
-        return RideView::renderRideList(Trajet::where('id_groupe', '=', null)->get(), 'Liste des trajet public', 'des offres de trajets');
+        $filteredRide = self::applyFilter(Trajet::whereNull('id_groupe'));
+        return RideView::renderRideList($filteredRide, 'Liste des trajet public', 'des offres de trajets');
     }
 }

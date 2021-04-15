@@ -9,7 +9,7 @@ use ppil\util\AppContainer;
 
 class RideView
 {
-    public static function renderUser($data)
+    public static function renderRide($data)
     {
         $template = file_get_contents('./html/detailsTrajet.html');
 
@@ -31,15 +31,37 @@ class RideView
 
         $template = str_replace('${commentaires}', $data['commentaires'], $template);
 
+        if ($data['creator'] == $_SESSION['mail']) {
+            $template = str_replace('${button}', '', $template);
+        } else {
+            $tmp = array();
+            foreach ($data['passagers'] as $passager) array_push($tmp, $passager->email_passager);
+            if (in_array($_SESSION['mail'], $tmp, false)) {
+                $out = <<<html
+<button type="button" class="btn btn-outline-danger" onclick="">Annulé ma participation</button>
+html;
+                $template = str_replace('${button}', $out, $template);
+            } else {
+                $url = AppContainer::getInstance()->getRouteCollector()->getRouteParser()->urlFor('ride-participated', array('id' => $data['id']));
+                $out = <<<html
+<button type="button" class="btn btn-outline-info" onclick="location.replace('$url')">Participé au trajet</button>
+html;
+                $template = str_replace('${button}', $out, $template);
+            }
+        }
+
         $ville_intermediere = '';
         foreach ($data['ville_intermediere'] as $datum) {
             $ville_intermediere .= '<li>' . $datum->ville . '</li>';
         }
+        if ($ville_intermediere == '') $ville_intermediere .= '<li>Aucun etape intemerdier a été indiqué</li>';
 
         $passagers = '';
         foreach ($data['passagers'] as $datum) {
-            $passagers .= '<li>' . $datum->prenom . ' ' . $datum->nom . '</li>';
+            $user = Utilisateur::where('email', '=', $datum->email_passager)->first();
+            $passagers .= '<li>' . $user->prenom . ' ' . $user->nom . '</li>';
         }
+        if ($passagers == '') $passagers .= '<li>Aucun passager n\'a été trouvé</li>';
 
         $template = str_replace('${ville_intermediere}', $ville_intermediere, $template);
 
@@ -66,7 +88,7 @@ class RideView
     public static function renderMinRide($rides) 
     {
         $app = AppContainer::getInstance();
-        $out = "<ul>";
+        $out = '';
         foreach ($rides as $ride) {
             $template = file_get_contents('./html/caseTrajet.html');
             $template = str_replace('${ville_depart}', $ride->ville_depart, $template);
@@ -80,7 +102,6 @@ class RideView
             $template = str_replace('${date}', $ride->date, $template);
             $out .= $template;
         }
-        $out .= "</ul>";
         return $out;
     }
 

@@ -9,10 +9,12 @@ const checkName = () => {
     if (/^[a-zA-Z]{2,25}$/.test(nameFormData.value)) {
         nameForm.innerText = 'Nom';
         nameForm.style.backgroundColor = '';
+        nameForm.hidden = true;
         return true;
     } else {
         nameForm.innerText = 'Votre nom doit contenir entre 2 et 25 lettres et ne pas contenir de chiffre';
         nameForm.style.backgroundColor = '#F00';
+        nameForm.hidden = false;
         return false;
     }
 };
@@ -28,10 +30,12 @@ const checkFirstname = () => {
     if (/^[a-zA-Z]{2,25}$/.test(firstnameFormData.value)) {
         firstnameForm.innerText = 'Prénom';
         firstnameForm.style.backgroundColor = '';
+        firstnameForm.hidden = true;
         return true;
     } else {
         firstnameForm.innerText = 'Votre prénom doit contenir entre 2 et 25 lettres et ne pas contenir de chiffre';
         firstnameForm.style.backgroundColor = '#F00';
+        firstnameForm.hidden = false;
         return false;
     }
 };
@@ -47,10 +51,12 @@ const checkEmail = () => {
     if (/^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(emailFormData.value)) {
         emailForm.innerText = 'Adresse mail';
         emailForm.style.backgroundColor = '';
+        emailForm.hidden = true;
         return true;
     } else {
         emailForm.innerText = 'Votre adresse mail doit etre valide';
         emailForm.style.backgroundColor = '#F00';
+        emailForm.hidden = false;
         return false;
     }
 };
@@ -72,15 +78,19 @@ const checkPassword = () => {
         passwordConfirmForm.style.backgroundColor = '';
         passwordForm.innerText = 'Mot de passe';
         passwordForm.style.backgroundColor = '';
+        passwordForm.hidden = true;
+        passwordConfirmForm.hidden = true;
         return true;
     } else {
         if (!passwordMatchResult) {
             passwordConfirmForm.innerText = 'Votre mot de passe doit être identique au précédent';
             passwordConfirmForm.style.backgroundColor = '#F00';
+            passwordConfirmForm.hidden = false;
         }
         if (!regexResult) {
             passwordForm.innerText = 'Votre mot de passe doit faire au moins 7 caractères et contenir au minimum [a-z], [A-Z] et [0-9]';
             passwordForm.style.backgroundColor = '#F00';
+            passwordForm.hidden = false;
         }
         return false;
     }
@@ -97,10 +107,12 @@ const checkPhone = () => {
     if (/[0]([6]|[7])[- .?]?([0-9][0-9][- .?]?){4}$/.test(phoneFormData.value)) {
         phoneForm.innerText = 'Numéro de téléphone';
         phoneForm.style.backgroundColor = '';
+        phoneForm.hidden = true;
         return true;
     } else {
         phoneForm.innerText = 'Votre numéro de téléphone doit etre numéro de portable valable en france';
         phoneForm.style.backgroundColor = '#F00';
+        phoneForm.hidden = false;
         return false;
     }
 };
@@ -115,7 +127,7 @@ const createAccount = (event) => {
     let boolEmail = checkEmail();
     let boolPassword = checkPassword();
     let boolPhone = checkPhone();
-    if (boolName && boolFirstname && boolEmail && boolPassword && boolPhone) event.parentNode.submit();
+    if (boolName && boolFirstname && boolEmail && boolPassword && boolPhone) event.parentNode.parentNode.submit();
 };
 
 /**
@@ -209,17 +221,19 @@ let stages = 0;
  */
 const addStages = () => {
     let container = document.getElementById('stages');
+    let div = document.createElement('div');
     let label = document.createElement('label');
     let input = document.createElement('input');
-    let br = document.createElement('br');
-    if (stages === 0) container.append(document.createElement('br'));
     stages++;
     label.setAttribute('for', 'etapes[' + stages + ']')
-    label.innerText = 'étape ' + (stages + 1);
+    label.innerText = 'Etape ' + (stages + 1);
     input.type = 'text';
     input.name = 'stages[' + stages + ']';
     input.id = 'etapes[' + stages + ']';
-    container.append(label, input, br);
+    input.className = 'form-control d-inline w-75';
+    div.className = 'col-4';
+    div.append(label, input)
+    container.append(div);
 };
 
 /**
