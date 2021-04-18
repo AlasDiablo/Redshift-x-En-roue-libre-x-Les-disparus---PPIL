@@ -210,6 +210,41 @@ const checkLocation = () => {
     }
 }
 
+const departureChange = (event) => {
+    document.getElementById('ville_depart-span').innerText = event.value;
+};
+const arrivalChange = (event) => {
+    document.getElementById('ville_arrivee-span').innerText = event.value;
+};
+const dateChange = (event) => {
+    document.getElementById('date-span').innerText = event.value;
+};
+const hourChange = (event) => {
+    document.getElementById('heure_depart-span').innerText = event.value;
+};
+const passengersChange = (event) => {
+    document.getElementById('nbr_passager-span').innerText = event.value;
+};
+const priceChange = (event) => {
+    document.getElementById('prix-span').innerText = event.value;
+};
+const placeChange = (event) => {
+    document.getElementById('lieuxRDV-span').innerText = event.value;
+};
+const commentsChange = (event) => {
+    document.getElementById('commentaires-span').innerText = event.value;
+};
+const stagesChange = () => {
+    let stages = document.getElementsByName('stages[]');
+    let html = document.getElementById('ville_intermediere-span');
+    html.innerHTML = '';
+    for (let i = 0; i < stages.length; i++) {
+        let li = document.createElement('li');
+        li.innerText = stages[i].value;
+        html.append(li);
+    }
+}
+
 /**
  * Store the current stages id
  * @type {number} stage id
@@ -228,7 +263,8 @@ const addStages = () => {
     label.setAttribute('for', 'etapes[' + stages + ']')
     label.innerText = 'Etape ' + (stages + 1);
     input.type = 'text';
-    input.name = 'stages[' + stages + ']';
+    input.name = 'stages[]';
+    input.addEventListener('input', () => {stagesChange()}, true);
     input.id = 'etapes[' + stages + ']';
     input.className = 'form-control d-inline w-75';
     div.className = 'col-4';
