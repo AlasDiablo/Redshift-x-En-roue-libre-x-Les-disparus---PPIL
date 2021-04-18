@@ -241,7 +241,7 @@ class RideController
         $tommorow = date('Y-m-d', strtotime($today. ' + 1 days'));
         if ($ride->date < $tommorow)
         {
-            return ViewRendering::renderError("Impossible de supprimer un trajet qui demare dans moins d'un jour");
+            return ViewRendering::renderError("Impossible de supprimer un trajet qui démarre dans moins d'un jour ");
         }
         
         $ride->delete();
