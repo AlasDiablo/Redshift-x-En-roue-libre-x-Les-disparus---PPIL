@@ -32,7 +32,11 @@ class RideView
         $template = str_replace('${commentaires}', $data['commentaires'], $template);
 
         if ($data['creator'] == $_SESSION['mail']) {
-            $template = str_replace('${button}', '', $template);
+            $url = AppContainer::getInstance()->getRouteCollector()->getRouteParser()->urlFor('delete-ride', array('id' => $data['id']));
+            $out = <<<html
+<button type="button" class="btn btn-outline-danger" onclick="location.replace('$url')">Supprimer</button>
+html;
+            $template = str_replace('${button}', $out, $template);
         } else {
             $tmp = array();
             foreach ($data['passagers'] as $passager) array_push($tmp, $passager->email_passager);

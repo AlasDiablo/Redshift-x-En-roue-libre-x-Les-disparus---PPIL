@@ -79,7 +79,7 @@ text;
         $name = Groupe::where('id_groupe', '=', $groupID)->first()->nom;
         $content = <<<text
 <div class="row m-2">
-    <div class="col">Vous avais etais invité a rejoindre le group <b>$name</b>.</div>
+    <div class="col">Vous avez été invité à rejoindre le groupe <b>$name</b>.</div>
 </div>
 <div class="row m-2">
     <button type="button" class="btn btn-outline-success col" onclick="location.replace('$acceptUrl')">Accpeté</button>
