@@ -13,6 +13,7 @@ use ppil\util\EmailFactory;
 use ppil\view\RideView;
 use ppil\view\ViewRendering;
 use ppil\controller\NotificationController;
+use ppil\models\Notification;
 
 class RideController
 {
@@ -235,9 +236,18 @@ class RideController
             return ViewRendering::renderError("Le trajet n'existe pas");
         }
 
-        // if date < today + 24h
-            // error
+        setlocale(LC_TIME, "fr_FR");
+        $today =  strftime("%B %e, %Y, %H:%M");
+        $tommorow = date('Y-m-d', strtotime($today. ' + 1 days'));
+        if ($ride->date < $tommorow)
+        {
+            return ViewRendering::renderError("Impossible de supprimer un trajet qui demare dans moins d'un jour");
+        }
         
         $ride->delete();
+        
+        $url = AppContainer::getInstance()->getRouteCollector()->getRouteParser()->urlFor('myrides');
+        header("Location: $url");
+        exit();
     }
 }

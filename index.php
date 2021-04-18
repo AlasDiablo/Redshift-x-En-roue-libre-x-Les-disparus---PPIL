@@ -123,6 +123,12 @@ $app->post('/ride/create', function (Request $request, Response $response, $args
     return $response;
 })->setName('create-ride_post');
 
+// --------------------- Suppression d'un trajet ---------------------
+$app->get('/ride/{id}/delete', function (Request $request, Response $response, $args) {
+    $response->getBody()->write(RideController::deleteRide($args['id']));
+    return $response;
+})->setName('delete-ride');
+
 // --------------------- Consulter mes trajets ---------------------
 // 
 $app->get('/account/myrides', function (Request $request, Response $response, $args) {
