@@ -147,7 +147,6 @@ class GroupController
         $nom = filter_var($_POST['groupname'], FILTER_DEFAULT);
 
         $image = ImageChecker::checkAvatar('groups' . DIRECTORY_SEPARATOR . basename(md5($nom . $id)));
-
         //message d'erreur image
         if ($image == null) {
             return ViewRendering::renderError("Votre image de groupe doit etre une image et avoir une taille de 400px par 400 px et faire un maximum de 20 Mo.");

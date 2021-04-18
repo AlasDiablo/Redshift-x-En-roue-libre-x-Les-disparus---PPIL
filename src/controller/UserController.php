@@ -145,11 +145,6 @@ class UserController
         $tel = filter_var($_POST['phone'], FILTER_DEFAULT);
         $sexe = filter_var($_POST['sex'], FILTER_DEFAULT);
         $a_voiture = filter_var($_POST['car'], FILTER_DEFAULT);
-        $image = ImageChecker::checkAvatar(basename(md5($_SESSION['mail'])));
-
-        if ($image == null) {
-            return ViewRendering::renderError("Votre avatar doit etre une image et avoir un taille de 400px par 400px et faire un maximium de 20 Mo.");
-        }
 
         $matches = null;
 
@@ -226,6 +221,12 @@ class UserController
         #Message d'erreur pour le véhicule
         if (!isset($a_voiture)) {
             return ViewRendering::renderError("Vous n'avez pas indiqué si vous aviez une voiture ou non.");
+        }
+
+        $image = ImageChecker::checkAvatar(basename(md5($email)));
+
+        if ($image == null) {
+            return ViewRendering::renderError("Votre avatar doit etre une image et avoir un taille de 400px par 400px et faire un maximium de 20 Mo.");
         }
 
         if (isset(Utilisateur::where('email', '=', $email)->first()->email)) {
