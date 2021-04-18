@@ -140,14 +140,14 @@ class RideController
         }
 
         // Messages d'erreurs pour les etapes intermédiaires
-//        if (isset($etapeInter) && $etapeInter!=""){
-//            if(preg_match('/^[a-zA-Z]+$/', $etapeInter, $matches, PREG_OFFSET_CAPTURE, 0) == false){
-//                return ViewRendering::renderError("Le nom d'une étape intermédiaire: " . $etapeInter . " ne peut pas comporter de chiffre.");
-//            }
-//            if(!isset(VilleIntermediaire::where('ville', '=', $etapeInter)->first()->ville_nom)){
-//                return ViewRendering::renderError("L'étape intermédiaire: " . $etapeInter . " n'existe pas dans la base de données.");
-//            }
-//        }
+        //        if (isset($etapeInter) && $etapeInter!=""){
+        //            if(preg_match('/^[a-zA-Z]+$/', $etapeInter, $matches, PREG_OFFSET_CAPTURE, 0) == false){
+        //                return ViewRendering::renderError("Le nom d'une étape intermédiaire: " . $etapeInter . " ne peut pas comporter de chiffre.");
+        //            }
+        //            if(!isset(VilleIntermediaire::where('ville', '=', $etapeInter)->first()->ville_nom)){
+        //                return ViewRendering::renderError("L'étape intermédiaire: " . $etapeInter . " n'existe pas dans la base de données.");
+        //            }
+        //        }
 
         $ride = new Trajet();
         $ride->date = $date;
@@ -225,5 +225,19 @@ class RideController
         $url = AppContainer::getInstance()->getRouteCollector()->getRouteParser()->urlFor('participating-rides');
         header("Location: $url");
         exit();
+    }
+
+    public static function deleteRide($id)
+    {
+        $ride = RideController::getRide($id);
+        if(!isset($ride))
+        {
+            return ViewRendering::renderError("Le trajet n'existe pas");
+        }
+
+        // if date < today + 24h
+            // error
+        
+        $ride->delete();
     }
 }
