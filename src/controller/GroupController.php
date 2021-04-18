@@ -118,6 +118,11 @@ class GroupController
     {
         //recuperation des valeurs post
         $mail = filter_var($_POST["friendNameAdd"], FILTER_DEFAULT);
+
+        if (!isset(Utilisateur::where('email', '=', $mail)->first()->email)) {
+            return ViewRendering::renderError('L\'email : ' . $mail . ' n\'est associé a aucun utilisateur.');
+        }
+
         $tmp = Membre::where('email_membre', '=', $mail)->where('id_groupe', '=', $idGroup)->first();
         if (!isset($tmp->email_membre)) {
             //ajout du membre
