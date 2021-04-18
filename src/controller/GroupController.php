@@ -206,7 +206,7 @@ class GroupController
         $member->reponse = 'O';
         $member->save();
 
-        $urlParent = AppContainer::getInstance()->getRouteCollector()->getRouteParser()->urlFor('notifications');
+        $urlParent = AppContainer::getInstance()->getRouteCollector()->getRouteParser()->urlFor('group', ['id' => $id]);
         header("Location: $urlParent");
         exit();
     }

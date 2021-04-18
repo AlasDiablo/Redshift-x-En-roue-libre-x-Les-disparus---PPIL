@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\Model;
 class Mark extends Model
 {
     protected $table = 'mark';
-    protected $primaryKey = ['mark_from', 'mark_for'];
+    protected $primaryKey = null;
     public $incrementing = false;
     public $timestamps = false;
 }
