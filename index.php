@@ -119,7 +119,7 @@ $app->get('/ride/create', function (Request $request, Response $response, $args)
 })->setName('create-ride');
 
 $app->post('/ride/create', function (Request $request, Response $response, $args) {
-    RideController::creerTrajet();
+    $response->getBody()->write(RideController::creerTrajet());
     return $response;
 })->setName('create-ride_post');
 
