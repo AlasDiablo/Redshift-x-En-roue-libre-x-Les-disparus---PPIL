@@ -228,6 +228,44 @@ class RideController
         exit();
     }
 
+    public static function removeParticipate($id)
+    {
+        // parametre
+        $id = filter_var($id, FILTER_DEFAULT);
+
+        // verif
+        $trajet = Trajet::where('id_trajet', '=', $id)->first();
+        if (!isset($trajet)){
+            return ViewRendering::renderError("Le trajet n'existe pas/plus.");
+        }
+        $mail = $_SESSION['mail'];
+        if (!isset($mail)) {
+            return ViewRendering::renderError("Vous n'êtes pas connecté.");
+        }
+        $mailConducteur = $trajet->email_conducteur;
+        $conducteur = Utilisateur::where('email', '=', $mailConducteur)->first();
+        if(!isset($conducteur)) {
+            return ViewRendering::renderError("Le responsable du trajet est introuvable.");
+        }
+
+        // modif
+        $passager = Passager::where("email_passager", "=", $mail)->where("id_trajet", "=", $id)->first();
+        echo $passager;
+        if(!isset($passager))
+        {
+            return ViewRendering::renderError("Le passsager est introuvable.");
+        }
+        Passager::where("email_passager", "=", $mail)->where("id_trajet", "=", $id)->delete();
+
+        // notif et mail
+        NotificationController::sendMyDismissTo($mail, $mailConducteur, $id);
+
+        // redirection
+        $url = AppContainer::getInstance()->getRouteCollector()->getRouteParser()->urlFor('participating-rides');
+        header("Location: $url");
+        exit();
+    }
+
     public static function deleteRide($id)
     {
         $ride = RideController::getRide($id);

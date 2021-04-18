@@ -41,8 +41,9 @@ html;
             $tmp = array();
             foreach ($data['passagers'] as $passager) array_push($tmp, $passager->email_passager);
             if (in_array($_SESSION['mail'], $tmp, false)) {
+                $url = AppContainer::getInstance()->getRouteCollector()->getRouteParser()->urlFor('dismiss-ride', array('id' => $data['id']));
                 $out = <<<html
-<button type="button" class="btn btn-outline-danger" onclick="">Annulé ma participation</button>
+<button type="button" class="btn btn-outline-danger" onclick="location.replace('$url')">Annulé ma participation</button>
 html;
                 $template = str_replace('${button}', $out, $template);
             } else {

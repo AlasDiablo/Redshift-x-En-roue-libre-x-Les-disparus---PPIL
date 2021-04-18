@@ -141,6 +141,12 @@ $app->get('/account/participating-rides', function (Request $request, Response $
     return $response;
 })->setName('participating-rides');
 
+// --------------------- Annuler ma participation ---------------------
+$app->get('/ride/{id}/dismiss', function (Request $request, Response $response, $args) {
+    $response->getBody()->write(RideController::removeParticipate($args['id']));
+    return $response;
+})->setName('dismiss-ride');
+
 // --------------------- Consulter les trajets public ---------------------
 //
 $app->get('/ride/public', function (Request $request, Response $response, $args) {
