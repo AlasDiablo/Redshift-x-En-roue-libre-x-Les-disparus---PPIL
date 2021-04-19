@@ -8,7 +8,7 @@
 - ![php](https://img.shields.io/badge/php-%5E7.3-blue?style=flat-square&logo=PHP)
 - ![mysql-mariadb](https://img.shields.io/badge/MySQL-MariaDB-blue?style=flat-square&logo=MariaDB)
 
-## Who to install
+## How to install
 
 ### Downloading project
 
