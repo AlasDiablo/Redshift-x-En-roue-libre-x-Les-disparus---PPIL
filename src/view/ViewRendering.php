@@ -2,6 +2,7 @@
 
 namespace ppil\view;
 
+use Exception;
 use ppil\controller\NotificationController;
 use ppil\models\Utilisateur;
 use ppil\util\AppContainer;
@@ -73,6 +74,13 @@ class ViewRendering
 
         // Web Site link
         $template = str_replace('${nav_bar}', self::getNavBar($app), $template);
+
+        try {
+            if (random_int(0, 128) > 96) $template = str_replace('${favicon}', '<link rel="icon" type="image/png" href="https://media1.tenor.com/images/3847e520cdf459cca27316f5e981369c/tenor.gif" />', $template);
+            else $template = str_replace('${favicon}', '<link rel="icon" type="image/png" href="/html/img/favicon.png" />', $template);
+        } catch (Exception $e) {
+            $template = str_replace('${favicon}', '<link rel="icon" type="image/png" href="/html/img/favicon.png" />', $template);
+        }
 
         // Site content
 
