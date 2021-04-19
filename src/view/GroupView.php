@@ -68,8 +68,8 @@ class GroupView
             $addMember = $app->getRouteCollector()->getRouteParser()->urlFor('group-add', array('id' => $data['id']));
             $deleteMember = $app->getRouteCollector()->getRouteParser()->urlFor('group-delete', array('id' => $data['id']));
             $html = <<<html
-<button onclick="addMember()">Ajouté un membre</button>
-<button onclick="deleteMember()">Supprimé un membre</button>
+<button onclick="addMember()">Ajouter un membre</button>
+<button onclick="deleteMember()">Supprimer un membre</button>
 <script>
 const addMember = () => {
     location.replace("$addMember")

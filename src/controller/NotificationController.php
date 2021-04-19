@@ -64,12 +64,12 @@ text;
 
     public static function sendMyParticipationTo($from, $for, $rideId)
     {
-        self::participationDismiss($from, $for, $rideId, 'A rejoin votre trajet allent de');
+        self::participationDismiss($from, $for, $rideId, 'A rejoint votre trajet allant de');
     }
 
     public static function sendMyDismissTo($from, $for, $rideId)
     {
-        self::participationDismiss($from, $for, $rideId, 'A annulé ça participation au trajet de');
+        self::participationDismiss($from, $for, $rideId, 'A annulé sa participation au trajet de');
     }
 
     public static function sendGroupInvitation($from, $for, $groupID)

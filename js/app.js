@@ -54,7 +54,7 @@ const checkEmail = () => {
         emailForm.hidden = true;
         return true;
     } else {
-        emailForm.innerText = 'Votre adresse mail doit etre valide';
+        emailForm.innerText = 'Votre adresse mail doit être valide';
         emailForm.style.backgroundColor = '#F00';
         emailForm.hidden = false;
         return false;
@@ -110,7 +110,7 @@ const checkPhone = () => {
         phoneForm.hidden = true;
         return true;
     } else {
-        phoneForm.innerText = 'Votre numéro de téléphone doit etre numéro de portable valable en france';
+        phoneForm.innerText = 'Votre numéro de téléphone doit être un numéro de portable valable en france';
         phoneForm.style.backgroundColor = '#F00';
         phoneForm.hidden = false;
         return false;
@@ -167,7 +167,7 @@ const checkPassengers = () => {
         passengers.style.backgroundColor = '';
         return true;
     } else {
-        passengers.innerText = 'Le nombre de passagers doit se trouvé entre 1 et 9';
+        passengers.innerText = 'Le nombre de passagers doit se trouver entre 1 et 9';
         passengers.style.backgroundColor = '#F00';
         return false;
     }
@@ -185,7 +185,7 @@ const checkPrice = () => {
         price.style.backgroundColor = '';
         return true;
     } else {
-        price.innerText = 'Le prix doit etre positive';
+        price.innerText = 'Le prix doit être positif';
         price.style.backgroundColor = '#F00';
         return false;
     }
@@ -204,7 +204,7 @@ const checkLocation = () => {
         form.style.backgroundColor = '';
         return true;
     } else {
-        form.innerText = 'Le lieux de départ et le lieux d\'arrivé doit etré diffrent';
+        form.innerText = 'Le lieux de départ et le lieux d\'arrivée doit être différents';
         form.style.backgroundColor = '#F00';
         return false;
     }
