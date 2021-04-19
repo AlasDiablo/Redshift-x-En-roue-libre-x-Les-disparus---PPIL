@@ -177,7 +177,7 @@ class RideController
             }
         }
 
-        $url = AppContainer::getInstance()->getRouteCollector()->getRouteParser()->urlFor('root');
+        $url = AppContainer::getInstance()->getRouteCollector()->getRouteParser()->urlFor('ride', ['id' => $id]);
         header("Location: $url");
         exit();
     }
