@@ -13,6 +13,7 @@ use ppil\util\EmailFactory;
 use ppil\view\RideView;
 use ppil\view\ViewRendering;
 use ppil\controller\NotificationController;
+use ppil\models\Groupe;
 use ppil\models\Notification;
 
 class RideController
@@ -68,6 +69,7 @@ class RideController
         $nbPassagers = filter_var($_POST['passengers'], FILTER_DEFAULT);
         $heureDepart = filter_var($_POST['hour'], FILTER_DEFAULT);
         $prix = filter_var($_POST['price'], FILTER_DEFAULT);
+
 
         // A changer en fonction de comment les etapes intermédiaires ont été intégré dans le formulaire (array...)
         $etapeInter = array();
@@ -160,6 +162,21 @@ class RideController
         $ride->prix = $prix;
         $ride->commentaires = $commentaires;
         $ride->lieuxRDV = $lieuxRDV;
+
+        $private = filter_var($_POST['private'], FILTER_DEFAULT);
+        $privateGroup = filter_var($_POST['privateGroup'], FILTER_DEFAULT);
+        if(isset($private) && $private) {
+            if (isset($privateGroup))
+            {
+                return ViewRendering::renderError("L'identifiant du groupe n'est pas present");
+            }
+            $id_groupe = Groupe::where("id_groupe", "=", $privateGroup)->first();
+            if (!isset($id_groupe))
+            {
+                return ViewRendering::renderError("Le groupe n'existe pas");
+            }
+            $ride->id_groupe = $privateGroup;
+        }
 
         $id = Trajet::max('id_trajet');
         if (isset($id)) $id++;
