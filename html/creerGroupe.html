@@ -21,20 +21,18 @@
 
                 <form method="post" class="container" action="${post_url}" enctype="multipart/form-data">
                     <div class="row form-element">
-                        <div class="col-md-4">
-                            <label for="nomGroupe" id="groupname-form">Nom du groupe:</label><br/>
+                        <div class="input-group mb-3 me-auto ms-auto w-75">
+                            <span class="input-group-text"><label for="nomGroupe" id="groupname-form">Nom du groupe:</label></span>
+                            <input class="form-control" type="text" name="groupname" id="nomGroupe" required/><br/>
                         </div>
-                        <div class="col-md-4">
-                            <input type="text" name="groupname" id="nomGroupe" required/><br/>
-                        </div>
+
                     </div>
 
                     <div class="row form-element">
-                        <div class="col-md-4">
-                            <label for="group-avatar">Ajouter une photo de groupe : </label>
-                        </div>
-                        <div class="col-md-4">
-                            <input type="file" name="avatar" id="group-avatar"><br/>
+                        <div class="input-group mb-3 me-auto ms-auto w-75">
+                            <span class="input-group-text"><label for="group-avatar">Ajouter une photo de groupe : </label></span>
+                            <input class="form-control" type="file" name="avatar" id="group-avatar"><br/>
+
                         </div>
                     </div>
 

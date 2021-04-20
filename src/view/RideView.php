@@ -12,6 +12,7 @@ class RideView
 {
     public static function renderRide($data)
     {
+
         $template = file_get_contents('./html/detailsTrajet.html');
 
         $template = str_replace('${ville_depart}', $data['ville_depart'], $template);
@@ -73,6 +74,10 @@ html;
 
         $template = str_replace('${passagers}', $passagers, $template);
 
+        $conducteur = Utilisateur::where('email', '=', $data['creator'])->first();
+
+        $template = str_replace('${conducteur}', $conducteur->nom." ".$conducteur->prenom, $template);
+
         return ViewRendering::render($template, 'Trajet - ' . $data['ville_depart'] . ' - ' . $data['ville_arrivee']);
     }
 
@@ -128,6 +133,7 @@ html;
 
             $template = str_replace('${ville_intermediere}', $ville_intermediere, $template);
 
+            $template = str_replace('${prix}', $ride->prix, $template);
             $out .= $template;
         }
         return $out;

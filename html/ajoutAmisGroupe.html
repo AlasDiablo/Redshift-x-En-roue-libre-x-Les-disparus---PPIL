@@ -12,7 +12,6 @@
     }
 
 
-
 </style>
 
 <div class="container">
@@ -28,16 +27,21 @@
 
                 <form method="post" action="${post_url}">
                     <div class="form-element">
-                    <label for="nomAmiAjout">Mail de l'utilisateur :</label>
-                    <input type="email" name="friendNameAdd" id="nomAmiAjout" required/>
-                    <br/>
+                        <div class="input-group mb-3 me-auto ms-auto w-75">
+                            <span class="input-group-text"><label
+                                    for="nomAmiAjout">Mail de l'utilisateur :</label></span>
+                            <input type="email" class="form-control" name="friendNameAdd" id="nomAmiAjout" required/>
+                        </div>
+
+
+                        <br/>
                     </div>
 
                     <div id="listeAmis">
 
                     </div>
                     <div class="form-element">
-                    <button class="btn btn-outline-info" id="inviter">Inviter</button>
+                        <button class="btn btn-outline-info" id="inviter">Inviter</button>
                     </div>
                 </form>
             </section>

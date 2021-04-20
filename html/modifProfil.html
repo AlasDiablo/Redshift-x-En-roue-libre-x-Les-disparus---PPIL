@@ -3,13 +3,16 @@
     margin-right: 24%;
     margin-left: 24%;
 }
+.photo-width{
+    max-width: 25%;
+}
 </style>
 <div class="container">
     <div class="text-center">
         <section class="border rounded mb-4 mt-4 middle bg-light">
             <h1 class="align-self-center mb-4">Modifier mon profil</h1>
 
-            <img src="${my_avatar}" class="rounded-circle border border-secondary border-2 mb-4" alt="My Avatar">
+            <img src="${my_avatar}" class="rounded-circle border border-secondary border-2 mb-4 photo-width" alt="My Avatar">
 
             <form class="align-self-center" method="post" action="${post_url}" enctype="multipart/form-data">
 
