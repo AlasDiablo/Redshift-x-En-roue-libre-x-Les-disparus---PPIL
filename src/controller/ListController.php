@@ -48,7 +48,7 @@ class ListController
 
     public static function trajetsParticipes()
     {
-        $rides = Utilisateur::where("email", '=', $_SESSION['mail'])->first()->mesParticipation()->get();
+        $rides = self::applyFilter(Utilisateur::where("email", '=', $_SESSION['mail'])->first()->mesParticipation());
         return RideView::renderRideList($rides, 'Mes trajet', 'dans mes participation');
     }
 
@@ -60,14 +60,11 @@ class ListController
 
     public static function listPrivate()
     {
+        $groups = array();
+        foreach (Utilisateur::where("email", '=', $_SESSION['mail'])->first()->memberDe()->get() as $group)
+            array_push($groups, $group->id_groupe);
 
-        $rides = array();
-        foreach (Utilisateur::where('email', '=', $_SESSION['mail'])->first()->memberDe()->get() as $group)
-        {
-            $tmpRides = $group->trajets()->get();
-            foreach ($tmpRides as $ride) array_push($rides, $ride);
-        }
-        $rides = self::applyFilter($rides);
+        $rides = self::applyFilter(Trajet::whereIn('id_groupe', $groups));
 
         return RideView::renderRideList($rides, 'Liste des trajet public', 'des offres de trajets');
 
