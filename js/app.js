@@ -208,32 +208,75 @@ const checkLocation = () => {
         form.style.backgroundColor = '#F00';
         return false;
     }
-}
+};
 
+/**
+ * Change the departure on the preview
+ * @param event value from the form
+ */
 const departureChange = (event) => {
     document.getElementById('ville_depart-span').innerText = event.value;
 };
+
+/**
+ * Change the arrival on the preview
+ * @param event value from the form
+ */
 const arrivalChange = (event) => {
     document.getElementById('ville_arrivee-span').innerText = event.value;
 };
+
+/**
+ * Change the date on the preview
+ * @param event value from the form
+ */
 const dateChange = (event) => {
     document.getElementById('date-span').innerText = event.value;
 };
+
+/**
+ * Change the hour on the preview
+ * @param event value from the form
+ */
 const hourChange = (event) => {
     document.getElementById('heure_depart-span').innerText = event.value;
 };
+
+/**
+ * Change the passengers on the preview
+ * @param event value from the form
+ */
 const passengersChange = (event) => {
     document.getElementById('nbr_passager-span').innerText = event.value;
 };
+
+/**
+ * Change the price on the preview
+ * @param event value from the form
+ */
 const priceChange = (event) => {
     document.getElementById('prix-span').innerText = event.value;
 };
+
+/**
+ * Change the place on the preview
+ * @param event value from the form
+ */
 const placeChange = (event) => {
     document.getElementById('lieuxRDV-span').innerText = event.value;
 };
+
+/**
+ * Change the comments on the preview
+ * @param event value from the form
+ */
 const commentsChange = (event) => {
     document.getElementById('commentaires-span').innerText = event.value;
 };
+
+/**
+ * Change the stages list on the preview
+ */
 const stagesChange = () => {
     let stages = document.getElementsByName('stages[]');
     let html = document.getElementById('ville_intermediere-span');
@@ -243,15 +286,21 @@ const stagesChange = () => {
         li.innerText = stages[i].value;
         html.append(li);
     }
-}
+};
 
+/**
+ * Add input when private ride was selected
+ */
 const privateChange = () => {
     let labelList = document.getElementById('privateGroup-label');
     let inputList = document.getElementById('privateGroup');
     labelList.hidden = !labelList.hidden;
     inputList.hidden = !inputList.hidden;
-}
+};
 
+/**
+ * Update hidden input use in post
+ */
 document.getElementById('privateGroup').addEventListener('input', (e) => {
     let options = document.querySelectorAll('#privateGroupOptions option');
     let hiddenInput = document.getElementById('privateGroup-hidden');
@@ -283,7 +332,7 @@ const addStages = () => {
     let label = document.createElement('label');
     let input = document.createElement('input');
     stages++;
-    label.setAttribute('for', 'etapes[' + stages + ']')
+    label.setAttribute('for', 'etapes[' + stages + ']');
     label.innerText = 'Etape ' + (stages + 1);
     input.type = 'text';
     input.name = 'stages[]';
@@ -291,7 +340,7 @@ const addStages = () => {
     input.id = 'etapes[' + stages + ']';
     input.className = 'form-control d-inline w-75';
     div.className = 'col-4';
-    div.append(label, input)
+    div.append(label, input);
     container.append(div);
 };
 
@@ -332,4 +381,4 @@ const checkGroupName = () => {
 const createGroup = (event) => {
     let boolCheckGroupName = checkGroupName();
     if (boolCheckGroupName) event.parentNode.submit();
-}
+};
