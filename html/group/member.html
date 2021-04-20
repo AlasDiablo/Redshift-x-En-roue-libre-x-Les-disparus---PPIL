@@ -1,4 +1,19 @@
+<style>
+    .imgProf {
+        width: 25%;
+    }
+
+    .element {
+        margin: 10% auto auto;
+    }
+</style>
 <div>
-    <img src="${avatar}" alt="Photo de profil" />
-    <p>${name} ${firstname}</p>
+    <div class="row element">
+        <div class="col-md-2">
+            <img class="imgProf" src="${avatar}" alt="Photo de profil"/>
+        </div>
+        <div class="col-md-2">
+            <p>${name} ${firstname}</p>
+        </div>
+    </div>
 </div>

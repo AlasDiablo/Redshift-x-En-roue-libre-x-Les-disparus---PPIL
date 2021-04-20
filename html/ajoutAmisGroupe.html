@@ -1,13 +1,46 @@
-﻿<h1> Ajouter un ami </h1>
-<a href="${parent}">Retourner au groupe</a>
-<form method="post" action="${post_url}">
-    <label for="nomAmiAjout">Mail de l'utilisateur :</label>
-    <input type="email" name="friendNameAdd" id="nomAmiAjout" required/>
-    <br/>
+﻿<style>
+    .form-addMember {
+        width: 100%;
+        max-width: 700px;
+        padding: 15px;
+        margin: 4% auto auto;
+    }
 
-    <div id="listeAmis">
+    .form-element {
+        margin: 10% auto auto;
+        text-align: center;
+    }
 
-    </div>
 
-    <button id="inviter">Inviter</button>
-</form>
+
+</style>
+
+<div class="container">
+    <main class="form-addMember">
+        <div class="text-center">
+            <section class="border rounded mb-4 mt-4 middle bg-light">
+                <div class="row">
+                    <div class="col-md-2">
+                        <a href="${parent}">Retourner au groupe</a>
+                    </div>
+                </div>
+                <h1> Ajouter un ami </h1>
+
+                <form method="post" action="${post_url}">
+                    <div class="form-element">
+                    <label for="nomAmiAjout">Mail de l'utilisateur :</label>
+                    <input type="email" name="friendNameAdd" id="nomAmiAjout" required/>
+                    <br/>
+                    </div>
+
+                    <div id="listeAmis">
+
+                    </div>
+                    <div class="form-element">
+                    <button class="btn btn-outline-info" id="inviter">Inviter</button>
+                    </div>
+                </form>
+            </section>
+        </div>
+    </main>
+</div>

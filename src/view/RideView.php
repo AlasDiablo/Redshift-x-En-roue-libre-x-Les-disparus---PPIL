@@ -6,6 +6,7 @@ namespace ppil\view;
 
 use ppil\models\Utilisateur;
 use ppil\util\AppContainer;
+use ppil\models\VilleIntermediaire;
 
 class RideView
 {
@@ -59,7 +60,7 @@ html;
         foreach ($data['ville_intermediere'] as $datum) {
             $ville_intermediere .= '<li>' . $datum->ville . '</li>';
         }
-        if ($ville_intermediere == '') $ville_intermediere .= '<li>Aucun etape intemerdier a été indiqué</li>';
+        if ($ville_intermediere == '') $ville_intermediere .= '<li>Aucune étape intérmediaires n\'a été indiquée</li>';
 
         $passagers = '';
         foreach ($data['passagers'] as $datum) {
@@ -115,6 +116,18 @@ html;
             $template = str_replace('${details}', $app->getRouteCollector()->getRouteParser()->urlFor('ride', array('id' => $ride->id_trajet)), $template);
 
             $template = str_replace('${date}', $ride->date, $template);
+
+            $template = str_replace('${heure_depart}', $ride->heure_depart, $template);
+
+            $ville_intermediere = '';
+            $ville = VilleIntermediaire::where('id_trajet', '=', $ride->id_groupe)->get();
+            foreach ($ville as $datum) {
+                $ville_intermediere .= '<li>' . $datum->ville . '</li>';
+            }
+            if ($ville_intermediere == '') $ville_intermediere .= '<li>Aucune étape intérmediaires n\'a été indiquée</li>';
+
+            $template = str_replace('${ville_intermediere}', $ville_intermediere, $template);
+
             $out .= $template;
         }
         return $out;

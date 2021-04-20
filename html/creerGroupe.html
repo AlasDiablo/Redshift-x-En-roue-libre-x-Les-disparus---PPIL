@@ -1,13 +1,48 @@
-<h1>Créer un groupe avec vos amis</h1>
+<style>
+    .form-createGroup {
+        width: 100%;
+        max-width: 700px;
+        padding: 15px;
+        margin: 4% auto auto;
+    }
 
-<form method="post" action="${post_url}" enctype="multipart/form-data">
+    .form-element {
+        margin: 4% auto auto;
+        text-align: center;
+    }
 
-    <label for="nomGroupe" id="groupname-form">Nom du groupe:</label><br/>
-    <input type="text" name="groupname" id="nomGroupe" required/><br/>
+</style>
 
-    <label for="group-avatar">Ajouter une photo de groupe : </label>
-    <input type="file" name="avatar" id="group-avatar"><br/>
+<div class="container">
+    <main class="form-createGroup">
+        <div class="text-center">
+            <section class="border rounded mb-4 mt-4 middle bg-light">
+                <h1>Créer un groupe avec vos amis</h1>
 
-    <button type="button" onclick="createGroup(this)">Valider</button>
+                <form method="post" class="container" action="${post_url}" enctype="multipart/form-data">
+                    <div class="row form-element">
+                        <div class="col-md-4">
+                            <label for="nomGroupe" id="groupname-form">Nom du groupe:</label><br/>
+                        </div>
+                        <div class="col-md-4">
+                            <input type="text" name="groupname" id="nomGroupe" required/><br/>
+                        </div>
+                    </div>
 
-</form>
+                    <div class="row form-element">
+                        <div class="col-md-4">
+                            <label for="group-avatar">Ajouter une photo de groupe : </label>
+                        </div>
+                        <div class="col-md-4">
+                            <input type="file" name="avatar" id="group-avatar"><br/>
+                        </div>
+                    </div>
+
+                    <button type="button" class="btn btn-outline-success mb-4 mt-4 w-25" onclick="createGroup(this)">Valider</button>
+
+                </form>
+
+            </section>
+        </div>
+    </main>
+</div>
