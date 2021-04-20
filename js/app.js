@@ -245,6 +245,29 @@ const stagesChange = () => {
     }
 }
 
+const privateChange = () => {
+    let labelList = document.getElementById('privateGroup-label');
+    let inputList = document.getElementById('privateGroup');
+    labelList.hidden = !labelList.hidden;
+    inputList.hidden = !inputList.hidden;
+}
+
+document.getElementById('privateGroup').addEventListener('input', (e) => {
+    let options = document.querySelectorAll('#privateGroupOptions option');
+    let hiddenInput = document.getElementById('privateGroup-hidden');
+    let inputValue = e.target.value;
+
+    hiddenInput.value = inputValue;
+
+    for(let i = 0; i < options.length; i++) {
+        let option = options[i];
+        if(option.innerText === inputValue) {
+            hiddenInput.value = option.getAttribute('data-value');
+            break;
+        }
+    }
+});
+
 /**
  * Store the current stages id
  * @type {number} stage id

@@ -44,6 +44,22 @@
                     <input oninput="commentsChange(this)" type="text" class="form-control d-inline w-25 col" name="comments" id="commentaires" required/><br/>
                 </div>
 
+                <div class="row ms-4 me-4 mt-1">
+                    <label class="form-check-label col-2" for="private">Trajet privé</label>
+                    <div class="form-check form-switch w-25 col">
+                        <input onchange="privateChange()" class="form-check-input" name="private" type="checkbox" id="private">
+                    </div>
+
+
+                    <label for="privateGroup" id="privateGroup-label" class="form-label col-2" hidden>Groupe d'amie</label>
+                    <input class="form-control w-25 col" list="privateGroupOptions" id="privateGroup" placeholder="Choisir un groupe..." hidden>
+                    <label for="privateGroup-hidden" hidden></label>
+                    <input class="form-control w-25 col" type="text" name="privateGroup" id="privateGroup-hidden" hidden>
+                    <datalist id="privateGroupOptions">
+                        ${option_list}
+                    </datalist>
+                </div>
+
                 <button type="button" class="btn btn-outline-success mb-4 mt-4 w-25" onclick="createRide(this)">Valider</button>
             </form>
         </section>

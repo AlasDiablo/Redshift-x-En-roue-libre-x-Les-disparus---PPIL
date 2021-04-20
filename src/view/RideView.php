@@ -78,9 +78,19 @@ html;
     public static function renderCreate()
     {
         if (!isset($_SESSION['mail'])) return UserView::erreurPost('Forbidden');
-        if (Utilisateur::where('email', '=', $_SESSION['mail'])->first()->a_voiture == 'O') {
+        $user = Utilisateur::where('email', '=', $_SESSION['mail'])->first();
+        if ($user->a_voiture == 'O') {
             $app = AppContainer::getInstance();
             $template = file_get_contents('./html/creerTrajet.html');
+
+            $optionList = '';
+            foreach ($user->memberDe()->get() as $group) {
+                $name = $group->nom;
+                $id = $group->id_groupe;
+                $optionList.='<option data-value="' . $id . '">' . $name . '</option>';
+            }
+
+            $template = str_replace('${option_list}', $optionList, $template);
 
             $template = str_replace('${post_url}', $app->getRouteCollector()->getRouteParser()->urlFor('create-ride_post'), $template);
 
