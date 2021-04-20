@@ -93,7 +93,7 @@ html;
             foreach ($user->memberDe()->get() as $group) {
                 $name = $group->nom;
                 $id = $group->id_groupe;
-                $optionList.='<option data-value="' . $id . '">' . $name . '</option>';
+                $optionList.='<option value="' . $id . '">' . $name . '</option>';
             }
 
             $template = str_replace('${option_list}', $optionList, $template);
@@ -149,6 +149,7 @@ html;
         $template = str_replace('${title}', $title, $template);
 
         $template = str_replace('${create_ride}', $app->getRouteCollector()->getRouteParser()->urlFor('create-ride'), $template);
+
 
         return ViewRendering::render($template, $page_title);
     }

@@ -50,14 +50,12 @@
                         <input onchange="privateChange()" class="form-check-input" name="private" type="checkbox" id="private">
                     </div>
 
-
                     <label for="privateGroup" id="privateGroup-label" class="form-label col-2" hidden>Groupe d'amie</label>
-                    <input class="form-control w-25 col" list="privateGroupOptions" id="privateGroup" placeholder="Choisir un groupe..." hidden>
-                    <label for="privateGroup-hidden" hidden></label>
-                    <input class="form-control w-25 col" type="text" name="privateGroup" id="privateGroup-hidden" hidden>
-                    <datalist id="privateGroupOptions">
+                    <select class="form-select col" name="privateGroup" id="privateGroup" hidden>
+                        <option selected>----</option>
                         ${option_list}
-                    </datalist>
+                    </select>
+
                 </div>
 
                 <button type="button" class="btn btn-outline-success mb-4 mt-4 w-25" onclick="createRide(this)">Valider</button>

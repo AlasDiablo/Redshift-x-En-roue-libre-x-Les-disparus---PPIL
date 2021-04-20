@@ -12,4 +12,9 @@ class Groupe extends Model
     protected $primaryKey = 'id_groupe';
     public $incrementing = true;
     public $timestamps = false;
+
+    public function trajets()
+    {
+        return $this->hasMany(Trajet::class, 'id_groupe', 'id_groupe');
+    }
 }
