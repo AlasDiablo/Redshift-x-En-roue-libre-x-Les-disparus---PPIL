@@ -87,7 +87,7 @@ html;
             foreach ($user->memberDe()->get() as $group) {
                 $name = $group->nom;
                 $id = $group->id_groupe;
-                $optionList.='<option data-value="' . $id . '">' . $name . '</option>';
+                $optionList.='<option value="' . $id . '">' . $name . '</option>';
             }
 
             $template = str_replace('${option_list}', $optionList, $template);
