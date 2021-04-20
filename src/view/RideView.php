@@ -144,6 +144,7 @@ html;
 
         $template = str_replace('${create_ride}', $app->getRouteCollector()->getRouteParser()->urlFor('create-ride'), $template);
 
+
         return ViewRendering::render($template, $page_title);
     }
 }

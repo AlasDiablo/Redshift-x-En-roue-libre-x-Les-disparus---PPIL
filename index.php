@@ -155,6 +155,14 @@ $app->get('/ride/public', function (Request $request, Response $response, $args)
 })->setName('public-ride');
 
 
+// --------------------- Consulter les trajets privé ---------------------
+//
+$app->get('/ride/private', function (Request $request, Response $response, $args) {
+    $response->getBody()->write(ListController::listPrivate());
+    return $response;
+})->setName('private-ride');
+
+
 // --------------------- Consulter les trajets public ---------------------
 $app->get('/ride/{id}', function (Request $request, Response $response, $args) {
     $response->getBody()->write(RideController::displayRide($args['id']));

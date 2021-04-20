@@ -57,4 +57,19 @@ class ListController
         $filteredRide = self::applyFilter(Trajet::whereNull('id_groupe'));
         return RideView::renderRideList($filteredRide, 'Liste des trajet public', 'des offres de trajets');
     }
+
+    public static function listPrivate()
+    {
+
+        $rides = array();
+        foreach (Utilisateur::where('email', '=', $_SESSION['mail'])->first()->memberDe()->get() as $group)
+        {
+            $tmpRides = $group->trajets()->get();
+            foreach ($tmpRides as $ride) array_push($rides, $ride);
+        }
+        $rides = self::applyFilter($rides);
+
+        return RideView::renderRideList($rides, 'Liste des trajet public', 'des offres de trajets');
+
+    }
 }

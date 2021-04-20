@@ -18,6 +18,8 @@ class ViewRendering
             $urlLogout = $app->getRouteCollector()->getRouteParser()->urlFor('logout');
             $urlProfile = $app->getRouteCollector()->getRouteParser()->urlFor('edit-profile');
             $urlPublicRide = $app->getRouteCollector()->getRouteParser()->urlFor('public-ride');
+            $urlPrivateRide = $app->getRouteCollector()->getRouteParser()->urlFor('private-ride');
+
             $urlRides = $app->getRouteCollector()->getRouteParser()->urlFor('myrides');
             $urlNotification = $app->getRouteCollector()->getRouteParser()->urlFor('notifications');
             $urlParticipatingRides = $app->getRouteCollector()->getRouteParser()->urlFor('participating-rides');
@@ -35,6 +37,8 @@ class ViewRendering
             $file = str_replace('${my-participation}', $urlParticipatingRides, $file);
             $file = str_replace('${my-ride}', $urlRides, $file);
             $file = str_replace('${public-ride}', $urlPublicRide, $file);
+            $file = str_replace('${private-ride}', $urlPrivateRide, $file);
+
             $file = str_replace('${notifcation}', $urlNotification, $file);
             $file = str_replace('${notifcation_count}', $notificationCountText, $file);
             $file = str_replace('${my-group}', $urlMyGroups, $file);
