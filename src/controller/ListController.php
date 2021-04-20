@@ -30,9 +30,9 @@ class ListController
             }
         }
 
-        if (isset($_GET['ordre'])) if ($_GET['ordre'] != '') {
-            $ordre = filter_var($_GET['ordre'], FILTER_DEFAULT);
-            if ($ordre == 'date' || $ordre == 'ville_depart' || $ordre == 'ville_arrivee') {
+        if (isset($_GET['order'])) if ($_GET['order'] != '') {
+            $ordre = filter_var($_GET['order'], FILTER_DEFAULT);
+            if ($ordre == 'date' || $ordre == 'ville_depart' || $ordre == 'ville_arrivee' || $ordre == 'prix') {
                 $rides = $rides->orderBy($ordre);
             }
         }
