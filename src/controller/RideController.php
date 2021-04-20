@@ -14,6 +14,7 @@ use ppil\view\RideView;
 use ppil\view\ViewRendering;
 use ppil\controller\NotificationController;
 use ppil\models\Groupe;
+use ppil\models\Membre;
 use ppil\models\Notification;
 
 class RideController
@@ -166,14 +167,19 @@ class RideController
         $private = filter_var($_POST['private'], FILTER_DEFAULT);
         $privateGroup = filter_var($_POST['privateGroup'], FILTER_DEFAULT);
         if(isset($private) && $private) {
-            if (isset($privateGroup))
+            if (!isset($privateGroup))
             {
-                return ViewRendering::renderError("L'identifiant du groupe n'est pas present");
+                return ViewRendering::renderError("L'identifiant du groupe n'est pas présent");
             }
             $id_groupe = Groupe::where("id_groupe", "=", $privateGroup)->first();
             if (!isset($id_groupe))
             {
                 return ViewRendering::renderError("Le groupe n'existe pas");
+            }
+            $member = Membre::where("email_membre", "=", $_SESSION['mail'])->where("id_groupe", "=", $privateGroup)->first();
+            if (!isset($member))
+            {
+                return ViewRendering::renderError("Vous n'êtes pas membre du groupe");
             }
             $ride->id_groupe = $privateGroup;
         }
