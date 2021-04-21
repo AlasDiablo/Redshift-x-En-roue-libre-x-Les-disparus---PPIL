@@ -66,7 +66,7 @@ class ListController
 
         $rides = self::applyFilter(Trajet::whereIn('id_groupe', $groups));
 
-        return RideView::renderRideList($rides, 'Liste des trajet public', 'des offres de trajets');
+        return RideView::renderRideList($rides, 'Liste des trajet privé', 'des offres de trajets privés');
 
     }
 }
