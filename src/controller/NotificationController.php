@@ -64,12 +64,12 @@ text;
 
     public static function sendMyParticipationTo($from, $for, $rideId)
     {
-        self::participationDismiss($from, $for, $rideId, 'A rejoin votre trajet allent de');
+        self::participationDismiss($from, $for, $rideId, 'A rejoint votre trajet allant de');
     }
 
     public static function sendMyDismissTo($from, $for, $rideId)
     {
-        self::participationDismiss($from, $for, $rideId, 'A annulé ça participation au trajet de');
+        self::participationDismiss($from, $for, $rideId, 'A annulé sa participation au trajet de');
     }
 
     public static function sendGroupInvitation($from, $for, $groupID)
@@ -79,11 +79,11 @@ text;
         $name = Groupe::where('id_groupe', '=', $groupID)->first()->nom;
         $content = <<<text
 <div class="row m-2">
-    <div class="col">Vous avais etais invité a rejoindre le group <b>$name</b>.</div>
+    <div class="col">Vous avez été invité à rejoindre le groupe <b>$name</b>.</div>
 </div>
 <div class="row m-2">
-    <button type="button" class="btn btn-outline-success col" onclick="location.replace('$acceptUrl')">Accpeté</button>
-    <button class="btn btn-outline-danger col" type="button" onclick="location.replace('$declineUrl')">Refusais</button>
+    <button type="button" class="btn btn-outline-success col" onclick="location.replace('$acceptUrl')">Accepter</button>
+    <button class="btn btn-outline-danger col" type="button" onclick="location.replace('$declineUrl')">Refuser</button>
 </div>
 text;
         self::sendNotification($from, $for, $content);

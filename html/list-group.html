@@ -1,5 +1,18 @@
-<a class="d-inline-flex p-3 bg-danger text-light" href="${create_group}">Créer un Groupe</a>
-
-<section class="d-flex flex-column col-md-6 offset-md-3 bg-light">
-  ${list_group}
-</section>
+<style>
+    .list-group {
+        width: 100%;
+        max-width: 700px;
+        margin: 2% auto auto;
+    }
+</style>
+<div class="container">
+    <div class="text-center">
+        <div class="border rounded mb-4 mt-4 bg-light">
+            <h1>Groupes</h1>
+            <a class="d-inline-flex btn btn-danger text-light mb-1" href="${create_group}">Créer un Groupe</a>
+        </div>
+    </div>
+</div>
+<div class="list-group">
+    ${list_group}
+</div>

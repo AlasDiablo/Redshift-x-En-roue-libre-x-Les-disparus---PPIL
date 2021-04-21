@@ -28,7 +28,7 @@ class UserController
         $image = ImageChecker::checkAvatar(basename(md5($_SESSION['mail'])));
 
         if ($image == null) {
-            return ViewRendering::renderError("Votre avatar doit etre une image et avoir un taille de 400px par 400px et faire un maximium de 20 Mo.");
+            return ViewRendering::renderError("Votre avatar doit être une image et avoir un taille de 400px par 400px et faire un maximium de 20 Mo.");
         }
 
         $matches = null;
@@ -43,7 +43,7 @@ class UserController
         }
 
         if (strlen($nom) < 2 || strlen($nom) > 25) {
-            return ViewRendering::renderError("Votre nom ne peut pas comporter aussi peut ou autant de lettre (entre 2 et 25).");
+            return ViewRendering::renderError("Votre nom ne peut pas comporter aussi peu ou autant de lettre (entre 2 et 25).");
         }
 
         #Messages d'erreurs pour le prénom
@@ -56,7 +56,7 @@ class UserController
         }
 
         if (strlen($prenom) < 2 || strlen($prenom) > 25) {
-            return ViewRendering::renderError("Votre prénom ne peut pas comporter aussi peut ou autant de lettre (entre 2 et 25).");
+            return ViewRendering::renderError("Votre prénom ne peut pas comporter aussi peu ou autant de lettre (entre 2 et 25).");
         }
 
         #Messages d'erreurs pour le mot de passe
@@ -145,11 +145,6 @@ class UserController
         $tel = filter_var($_POST['phone'], FILTER_DEFAULT);
         $sexe = filter_var($_POST['sex'], FILTER_DEFAULT);
         $a_voiture = filter_var($_POST['car'], FILTER_DEFAULT);
-        $image = ImageChecker::checkAvatar(basename(md5($_SESSION['mail'])));
-
-        if ($image == null) {
-            return ViewRendering::renderError("Votre avatar doit etre une image et avoir un taille de 400px par 400px et faire un maximium de 20 Mo.");
-        }
 
         $matches = null;
 
@@ -228,6 +223,12 @@ class UserController
             return ViewRendering::renderError("Vous n'avez pas indiqué si vous aviez une voiture ou non.");
         }
 
+        $image = ImageChecker::checkAvatar(basename(md5($email)));
+
+        if ($image == null) {
+            return ViewRendering::renderError("Votre avatar doit être une image et avoir un taille de 400px par 400px et faire un maximium de 20 Mo.");
+        }
+
         if (isset(Utilisateur::where('email', '=', $email)->first()->email)) {
             return ViewRendering::renderError("Un compte avec cet email existe déjà.");
         }
@@ -263,13 +264,13 @@ class UserController
         // si aucun email ne correspond alors on renvoie la page d'erreur
         $value = Utilisateur::where('email', '=', $mail)->first();
         if (!isset($value)) {
-            return ViewRendering::renderError('L\'email et/ou le mot de passe donnée ne sont pas associés à un compte');
+            return ViewRendering::renderError('L\'email et/ou le mot de passe donnés ne sont pas associés à un compte');
         }
 
         // si le mdp ne correspond pas alors on renvoie la page d'erreur
         $bddMdp = Utilisateur::select('mdp')->where('email', '=', $mail)->first()->mdp;
         if (!password_verify($mdp, $bddMdp)) {
-            return ViewRendering::renderError('L\'email et/ou le mot de passe donnée ne sont pas associés à un compte');
+            return ViewRendering::renderError('L\'email et/ou le mot de passe donnés ne sont pas associés à un compte');
         }
 
         // on met a jour la session
@@ -320,7 +321,7 @@ class UserController
         // creation du mail
         $url = "https://" . $_SERVER['HTTP_HOST'] . AppContainer::getInstance()->getRouteCollector()->getRouteParser()->urlFor('password-forgotten-key', array('key' => $token));
 
-        $body = "Cliquez sur l'url ci dessous pour réinitialisez votre mdp : " . $url;
+        $body = "Cliquez sur l'url ci dessous pour réinitialiser votre mdp : " . $url;
 
 
         $nom = Utilisateur::select("nom")->where("email", "=", $mail)->first()->nom;

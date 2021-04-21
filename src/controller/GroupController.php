@@ -105,7 +105,7 @@ class GroupController
 
         } else {
 
-            return ViewRendering::renderError("des trajets de - de 24h existe");
+            return ViewRendering::renderError("des trajets de - de 24h existent");
         }
 
         $urlParent = AppContainer::getInstance()->getRouteCollector()->getRouteParser()->urlFor('group', array('id' => $idGroup));
@@ -118,6 +118,11 @@ class GroupController
     {
         //recuperation des valeurs post
         $mail = filter_var($_POST["friendNameAdd"], FILTER_DEFAULT);
+
+        if (!isset(Utilisateur::where('email', '=', $mail)->first()->email)) {
+            return ViewRendering::renderError('L\'email : ' . $mail . ' n\'est associé à aucun utilisateur.');
+        }
+
         $tmp = Membre::where('email_membre', '=', $mail)->where('id_groupe', '=', $idGroup)->first();
         if (!isset($tmp->email_membre)) {
             //ajout du membre
@@ -147,10 +152,9 @@ class GroupController
         $nom = filter_var($_POST['groupname'], FILTER_DEFAULT);
 
         $image = ImageChecker::checkAvatar('groups' . DIRECTORY_SEPARATOR . basename(md5($nom . $id)));
-
         //message d'erreur image
         if ($image == null) {
-            return ViewRendering::renderError("Votre image de groupe doit etre une image et avoir une taille de 400px par 400 px et faire un maximum de 20 Mo.");
+            return ViewRendering::renderError("Votre image de groupe doit être une image et avoir une taille de 400px par 400 px et faire un maximum de 20 Mo.");
         }
 
         //message d'erreur nom
@@ -207,7 +211,7 @@ class GroupController
         $member->reponse = 'O';
         $member->save();
 
-        $urlParent = AppContainer::getInstance()->getRouteCollector()->getRouteParser()->urlFor('notifications');
+        $urlParent = AppContainer::getInstance()->getRouteCollector()->getRouteParser()->urlFor('group', ['id' => $id]);
         header("Location: $urlParent");
         exit();
     }

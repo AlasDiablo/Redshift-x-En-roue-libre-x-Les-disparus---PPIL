@@ -119,9 +119,15 @@ $app->get('/ride/create', function (Request $request, Response $response, $args)
 })->setName('create-ride');
 
 $app->post('/ride/create', function (Request $request, Response $response, $args) {
-    RideController::creerTrajet();
+    $response->getBody()->write(RideController::creerTrajet());
     return $response;
 })->setName('create-ride_post');
+
+// --------------------- Suppression d'un trajet ---------------------
+$app->get('/ride/{id}/delete', function (Request $request, Response $response, $args) {
+    $response->getBody()->write(RideController::deleteRide($args['id']));
+    return $response;
+})->setName('delete-ride');
 
 // --------------------- Consulter mes trajets ---------------------
 // 
@@ -135,12 +141,26 @@ $app->get('/account/participating-rides', function (Request $request, Response $
     return $response;
 })->setName('participating-rides');
 
+// --------------------- Annuler ma participation ---------------------
+$app->get('/ride/{id}/dismiss', function (Request $request, Response $response, $args) {
+    $response->getBody()->write(RideController::removeParticipate($args['id']));
+    return $response;
+})->setName('dismiss-ride');
+
 // --------------------- Consulter les trajets public ---------------------
 //
 $app->get('/ride/public', function (Request $request, Response $response, $args) {
     $response->getBody()->write(ListController::listPublic());
     return $response;
 })->setName('public-ride');
+
+
+// --------------------- Consulter les trajets privé ---------------------
+//
+$app->get('/ride/private', function (Request $request, Response $response, $args) {
+    $response->getBody()->write(ListController::listPrivate());
+    return $response;
+})->setName('private-ride');
 
 
 // --------------------- Consulter les trajets public ---------------------

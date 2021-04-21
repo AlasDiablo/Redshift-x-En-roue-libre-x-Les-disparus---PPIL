@@ -6,11 +6,13 @@ namespace ppil\view;
 
 use ppil\models\Utilisateur;
 use ppil\util\AppContainer;
+use ppil\models\VilleIntermediaire;
 
 class RideView
 {
     public static function renderRide($data)
     {
+
         $template = file_get_contents('./html/detailsTrajet.html');
 
         $template = str_replace('${ville_depart}', $data['ville_depart'], $template);
@@ -32,13 +34,18 @@ class RideView
         $template = str_replace('${commentaires}', $data['commentaires'], $template);
 
         if ($data['creator'] == $_SESSION['mail']) {
-            $template = str_replace('${button}', '', $template);
+            $url = AppContainer::getInstance()->getRouteCollector()->getRouteParser()->urlFor('delete-ride', array('id' => $data['id']));
+            $out = <<<html
+<button type="button" class="btn btn-outline-danger" onclick="location.replace('$url')">Supprimer</button>
+html;
+            $template = str_replace('${button}', $out, $template);
         } else {
             $tmp = array();
             foreach ($data['passagers'] as $passager) array_push($tmp, $passager->email_passager);
             if (in_array($_SESSION['mail'], $tmp, false)) {
+                $url = AppContainer::getInstance()->getRouteCollector()->getRouteParser()->urlFor('dismiss-ride', array('id' => $data['id']));
                 $out = <<<html
-<button type="button" class="btn btn-outline-danger" onclick="">Annulé ma participation</button>
+<button type="button" class="btn btn-outline-danger" onclick="location.replace('$url')">Annulé ma participation</button>
 html;
                 $template = str_replace('${button}', $out, $template);
             } else {
@@ -54,7 +61,7 @@ html;
         foreach ($data['ville_intermediere'] as $datum) {
             $ville_intermediere .= '<li>' . $datum->ville . '</li>';
         }
-        if ($ville_intermediere == '') $ville_intermediere .= '<li>Aucun etape intemerdier a été indiqué</li>';
+        if ($ville_intermediere == '') $ville_intermediere .= '<li>Aucune étape intérmediaires n\'a été indiquée</li>';
 
         $passagers = '';
         foreach ($data['passagers'] as $datum) {
@@ -67,15 +74,29 @@ html;
 
         $template = str_replace('${passagers}', $passagers, $template);
 
+        $conducteur = Utilisateur::where('email', '=', $data['creator'])->first();
+
+        $template = str_replace('${conducteur}', $conducteur->nom." ".$conducteur->prenom, $template);
+
         return ViewRendering::render($template, 'Trajet - ' . $data['ville_depart'] . ' - ' . $data['ville_arrivee']);
     }
 
     public static function renderCreate()
     {
         if (!isset($_SESSION['mail'])) return UserView::erreurPost('Forbidden');
-        if (Utilisateur::where('email', '=', $_SESSION['mail'])->first()->a_voiture == 'O') {
+        $user = Utilisateur::where('email', '=', $_SESSION['mail'])->first();
+        if ($user->a_voiture == 'O') {
             $app = AppContainer::getInstance();
             $template = file_get_contents('./html/creerTrajet.html');
+
+            $optionList = '';
+            foreach ($user->memberDe()->get() as $group) {
+                $name = $group->nom;
+                $id = $group->id_groupe;
+                $optionList.='<option value="' . $id . '">' . $name . '</option>';
+            }
+
+            $template = str_replace('${option_list}', $optionList, $template);
 
             $template = str_replace('${post_url}', $app->getRouteCollector()->getRouteParser()->urlFor('create-ride_post'), $template);
 
@@ -100,6 +121,19 @@ html;
             $template = str_replace('${details}', $app->getRouteCollector()->getRouteParser()->urlFor('ride', array('id' => $ride->id_trajet)), $template);
 
             $template = str_replace('${date}', $ride->date, $template);
+
+            $template = str_replace('${heure_depart}', $ride->heure_depart, $template);
+
+            $ville_intermediere = '';
+            $ville = VilleIntermediaire::where('id_trajet', '=', $ride->id_groupe)->get();
+            foreach ($ville as $datum) {
+                $ville_intermediere .= '<li>' . $datum->ville . '</li>';
+            }
+            if ($ville_intermediere == '') $ville_intermediere .= '<li>Aucune étape intérmediaires n\'a été indiquée</li>';
+
+            $template = str_replace('${ville_intermediere}', $ville_intermediere, $template);
+
+            $template = str_replace('${prix}', $ride->prix, $template);
             $out .= $template;
         }
         return $out;
@@ -115,6 +149,7 @@ html;
         $template = str_replace('${title}', $title, $template);
 
         $template = str_replace('${create_ride}', $app->getRouteCollector()->getRouteParser()->urlFor('create-ride'), $template);
+
 
         return ViewRendering::render($template, $page_title);
     }

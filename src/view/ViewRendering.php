@@ -2,6 +2,7 @@
 
 namespace ppil\view;
 
+use Exception;
 use ppil\controller\NotificationController;
 use ppil\models\Utilisateur;
 use ppil\util\AppContainer;
@@ -17,6 +18,8 @@ class ViewRendering
             $urlLogout = $app->getRouteCollector()->getRouteParser()->urlFor('logout');
             $urlProfile = $app->getRouteCollector()->getRouteParser()->urlFor('edit-profile');
             $urlPublicRide = $app->getRouteCollector()->getRouteParser()->urlFor('public-ride');
+            $urlPrivateRide = $app->getRouteCollector()->getRouteParser()->urlFor('private-ride');
+
             $urlRides = $app->getRouteCollector()->getRouteParser()->urlFor('myrides');
             $urlNotification = $app->getRouteCollector()->getRouteParser()->urlFor('notifications');
             $urlParticipatingRides = $app->getRouteCollector()->getRouteParser()->urlFor('participating-rides');
@@ -34,6 +37,8 @@ class ViewRendering
             $file = str_replace('${my-participation}', $urlParticipatingRides, $file);
             $file = str_replace('${my-ride}', $urlRides, $file);
             $file = str_replace('${public-ride}', $urlPublicRide, $file);
+            $file = str_replace('${private-ride}', $urlPrivateRide, $file);
+
             $file = str_replace('${notifcation}', $urlNotification, $file);
             $file = str_replace('${notifcation_count}', $notificationCountText, $file);
             $file = str_replace('${my-group}', $urlMyGroups, $file);
@@ -73,6 +78,13 @@ class ViewRendering
 
         // Web Site link
         $template = str_replace('${nav_bar}', self::getNavBar($app), $template);
+
+        try {
+            if (random_int(0, 128) > 96) $template = str_replace('${favicon}', '<link rel="icon" type="image/png" href="https://media1.tenor.com/images/3847e520cdf459cca27316f5e981369c/tenor.gif" />', $template);
+            else $template = str_replace('${favicon}', '<link rel="icon" type="image/png" href="/html/img/favicon.png" />', $template);
+        } catch (Exception $e) {
+            $template = str_replace('${favicon}', '<link rel="icon" type="image/png" href="/html/img/favicon.png" />', $template);
+        }
 
         // Site content
 

@@ -30,9 +30,9 @@ class ListController
             }
         }
 
-        if (isset($_GET['ordre'])) if ($_GET['ordre'] != '') {
-            $ordre = filter_var($_GET['ordre'], FILTER_DEFAULT);
-            if ($ordre == 'date' || $ordre == 'ville_depart' || $ordre == 'ville_arrivee') {
+        if (isset($_GET['order'])) if ($_GET['order'] != '') {
+            $ordre = filter_var($_GET['order'], FILTER_DEFAULT);
+            if ($ordre == 'date' || $ordre == 'ville_depart' || $ordre == 'ville_arrivee' || $ordre == 'prix') {
                 $rides = $rides->orderBy($ordre);
             }
         }
@@ -48,7 +48,7 @@ class ListController
 
     public static function trajetsParticipes()
     {
-        $rides = Utilisateur::where("email", '=', $_SESSION['mail'])->first()->mesParticipation()->get();
+        $rides = self::applyFilter(Utilisateur::where("email", '=', $_SESSION['mail'])->first()->mesParticipation());
         return RideView::renderRideList($rides, 'Mes trajet', 'dans mes participation');
     }
 
@@ -56,5 +56,17 @@ class ListController
     {
         $filteredRide = self::applyFilter(Trajet::whereNull('id_groupe'));
         return RideView::renderRideList($filteredRide, 'Liste des trajet public', 'des offres de trajets');
+    }
+
+    public static function listPrivate()
+    {
+        $groups = array();
+        foreach (Utilisateur::where("email", '=', $_SESSION['mail'])->first()->memberDe()->get() as $group)
+            array_push($groups, $group->id_groupe);
+
+        $rides = self::applyFilter(Trajet::whereIn('id_groupe', $groups));
+
+        return RideView::renderRideList($rides, 'Liste des trajet privé', 'des offres de trajets privés');
+
     }
 }

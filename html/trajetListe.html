@@ -13,7 +13,7 @@
 
             <label for="arrive" hidden></label>
             <div class="input-group mb-3 col">
-                <span class="input-group-text">Arrivées</span>
+                <span class="input-group-text">Arrivée</span>
                 <input class="form-control" type="text" name="arrive" id="arrive" />
             </div>
         </div>
@@ -27,18 +27,21 @@
 
             <div class="input-group mb-3 col">
                 <label class="input-group-text" for="tri">Trier par </label>
-                <select class="form-select" id="tri">
+                <select class="form-select" name="order" id="tri">
                     <option value="">--selectionnez une option--</option>
                     <option value="prix">Prix</option>
-                    <option value="dateDepart">Date de départ</option>
-                    <option value="dateArrivee">Date d'arrivée</option>
+                    <option value="ville_depart">Ville de départ</option>
+                    <option value="ville_arrivee">Ville d'arrivée</option>
+                    <option value="date">Date de départ</option>
                 </select>
             </div>
 
             <button class="btn btn-outline-primary col-2 h-50" type="submit">Rechercher</button>
         </div>
     </form>
-    <a class="btn btn-outline-danger container me-4 mb-1 ms-4 mt-1" href="${create_ride}">Créer une offre de trajet</a>
+    <div class="text-center">
+        <a class="btn btn-outline-danger container me-4 mb-1 ms-4 mt-1" href="${create_ride}">Créer une offre de trajet</a>
+    </div>
 </section>
 
 <section class="container border rounded mb-4 mt-4 middle bg-light">

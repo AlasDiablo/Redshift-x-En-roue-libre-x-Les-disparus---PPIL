@@ -1,11 +1,25 @@
-<div>
-  <h5>${title}</h5>
-  <p>
-    Groupe créer par ${name} ${firstname}
-  </p>
+<style>
+    .groupe-view {
+        width: 100%;
+        max-width: 700px;
+        padding: 15px;
+        margin: 4% auto auto;
+    }
+</style>
+<div class="container">
+    <div class="text-center">
+        <section class="border rounded mb-4 mt-4 middle bg-light groupe-view">
+            <div>
+                <h5>${title}</h5>
+                <p>
+                    Groupe créé par ${name} ${firstname}
+                </p>
 
-  ${admin}
-  <section>
-    ${member_list}
-  </section>
+                ${admin}
+                <section>
+                    ${member_list}
+                </section>
+            </div>
+        </section>
+    </div>
 </div>

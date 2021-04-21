@@ -6,42 +6,56 @@
             <form class="container" method="post" action="${post_url}">
                 <div class="row ms-4 me-4">
                     <label for="depart" class="col-1" id="depart-form">Départ</label>
-                    <input type="text" class="form-control d-inline w-25 col" name="departure" id="depart" required/>
+                    <input oninput="departureChange(this)" type="text" class="form-control d-inline w-25 col" name="departure" id="depart" required/>
 
                     <label for="arrivee" class="col-1">Arrivée</label>
-                    <input type="text" class="form-control d-inline w-25 col" name="arrival" id="arrivee" required/>
+                    <input oninput="arrivalChange(this)" type="text" class="form-control d-inline w-25 col" name="arrival" id="arrivee" required/>
                 </div>
 
                 <div class="row ms-4 me-4">
                     <label for="date" class="col-2">Date</label>
-                    <input type="date" class="form-control d-inline w-25 col" name="date" id="date" required/>
+                    <input oninput="dateChange(this)" type="date" class="form-control d-inline w-25 col" name="date" id="date" required/>
 
                     <label for="heure" class="col-2">Heure de départ</label>
-                    <input type="time" class="form-control d-inline w-25 col" name="hour" id="heure" required/>
+                    <input oninput="hourChange(this)" type="time" class="form-control d-inline w-25 col" name="hour" id="heure" required/>
                 </div>
 
                 <div class="row ms-4 me-4">
                     <label for="passagers" id="passagers-form" class="col-3">Nombre de passagers max</label>
-                    <input type="number" class="form-control d-inline w-25 col" name="passengers" id="passagers" required/>
+                    <input oninput="passengersChange(this)" type="number" class="form-control d-inline w-25 col" name="passengers" id="passagers" required/>
 
                     <label for="prix" id="prix-form" class="col-3">Prix de la place</label>
-                    <input type="number" class="form-control d-inline w-25 col" name="price" id="prix" required/>
+                    <input oninput="priceChange(this)" type="number" class="form-control d-inline w-25 col" name="price" id="prix" required/>
                 </div>
 
                 <label for="stages" class="row ms-4 me-4 w-75">Etapes intermédiaires (optionnel) :</label><br/>
                 <div id="stages" class="row ms-4 me-4">
                     <div class="col-4">
-                        <label for="etapes[0]">Etape 1</label><input type="text" class="form-control d-inline w-75" name="stages[0]" id="etapes[0]"/>
+                        <label for="etapes[0]">Etape 1</label><input oninput="stagesChange()" type="text" class="form-control d-inline w-75" name="stages[]" id="etapes[0]"/>
                     </div>
                 </div>
                 <button type="button" onclick="addStages()" class="row btn btn-outline-primary row ms-4 me-4 mt-4 mb-4 w-25">Ajouter une étape</button>
 
                 <div class="row ms-4 me-4">
                     <label for="lieu" class="col-2">Lieu de rendez-vous</label>
-                    <input type="text" class="form-control d-inline w-25 col" name="place" id="lieu" required/>
+                    <input oninput="placeChange(this)" type="text" class="form-control d-inline w-25 col" name="place" id="lieu" required/>
 
                     <label for="commentaires" class="col-2">Commentaires</label>
-                    <input type="text" class="form-control d-inline w-25 col" name="comments" id="commentaires" required/><br/>
+                    <input oninput="commentsChange(this)" type="text" class="form-control d-inline w-25 col" name="comments" id="commentaires" required/><br/>
+                </div>
+
+                <div class="row ms-4 me-4 mt-1">
+                    <label class="form-check-label col-2" for="private">Trajet privé</label>
+                    <div class="form-check form-switch w-25 col">
+                        <input onchange="privateChange()" class="form-check-input" name="private" type="checkbox" id="private">
+                    </div>
+
+                    <label for="privateGroup" id="privateGroup-label" class="form-label col-2" hidden>Groupe d'amie</label>
+                    <select class="form-select col" name="privateGroup" id="privateGroup" hidden>
+                        <option selected>----</option>
+                        ${option_list}
+                    </select>
+
                 </div>
 
                 <button type="button" class="btn btn-outline-success mb-4 mt-4 w-25" onclick="createRide(this)">Valider</button>
@@ -49,3 +63,21 @@
         </section>
     </div>
 </div>
+
+<section class="container border rounded mb-4 mt-4 middle bg-light">
+    <div class="m-4">
+        <section class="row">
+            <p class="col"><b>Départ :</b> <span id="ville_depart-span"></span></p>
+            <p class="col"><b>Arrivée :</b> <span id="ville_arrivee-span"></span></p>
+            <p class="col"><b>Date :</b> <span id="date-span"></span></p>
+        </section>
+        <p><b>Nombre de passagers max :</b> <span id="nbr_passager-span"></span></p>
+        <p><b>Heure de départ :</b> <span id="heure_depart-span"></span></p>
+        <p><b>Prix de la place :</b> <span id="prix-span"></span></p>
+        <p><b>Etapes intérmediaires :</b></p>
+        <ul id="ville_intermediere-span">
+        </ul>
+        <p><b>Lieux de rendez-vous :</b> <span id="lieuxRDV-span"></span></p>
+        <p><b>Commentaires/contraintes :</b> <span id="commentaires-span"></span></p>
+    </div>
+</section>

@@ -13,6 +13,9 @@ use ppil\util\EmailFactory;
 use ppil\view\RideView;
 use ppil\view\ViewRendering;
 use ppil\controller\NotificationController;
+use ppil\models\Groupe;
+use ppil\models\Membre;
+use ppil\models\Notification;
 
 class RideController
 {
@@ -67,6 +70,7 @@ class RideController
         $nbPassagers = filter_var($_POST['passengers'], FILTER_DEFAULT);
         $heureDepart = filter_var($_POST['hour'], FILTER_DEFAULT);
         $prix = filter_var($_POST['price'], FILTER_DEFAULT);
+
 
         // A changer en fonction de comment les etapes intermédiaires ont été intégré dans le formulaire (array...)
         $etapeInter = array();
@@ -140,14 +144,14 @@ class RideController
         }
 
         // Messages d'erreurs pour les etapes intermédiaires
-//        if (isset($etapeInter) && $etapeInter!=""){
-//            if(preg_match('/^[a-zA-Z]+$/', $etapeInter, $matches, PREG_OFFSET_CAPTURE, 0) == false){
-//                return ViewRendering::renderError("Le nom d'une étape intermédiaire: " . $etapeInter . " ne peut pas comporter de chiffre.");
-//            }
-//            if(!isset(VilleIntermediaire::where('ville', '=', $etapeInter)->first()->ville_nom)){
-//                return ViewRendering::renderError("L'étape intermédiaire: " . $etapeInter . " n'existe pas dans la base de données.");
-//            }
-//        }
+        //        if (isset($etapeInter) && $etapeInter!=""){
+        //            if(preg_match('/^[a-zA-Z]+$/', $etapeInter, $matches, PREG_OFFSET_CAPTURE, 0) == false){
+        //                return ViewRendering::renderError("Le nom d'une étape intermédiaire: " . $etapeInter . " ne peut pas comporter de chiffre.");
+        //            }
+        //            if(!isset(VilleIntermediaire::where('ville', '=', $etapeInter)->first()->ville_nom)){
+        //                return ViewRendering::renderError("L'étape intermédiaire: " . $etapeInter . " n'existe pas dans la base de données.");
+        //            }
+        //        }
 
         $ride = new Trajet();
         $ride->date = $date;
@@ -159,6 +163,26 @@ class RideController
         $ride->prix = $prix;
         $ride->commentaires = $commentaires;
         $ride->lieuxRDV = $lieuxRDV;
+
+        $private = filter_var($_POST['private'], FILTER_DEFAULT);
+        $privateGroup = filter_var($_POST['privateGroup'], FILTER_DEFAULT);
+        if(isset($private) && $private) {
+            if (!isset($privateGroup))
+            {
+                return ViewRendering::renderError("L'identifiant du groupe n'est pas présent");
+            }
+            $id_groupe = Groupe::where("id_groupe", "=", $privateGroup)->first();
+            if (!isset($id_groupe))
+            {
+                return ViewRendering::renderError("Le groupe n'existe pas");
+            }
+            $member = Membre::where("email_membre", "=", $_SESSION['mail'])->where("id_groupe", "=", $privateGroup)->first();
+            if (!isset($member))
+            {
+                return ViewRendering::renderError("Vous n'êtes pas membre du groupe");
+            }
+            $ride->id_groupe = $privateGroup;
+        }
 
         $id = Trajet::max('id_trajet');
         if (isset($id)) $id++;
@@ -176,7 +200,7 @@ class RideController
             }
         }
 
-        $url = AppContainer::getInstance()->getRouteCollector()->getRouteParser()->urlFor('root');
+        $url = AppContainer::getInstance()->getRouteCollector()->getRouteParser()->urlFor('ride', ['id' => $id]);
         header("Location: $url");
         exit();
     }
@@ -223,6 +247,67 @@ class RideController
 
         // redirection
         $url = AppContainer::getInstance()->getRouteCollector()->getRouteParser()->urlFor('participating-rides');
+        header("Location: $url");
+        exit();
+    }
+
+    public static function removeParticipate($id)
+    {
+        // parametre
+        $id = filter_var($id, FILTER_DEFAULT);
+
+        // verif
+        $trajet = Trajet::where('id_trajet', '=', $id)->first();
+        if (!isset($trajet)){
+            return ViewRendering::renderError("Le trajet n'existe pas/plus.");
+        }
+        $mail = $_SESSION['mail'];
+        if (!isset($mail)) {
+            return ViewRendering::renderError("Vous n'êtes pas connecté.");
+        }
+        $mailConducteur = $trajet->email_conducteur;
+        $conducteur = Utilisateur::where('email', '=', $mailConducteur)->first();
+        if(!isset($conducteur)) {
+            return ViewRendering::renderError("Le responsable du trajet est introuvable.");
+        }
+
+        // modif
+        $passager = Passager::where("email_passager", "=", $mail)->where("id_trajet", "=", $id)->first();
+        echo $passager;
+        if(!isset($passager))
+        {
+            return ViewRendering::renderError("Le passsager est introuvable.");
+        }
+        Passager::where("email_passager", "=", $mail)->where("id_trajet", "=", $id)->delete();
+
+        // notif et mail
+        NotificationController::sendMyDismissTo($mail, $mailConducteur, $id);
+
+        // redirection
+        $url = AppContainer::getInstance()->getRouteCollector()->getRouteParser()->urlFor('participating-rides');
+        header("Location: $url");
+        exit();
+    }
+
+    public static function deleteRide($id)
+    {
+        $ride = RideController::getRide($id);
+        if(!isset($ride))
+        {
+            return ViewRendering::renderError("Le trajet n'existe pas");
+        }
+
+        setlocale(LC_TIME, "fr_FR");
+        $today =  strftime("%B %e, %Y, %H:%M");
+        $tommorow = date('Y-m-d', strtotime($today. ' + 1 days'));
+        if ($ride->date < $tommorow)
+        {
+            return ViewRendering::renderError("Impossible de supprimer un trajet qui démarre dans moins d'un jour ");
+        }
+        
+        $ride->delete();
+        
+        $url = AppContainer::getInstance()->getRouteCollector()->getRouteParser()->urlFor('myrides');
         header("Location: $url");
         exit();
     }
