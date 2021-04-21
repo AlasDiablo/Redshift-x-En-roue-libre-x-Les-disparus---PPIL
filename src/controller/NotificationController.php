@@ -82,8 +82,8 @@ text;
     <div class="col">Vous avez été invité à rejoindre le groupe <b>$name</b>.</div>
 </div>
 <div class="row m-2">
-    <button type="button" class="btn btn-outline-success col" onclick="location.replace('$acceptUrl')">Accpeté</button>
-    <button class="btn btn-outline-danger col" type="button" onclick="location.replace('$declineUrl')">Refusais</button>
+    <button type="button" class="btn btn-outline-success col" onclick="location.replace('$acceptUrl')">Accepter</button>
+    <button class="btn btn-outline-danger col" type="button" onclick="location.replace('$declineUrl')">Refuser</button>
 </div>
 text;
         self::sendNotification($from, $for, $content);
